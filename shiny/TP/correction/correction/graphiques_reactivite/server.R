@@ -1,15 +1,19 @@
 
 shinyServer(function(input, output, session) { # session pour observe / update
   
+  # donnees pour les graphiques
+  current_data <- reactive({
+    faithful[, input$variable]
+  })
+  
   output$distPlot <- renderAmCharts({
     input$goButton
     isolate({
       # generate bins based on input$bins from ui.R
-      x    <- faithful[, input$variable]
-      bins <- seq(min(x), max(x), length.out = input$bins + 1)
+      bins <- seq(min(current_data()), max(current_data()), length.out = input$bins + 1)
       
       # draw the histogram with the specified number of bins
-      amHist(x, control_hist = list(breaks = bins), col = input$couleur,
+      amHist(current_data(), control_hist = list(breaks = bins), col = input$couleur,
              main  = input$titre, zoom = TRUE, export = TRUE) 
     })
   })
@@ -32,9 +36,9 @@ shinyServer(function(input, output, session) { # session pour observe / update
   # rajout du boxplot
   output$distPlot2 <- renderAmCharts({
     input$goButton
-    x    <- faithful[, isolate(input$variable)]
+
     # avec la même couleur que l'histogramme
-    amBoxplot(x, col = isolate(input$couleur), export = TRUE)
+    amBoxplot(isolate(current_data()), col = isolate(input$couleur), export = TRUE)
   })
   
   # export des graphiques

@@ -1,7 +1,6 @@
 ---
-title: "Présentation R - Shiny, CEPE"
+title: "Présentation R - Shiny"
 author: "B.Thieurmel, benoit.thieurmel@datastorm.fr"
-date: "30/01/2017"
 output:
   pdf_document:
     number_sections: true
@@ -919,11 +918,11 @@ Tous ces packages sont utilisables simplement dans __shiny__. En effet, ils cont
 Par exemple avec le package  [dygraphs](http://rstudio.github.io/dygraphs/) : 
 
 ```{r, eval = FALSE}
-# UI
+# Server
 output$dygraph <- renderDygraph({
   dygraph(predicted(), main = "Predicted Deaths/Month")
 })
-# SERVER
+# Ui
 dygraphOutput("dygraph")
 ```
 

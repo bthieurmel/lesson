@@ -25,11 +25,11 @@ Tous ces packages sont utilisables simplement dans __shiny__. En effet, ils cont
 Par exemple avec le package  [dygraphs](http://rstudio.github.io/dygraphs/) : 
 
 ```{r, eval = FALSE}
-# UI
+# Server
 output$dygraph <- renderDygraph({
     dygraph(predicted(), main = "Predicted Deaths/Month")
 })
-# SERVER
+# Ui
 dygraphOutput("dygraph")
 ```
 

@@ -1,6 +1,6 @@
 ---
 title: "TP Shiny"
-author: "Société Générale, 25/10/2016 "
+author: "Société Générale, 21/04/2017 "
 output:
   pdf_document:
     number_sections: true
@@ -40,11 +40,13 @@ Deux fichiers sont créés automatiquement : ui.R et server.R. Lancer directemen
 
 ## Structure / HTML / CSS
 
-* Créer une nouvelle application avec le même contenu et le même format en remplaçant le `sidebarLayout` en `fluidRow` (deux colonnes 1/3 - 2/3). _Indication : utiliser un `wellPanel` pour la colonne de gauche._
+* Remplacer le `sidebarLayout` par une `fluidRow` (deux colonnes 1/3 - 2/3) afin d'obtenir visuellement la même application. _Indication : utiliser un `wellPanel` pour la colonne de gauche._
 
-* A l'aide d'une ``navbarPage``, séparer le graphique et le tableau dans deux onglets distincts.
+* Restructurer votre application en partant d'une ``navbarPage`` : 
+    + Onglet *Data* : visualisation des données (table + summary)
+    + Onglet *Visualisation* : inputs + histogramme
 
-* Dans l'onglet du graphique, rajouter le boxplot (``boxplot``). Utiliser un ``tabsetPanel`` pour mettre l'histogramme et le boxplot dans deux onglets. Utiliser la même couleur que pour l'histogramme.
+* Dans l'onglet de visualisation, rajouter le boxplot (``boxplot``). Utiliser un ``tabsetPanel`` pour mettre l'histogramme et le boxplot dans deux onglets distincts. Utiliser la même couleur que pour l'histogramme.
 
 * Ajouter un titre au tableau, de couleur bleu, en utilisant ``h1``, et en lui affectant un style ``css``.
 
@@ -59,15 +61,17 @@ Deux fichiers sont créés automatiquement : ui.R et server.R. Lancer directemen
 
 ## Quelques graphiques intéractifs ?
 
-* Remplacer l'histogramme et le boxplot par des graphiques javascript en utilisant le package [rAmCharts] (http://datastorm-open.github.io/introduction_ramcharts/)(http://datastorm-open.github.io/introduction_ramcharts/). (``amHist``, ``amBoxplot``, ...)
+* Remplacer l'histogramme et le boxplot par des graphiques javascript en utilisant le package **rAmCharts** (http://datastorm-open.github.io/introduction_ramcharts/). (``amHist``, ``amBoxplot``, ...)
 
 ## Réactivité, isolation, observe
 
-* Ajouter un `actionButton` et modifier le code afin de ne permettre la mise à jour des graphiques uniquement lorsque l'on clique sur le bouton.
+* Ajouter un `actionButton` et modifier le code pour que les graphiques se mettent à  uniquement lorsque l'on clique sur le bouton.
 
-* Avec l'aide d'un ``observe``, faire en sorte que, lors de la validation des paramètres avec l'`actionButton`, le graphique affiché en premier soit toujours l'histogramme.
+* Avec l'aide d'un ``observe``, faire en sorte que, lors de la validation des paramètres avec l'`actionButton`, le graphique affiché en premier soit toujours l'histogramme. (``updateTabsetPanel``)
 
-* Laisser l'utilisateur choisir si il souhaite voir le summary des données (avec ``checkboxInput`` par exemple), et utilser un `conditionalPanel` pour contrôler l'affichage.
+* Laisser l'utilisateur choisir si il souhaite voir le summary des données (avec ``checkboxInput`` par exemple), et utiliser un `conditionalPanel` pour contrôler l'affichage.
+
+* Utiliser un ``reactive`` pour stocker le vecteur des données sélectionnées par l'utilisateur, et modifier la génération des graphiques en conséquence.
 
 # Créer votre application
 
