@@ -119,17 +119,17 @@ y <- 10
 !(x == 1 & y == 10)  # FALSE
 ````
 
-* __& (&&)__ : opérateur logique 'AND'. Vrai si les deux conditions sont vraies, faux sinon
+* __&__ : opérateur logique 'AND'. Vrai si les deux conditions sont vraies, faux sinon
 ```{r, eval = FALSE}
 (x == 1 & y == 10)   # TRUE
 (x == 1 & y == 9)  # FALSE
 ````
 
-* __| (||)__ : opérateur logique 'OR'. Vrai si au-moins une des deux conditions est vrai, faux sinon
+* __|__ : opérateur logique 'OR'. Vrai si au-moins une des deux conditions est vrai, faux sinon
 ```{r, eval = FALSE}
-(x == 1 || y == 10)   # TRUE
-(x == 1 || y == 9)    # TRUE
-(x == 2 || y == 9)    # FALSE
+(x == 1 | y == 10)   # TRUE
+(x == 1 | y == 9)    # TRUE
+(x == 2 | y == 9)    # FALSE
 `````
 
 * __xor__ : opérateur logique 'OR' exclusif. Vrai si une et une seule condition est vrai, faux sinon
