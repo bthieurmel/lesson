@@ -1,0 +1,503 @@
+---
+  output: 
+    slidy_presentation:
+    highlight: kate
+    footer: "Introduction au package data.table"
+---
+
+<div style="text-align:center" markdown="1">
+<br><br><br><br><br><br>
+<h1>Introduction au package data.table</h1>
+<h3>B.Thieurmel - benoit.thieurmel@datastorm.fr</h3>
+<h3>Agrocampus Ouest</h3>
+<img src="images/R.jpg" alt="Drawing" style="width: 200px;"/>
+<img src="images/R1.jpg" alt="Drawing" style="width: 200px;"/>
+</div>
+
+## Introduction
+
+* C'est comme un ``data-frame`` mais...
+* en **plus rapide** dans les requêtes
+* et en **plus rapide** dans les calculs !
+* avec une **syntaxe particulière**, proche du **SQL** :
+
+```{r, eval = FALSE}
+DT[i, j, by]
+
+##   R:      i                 j        by
+## SQL:  where   select | update  group by
+```
+
+**utilise l'objet DT, en sélectionnant les lignes via _i_, en calculant _j_, groupé par _by_**
+
+[Vignette d'introduction ](https://rawgit.com/wiki/Rdatatable/data.table/vignettes/datatable-intro-vignette.html) : 
+https://rawgit.com/wiki/Rdatatable/data.table/vignettes/datatable-intro-vignette.html
+
+[Wiki](https://github.com/Rdatatable/data.table/wiki/Getting-started) : 
+https://github.com/Rdatatable/data.table/wiki/Getting-started
+
+[cheatsheet](https://s3.amazonaws.com/assets.datacamp.com/img/blog/data+table+cheat+sheet.pdf) : 
+https://s3.amazonaws.com/assets.datacamp.com/img/blog/data+table+cheat+sheet.pdf
+
+## Exemples
+
+```{r, eval = TRUE, echo = FALSE}
+require(data.table, quietly = TRUE)
+```
+
+```{r, eval = TRUE}
+require(data.table)
+
+values = rnorm(500000 * 26)
+# un data.frame
+df <- data.frame(letters = rep(LETTERS, each = 500000), values = values)
+
+# idem, mais avec data.table
+dt <- data.table(letters = rep(LETTERS, each = 1000000), values = values)
+# (=) dt <- as.data.table(df)
+
+print(object.size(df), units ='Mb')
+print(object.size(dt), units ='Mb')
+```
+
+-----
+
+```{r, eval = TRUE}
+dim(df)
+```
+
+* somme des valeurs pour chaque lettre :
+
+```{r, eval = TRUE}
+
+# lapply sur data.frame
+system.time(res1 <- aggregate(values ~ letters, data = df, FUN = sum))
+
+# avec data.table
+system.time(res2 <- dt[, sum(values), by = letters])
+```
+
+-----
+
+* Ordonner par les valeurs
+
+```{r, eval = TRUE}
+# order sur data.frame
+system.time(
+ res1 <- df[order(df$values), ]
+)
+
+# order avec data.table
+system.time(
+  res2 <- dt[order(values)]
+  # = setorder(dt, values)
+)
+```
+
+-----
+
+* Faire un subset
+
+```{r, eval = TRUE}
+# data.frame
+system.time(
+  res1 <- df[df$letters == "M", ]
+)
+
+# data.table
+system.time(
+  res2 <- dt[letters == "M", ]
+)
+```
+
+## Importation
+
+* Utilisation de la fonction ``fread`` pour l'importation de fichier :
+
+```{r, eval = TRUE, echo = FALSE}
+# setwd("C:/Users/Benoit/Desktop/Cours_Agro/Programmation/TD/")
+```
+
+```{r, eval = TRUE}
+# read.table
+system.time(
+  flights.df <- read.table("flights14.csv", header = T,sep = ",")
+)
+
+# fread
+system.time(
+  flights.dt <- fread("flights14.csv")
+)
+```
+
+## Sélection
+
+* Jeux de données pour les exemples à suivre :
+
+```{r, eval = TRUE}
+set.seed(1234)
+
+dt <- data.table(group = c("A", "B"), 
+                 cat = rep(c("C", "D"), each = 5000), 
+                 value = rnorm(10000), 
+                 weight = 1:10000)
+head(dt)
+```
+
+-----
+
+### Sur les lignes
+
+* Pas de rownames dans un __data.table__
+* On peut utiliser les indices numériques (*comme avec les data.frame*)
+* Ou faire un subset rapide en utilisant les noms de colonnes
+
+```{r, eval = FALSE}
+dt[1:2, ]
+dt[c(1,5)] # pas obliger de mettre une virgule...
+dt[weight > 9998, ] # pas besoin de "" ou '' pour les noms
+dt[order(value)]
+```
+
+```{r, eval = TRUE}
+dt[1:2, ]
+```
+
+-----
+
+### Sur les colonnes
+
+* Sélection numérique __impossible__
+* Par défaut, avec les noms de colonnes __sans quote__
+* __avec quote__ : **data.table** >= 1.10.4 ou utilisation de l'option ``with = FALSE``
+
+```{r, eval = FALSE}
+dt[, 1] ## ne marche pas !
+dt[, value] ## vecteur
+dt[, list(value)] ## data.table
+# plusieurs colonnes
+dt[, list(group, value)] ## data.table
+dt[, .(group, value)] ## raccourci (. == list)
+dt[, c("group", "value"), with = FALSE] ## avec des "noms"
+## renommage
+dt[, list(mygroup = group, myvalue = value)]
+```
+
+```{r, eval = TRUE, echo = FALSE}
+dt[1:2, list(mygroup = group, myvalue = value)]
+```
+
+## Manipulation
+
+### Ajout/Suppression de colonnes
+
+* via l'opérateur ``:=`` (éviter ``cbind``, peu performant)
+* retourne le résultat de façon *invisible*
+* suppression avec ``NULL``
+
+```{r, eval = TRUE, echo = FALSE}
+dt <- dt[, tvalue := trunc(value)]
+```
+
+```{r, eval = FALSE, echo = TRUE}
+dt[, tvalue := trunc(value)]
+```
+
+```{r, eval = TRUE}
+dt[1:2]
+```
+
+-----
+
+* plusieurs colonnes
+
+```{r, eval = TRUE, echo = FALSE}
+dt <- dt[, c("tvalue", "rvalues") := list(trunc(value), round(value ,2))]
+```
+
+```{r, eval = FALSE, echo = TRUE}
+dt[, c("tvalue", "rvalues") := list(trunc(value), round(value ,2))]
+```
+
+```{r, eval = TRUE}
+dt[1:2]
+```
+
+* suppression
+
+```{r, eval = TRUE, echo = FALSE}
+dt <- dt[, rvalues := NULL]
+```
+
+```{r, eval = FALSE, echo = TRUE}
+dt[, rvalues := NULL]
+```
+
+```{r, eval = TRUE}
+dt[1:2]
+```
+
+
+-----
+
+### Modification de colonnes
+
+* via l'opérateur ``:=``, et donc avec un __nom de colonne existante__...
+
+```{r, eval = TRUE, echo = FALSE}
+dt <- dt[, tvalue := tvalue + 10]
+```
+
+```{r, eval = FALSE, echo = TRUE}
+dt <- dt[, tvalue := tvalue + 10]
+```
+
+```{r, eval = TRUE}
+dt[1:2]
+```
+
+
+```{r, eval = TRUE, echo = FALSE}
+dt <- dt[group == "A", tvalue := tvalue + 100]
+```
+
+```{r, eval = FALSE, echo = TRUE}
+# sur un sous-ensemble de ligne uniquement :
+dt <- dt[group == "A", tvalue := tvalue + 100]
+```
+
+```{r, eval = TRUE}
+dt[1:2]
+```
+
+
+-----
+
+### Calculs
+
+* On peut effectuer tous les calculs directement
+
+```{r, eval = TRUE}
+dt[, sum(value)] # un vecteur
+dt[, list(sum(value))] # un data.table
+dt[, list(somme = sum(value), moyenne = mean(value))] # calculs multiples + renommage
+```
+
+
+-----
+
+* on peut enchainer plusieurs expressions avec des accolades
+
+```{r, eval = TRUE, fig.width = 5, fig.height = 4}
+dt[, {t = table(group)
+  barplot(t)
+  NULL}]
+```
+
+-----
+
+### Aggrégation par niveaux
+
+* utilisation du ``by``, avec ``list()``, ou bien un vecteur de noms
+
+```{r, eval = TRUE}
+# par une variable
+dt[, sum(value), by = group] # dt[, sum(value), by = "group"]
+# par plusieurs variables et calculs multiples
+dt[, list(somme = sum(value), moy = mean(value)), by = list(group, cat)] 
+# dt[, .(somme = sum(value), moy = mean(value)), by = c("group", "cat")]
+```
+
+
+-----
+
+* On peut aussi utiliser des expressions dans le ``by``
+
+```{r, eval = TRUE}
+# somme des valeurs, avec un poids inférieur ou supérieur à 5000, par groupe
+dt[, sum(value), by = list(group, weight > 5000)]
+```
+
+* ``by`` garde l'ordre d'apparition des niveaux
+* ``keyby`` ordonne le résultat
+
+```{r, eval = TRUE}
+dt[, .(somme = sum(value), moy = mean(value)), keyby = list(group, cat)]
+```
+
+-----
+
+* ``.N`` : retourne le nombre de ligne
+
+```{r, eval = TRUE}
+dt[, .N] # nombre de lignes des données
+dt[, .N, keyby = list(group, cat)] # nombre de lignes pour groupes
+dt[group == "A" & cat == "C", list(rows = .N)] # sous sélection
+```
+
+-----
+
+### Graphiques, modèles, ...
+
+```{r, eval = TRUE, fig.width = 3, fig.height = 3}
+dt[, {hist(value);NULL}] # suivi d'un NULL, sinon print dans la console...
+```
+
+```{r, eval = FALSE}
+# graphiques par groupe
+par(ask=TRUE)
+dt[, hist(value), by = list(group, cat)] 
+```
+
+-----
+
+### Chaînage
+
+* Les opérations sur un **data.table** retourne (en général) un **data.table**
+* On peut donc enchaîner les opérations __[...]__
+
+```{r, eval = TRUE}
+# somme et moyenne des valeurs pour group et cat
+# ordonner par somme
+dt[, list(somme = sum(value), moy = mean(value)), by = list(group, cat)][order(somme)]
+```
+
+
+## .SD
+
+* __.SD__ contient toutes les colonnes, **à l'exception de celle(s) utilisée(s)** dans le ``by``
+
+```{r, eval = TRUE}
+# regardons cela...
+dt[1:4, print(.SD), by = .(group)]
+```
+
+-----
+
+* on peut l'utiliser pour **faire des calculs sur plusieurs colonnes**
+
+```{r, eval = TRUE}
+dt[, lapply(.SD, mean), by = .(group, cat)]
+```
+
+* une sous-sélection de colonnes est possible avec __.SDcols__
+
+```{r, eval = TRUE}
+dt[, lapply(.SD, mean), by = .(group), .SDcols = "value"] # avec un/des nom(s)
+# ou des indices : dt[, lapply(.SD, mean), by = .(group), .SDcols = 3]
+```
+
+## les clés
+
+* __data.table__ dispose d'un système de clés
+* le tableau est alors ordonné par les clés
+* les subsets sur les clés seront plus performants
+* argument _key_ dans la fonction __data.table__
+* ou ``setkey`` avec des noms de colonnes sans quote
+* ``setkeyv`` avec avec quote
+* ``key`` pour connaitre les clés de la table
+
+```{r, eval = TRUE, echo = TRUE}
+set.seed(1234)
+values = rnorm(384616 * 26)
+dt <- data.table(letters = rep(LETTERS, each = 384616), group = letters[1:16], values = values)
+```
+
+
+-----
+
+* la sélection est plus rapide, et l'appel simplifié, **par défaut dans l'ordre des clés**
+
+```{r, eval = TRUE, echo = TRUE}
+setkey(dt, NULL)
+system.time(
+  dt[group == "f", ]
+)
+
+setkey(dt, group)
+system.time(
+  dt["f", ]
+)
+```
+
+-----
+
+* clés multiples : sélection via une _liste_
+
+```{r, eval = TRUE, echo = TRUE}
+setkey(dt, NULL)
+system.time(
+  dt[letters == "M" & group == "f", ]
+)
+
+setkey(dt, letters, group)
+system.time(
+  dt[list("M", "f"), ]
+)
+```
+
+-----
+
+* clés et valeurs multiples : sélection via une _liste_, et des _vecteurs_ de valeurs
+
+```{r, eval = TRUE, echo = TRUE}
+setkey(dt, NULL)
+system.time(
+  dt[letters == "M" & group %in% c("f", "g"), ]
+)
+
+setkey(dt, letters, group)
+system.time(
+  dt[list("M", c("f", "g")), ]
+)
+```
+
+## Transformation
+
+* Via deux fonctions ``melt``, et ``dcast``, basées sur celles présentes dans le package __reshape2__
+
+
+```{r, eval = TRUE, echo = TRUE}
+# les données
+dt <- data.table(airquality)
+dt
+```
+
+```{r, eval = TRUE, echo = FALSE}
+dt <- dt[, Ozone := as.numeric(Ozone)]
+dt <- dt[, Solar.R := as.numeric(Solar.R)]
+dt <- dt[, Temp := as.numeric(Temp)]
+```
+
+-----
+
+### melt
+
+```{r, eval = TRUE, echo = TRUE}
+res_melt <- melt(data = dt, id = c("Month", "Day"))
+res_melt
+```
+
+
+-----
+
+### dcast
+
+```{r, eval = TRUE, echo = TRUE}
+res_dcast <- dcast.data.table(data = res_melt, Month + Day ~ variable)
+res_dcast
+```
+
+## Pour aller plus loin...
+
+* [Vignette d'introduction ](https://rawgit.com/wiki/Rdatatable/data.table/vignettes/datatable-intro-vignette.html) : https://rawgit.com/wiki/Rdatatable/data.table/vignettes/datatable-intro-vignette.html
+
+* [Semantique](https://rawgit.com/wiki/Rdatatable/data.table/vignettes/datatable-reference-semantics.html) : https://rawgit.com/wiki/Rdatatable/data.table/vignettes/datatable-reference-semantics.html
+
+* [Clés](https://rawgit.com/wiki/Rdatatable/data.table/vignettes/datatable-keys-fast-subset.html) : https://rawgit.com/wiki/Rdatatable/data.table/vignettes/datatable-keys-fast-subset.html
+
+* [Transformations](https://rawgit.com/wiki/Rdatatable/data.table/vignettes/datatable-reshape.html) : https://rawgit.com/wiki/Rdatatable/data.table/vignettes/datatable-reshape.html
+
+<div style="text-align:center" markdown="1">
+<h1>Mais surtout pratiquer !</h1>
+</div>
