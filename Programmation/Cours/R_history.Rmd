@@ -1,0 +1,34 @@
+
+----
+
+## Un peu d'histoire...
+
+[R](http://cran.r-project.org/)  est un logiciel de Statistique distribué gratuitement par 
+le __CRAN__ créé dans les années 90 dans l'esprit de S :
+
+* disponible sous de nombreux systèmes d'exploitation
+* dédié à l'analyse statistique et à la visualisation
++ environ 80% du temps de l'analyse est dédié à la préparation des données...
+    + et donc aussi à la manipulation des données
+* plus qu'un environnement statistique (SPSS, SAS, ...), un
+langage de programmation puissant, complet, et autonome
+* composé d'un socle et de bibliothèques de fonctions thématiques regroupées sous le nom de __package__
+* connectables avec (tous...) les autres langages : C, Fortran, Java, Python, Javacript, C++, ...
+* et (toutes...) les bases de données : MySQL, Postgresql, Oracle, MS sql, mongodb, Hadoop, ...
+
+----
+
+* [R](http://cran.r-project.org/) est un langage __interprété__
+    + == il requiert un autre programme, l'interprète, pour l'éxécution de ses commandes
+    + != des langages __compilés__, comme le C ou le C++, qui sont d'abord convertis en code machine par le compilateur avant de pouvoir être éxécutés
+    
+* il est basé sur la notion de vecteur
+    + simplifie les calculs
+    + réduit l'utilisation des boucles
+
+* pas de typage ni de déclaration obligatoire des variables
+
+* avec une forte population grandissante d'utilisateurs et de dévelopeurs
+    + à la pointe un termes de méthodologies / technologies
+
+* pour un temps de développement relativement court...

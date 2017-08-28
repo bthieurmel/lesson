@@ -1,0 +1,20 @@
+
+----
+
+* [The R Manuals](https://cran.r-project.org/manuals.html) : https://cran.r-project.org/manuals.html
+
+* [R Contributed Documentation](https://cran.r-project.org/other-docs.html) : https://cran.r-project.org/other-docs.html
+
+* [Advanced R by Hadley Wickham](http://adv-r.had.co.nz/) : http://adv-r.had.co.nz/
+    
+* [R packages by Hadley Wickham](http://r-pkgs.had.co.nz/) : http://r-pkgs.had.co.nz/
+
+* [How-to go parallel in R - basics + tips](http://gforge.se/2015/02/how-to-go-parallel-in-r-basics-tips/) : http://gforge.se/2015/02/how-to-go-parallel-in-r-basics-tips/
+
+* [State of the Art in Parallel Computing withR](http://www.jstatsoft.org/v31/i01/paper) : http://www.jstatsoft.org/v31/i01/paper
+
+* [R tutorial on the Apply family of functions](http://www.r-bloggers.com/r-tutorial-on-the-apply-family-of-functions/) :
+http://www.r-bloggers.com/r-tutorial-on-the-apply-family-of-functions/
+
+* [A Tutorial on Loops in R - Usage and Alternatives](http://blog.datacamp.com/tutorial-on-loops-in-r/) : 
+http://blog.datacamp.com/tutorial-on-loops-in-r/

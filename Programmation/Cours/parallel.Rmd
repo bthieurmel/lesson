@@ -1,0 +1,356 @@
+
+----
+
+## Le calcul parallèle
+
+### Concept
+
+* Calcul séquentiel
+    + un problème est divisé en une série d'instructions
+    + les instructions sont éxécutées les une après les autres
+    + sur un unique processeur
+    + Seulement une instruction s'éxécute à la fois
+    
+<div style="text-align:center" markdown="1">
+<img src="images/serialProblem.gif" alt="Drawing" style="width: 600px;"/>
+</div>
+
+-----
+
+* Calcul parallèle
+    + un problème est divisé en plusieurs séries d'instructions qui peuvent être éxécutées en même temps 
+    + les instructions de chaque série s'éxécute simultanément sur différents processeurs
+    + cela nécessite un méchanisme de contrôle et de synchronisation
+    
+<div style="text-align:center" markdown="1">
+<img src="images/parallelProblem.gif" alt="Drawing" style="width: 600px;"/>
+</div>
+
+_'l'ensemble des techniques logicielles et matérielles permettant l'exécution simultanée de séquences d'instructions indépendantes sur des processeurs et/ou coeurs différents'_
+
+-----
+
+Le problème algorithmique est donc :
+
+* pouvoir diviser tout ou une partie en sous-calculs indépendants
+* pouvoir éxécuter plusieurs instructions à un moment donné
+* résoudre le problème en moins de temps qu'avec un calcul séquentiel 
+
+Les ressources matérielles à disposition :
+
+* un unique ordinateur, avec plusieurs processeurs / coeurs
+* un cluster d'ordinateurs inter-connectés
+
+<div style="text-align:center" markdown="1">
+<img src="images/IBM_Blue_Gene_P_supercomputer.jpg" alt="Drawing" style="width: 350px;"/>
+</div>
+
+-----
+
+### Quand paralléliser ?
+
+* quand chaque calcul commence à prendre un peu de temps...
+* calculer plusieurs tâches rapides en parallèle prend en général plus de temps qu'avec un calcul séquentiel...
+* faire attention au partage des données, et regarder l'évolution de la performance en fonction du nombre de coeurs
+* le mieux : tester et comparer !
+
+<div style="text-align:center" markdown="1">
+<img src="images/reflexion.jpg" alt="Drawing" style="width: 400px;"/>
+</div>
+
+-----
+
+### les outils dans R
+
+* A la base, __R__ est mono-coeur
+
+* De [nombreux packages](https://cran.r-project.org/web/views/HighPerformanceComputing.html) permettant le calcul parallèle existent
+
+Nous nous focaliserons sur deux packages :
+
+* le package __parallel__ 
+    + inclu dans R depuis R.2.14.0
+    + basé sur deux "anciens" packages : __snow__ et __multicore__
+    + propose une interface très proche de la __'Apply family'__ 
+    
+
+* le package __foreach__
+
+```{r, eval = FALSE}
+require(parallel)
+vignette("parallel")
+
+require(foreach)
+vignette("foreach")
+````
+
+------
+
+## le package parallel
+
+Le processus général :
+
+* ouverture d'un "cluster" 
+    + __makeCluster()__
+    + ouverture de sessions __R__ temporaires 
+    + fonction utile : __detectCores()__, nombre de CPU coeurs sur la machine
+    
+* utilisation du "cluster"
+    + __clusterCall__, __clusterApply__, __clusterExport__, __clusterEvalQ__, ...
+    + __parLapply__, __parSapply__, __parApply__, ...
+
+* fermeture du "cluster"
+    + sinon les sessions __R__ temporaires restent ouvertes...
+    + __stopCluster()__
+  
+------
+
+### exemple d'introduction
+
+```{r, eval = TRUE, echo = FALSE}
+require(parallel, quietly = TRUE)
+``````
+
+```{r, eval = TRUE}
+require(parallel)
+nb.cores <- detectCores() # 8
+nb.cores
+# mieux vaut éviter d'utiliser toutes les ressources
+cl <- makeCluster(nb.cores - 1)
+res <- clusterApply(cl, 1:7, function(x){ rnorm(x)})
+str(res)
+stopCluster(cl)
+````
+
+  
+------
+
+### Points importants
+
+#### chargements des données / packages
+
+* les sessions __R__ temporaires sont "vides" (sauf en Linux/Mac, avec l'option _makeCluster(, type="FORK")_)
+    + aucunes variables / aucuns packages de la session principale sont présents
+    
+* __clusterExport__ : exporte les variables / fonctions souhaitées
+
+* __clusterEvalQ__ : éxécute un code dans toutes les sessions. Utile pour charger un package notamment
+
+#### load-balancing
+
+* Généralement, les _p_ premiers calculs sont envoyés aux _p_ sessions ouvertes
+* les calculs suivants débutent lorque __tous__ les _p_ calculs ont été effectués
+* Dans le cas de calculs de temps différents, on perd de la performance
+* des versions LB, __load-balancing__, existent pour enchaîner sur un nouveau calcul dès que le précédent se termine
+
+------
+
+### Chargement des données : illustration
+
+```{r, eval = FALSE}
+cl<-makeCluster(2)
+add <- 10
+mult <- function(x) x * 2 
+
+parLapply(cl, 1:10, function(x)  mult(x) + add)
+ 
+# les noeuds ne connaissent pas la variable et la fonction
+# Error in checkForRemoteErrors(val) : 
+#  2 nodes produced errors; first error: objet 'mult' introuvable
+
+# on les exporte avant de lancer le calcul
+
+clusterExport(cl, varlist = c("add", "mult"))
+
+res <- parLapply(cl, 1:10, function(x)  mult(x) + add)
+
+res[[1]] # 12
+
+stopCluster(cl)
+````
+
+------
+
+### Chargement d'un package : illustration
+
+```{r, eval = FALSE}
+cl<-makeCluster(2)
+data(iris)
+
+parLapply(cl, split(iris[, -c(5)], iris$Species), function(subdata){
+  rpart(Sepal.Length~., subdata)
+})
+ 
+# les noeuds ne connaissent pas la variable et la fonction
+# Error in checkForRemoteErrors(val) : 
+#  2 nodes produced errors; first error: impossible de trouver la fonction "rpart"
+
+# on charge le package
+clusterEvalQ(cl, {
+  require(rpart)
+})
+
+res <- parLapply(cl, split(iris[, -c(5)], iris$Species), function(subdata){
+  rpart(Sepal.Length~., subdata)
+})
+
+stopCluster(cl)
+````
+
+------
+
+## le package et la fonction foreach
+
+* ressemble à une boucle __for__
+* mais avec l'utilisation de l'opérateur __%do%__ ou __%dopar%__ pour du parallèle
+* et __retourne un résultat__, une liste par défaut
+
+```{r, eval = TRUE, echo = FALSE}
+require(foreach, quietly = TRUE)
+``````
+
+```{r, eval = TRUE}
+require(foreach)
+
+x <- foreach(i = 1:3) %do% sqrt(i)
+# equivalent à lapply(1:3, sqrt)
+x 
+````
+
+------
+
+### structure du résultat : .combine
+
+```{r, eval = TRUE}
+# un vecteur
+x <- foreach(i = 1:3, .combine = "c") %do% sqrt(i)
+x 
+
+# une matrice
+x <- foreach(i=1:4, .combine = 'cbind') %do% rnorm(2)
+x
+
+# une somme 
+x <- foreach(i = 1:3, .combine = "+") %do% i
+x 
+````
+
+------
+
+### ajouter un filtre avant l'éxécution
+
+* Similaire à __if__, mais avec l'utilisation de __when__
+
+```{r, eval = TRUE, echo = FALSE}
+require(numbers, quietly = TRUE)
+``````
+
+```{r, eval = TRUE}
+require(numbers)
+foreach(n = 1:50, .combine = c) %:% when (isPrime(n)) %do% n
+````
+
+### gérer les erreurs : .errorhandling
+
+* par défaut, si une erreur se produit, l'éxécution s'arrête
+* on peut continuer le calcul et récupérer les erreurs potentielles en mettant l'option __.errorhandling__ à _pass_
+
+```{r, eval = TRUE}
+foreach(n = 1:2, .errorhandling = "pass") %do% ifelse(n == 2, stop("erreur"), n)
+````
+
+
+------
+
+### Calcul parallèle
+
+* même principe qu'avec __parallel__, sauf qu'il faut explicitement enregister le cluster
+* avec __doParallel__, ou __doMC__, __doMPI__,__doRedis__, __doRNG__, __doSNOW__
+
+```{r, eval = TRUE, echo = FALSE}
+require(doParallel, quietly = TRUE)
+``````
+
+```{r, eval = TRUE}
+require(foreach)
+require(doParallel)
+
+cl <- makeCluster(6)
+# avec foreach, il faut enregistrer le cluster
+registerDoParallel(cl)
+
+res <- foreach(n = 1:6) %dopar% rnorm(x)
+str(res)
+stopCluster(cl)
+````
+
+  
+------
+
+### Points importants
+
+#### chargements des données / packages
+
+* contrairement à l'utilisation du package __parallel__, toutes les variables de l'environnement courant sont exportées par défaut
+    
+* __.noexport__ : ne pas exporter certaines variables
+
+* __.export__ : exporter des variables qui ne sont pas dans l'environnement courant
+
+* __.packages__ : chargement de package(s)
+
+#### autres options utiles
+
+* __.inorder__ : résultats dans l'ordre d'entrée ? Défaut à __TRUE__. __FALSE__ peux amener de meilleures performances
+
+* __.verbose__ : utile pour débogguer
+  
+------
+
+### Exemples
+
+```{r, eval = FALSE}
+cl<-makeCluster(2)
+registerDoParallel(cl)
+
+#############################
+#  chargement des données
+#############################
+
+add <- 10
+mult <- function(x) x * 2 
+
+# pas besoin de charger les données avant
+res <- foreach(n = 1:10) %dopar% (mult(n) + add)
+res[[1]] # 12
+
+#############################
+#  chargement d'un package
+#############################
+
+res <- foreach(data = split(iris[, -c(5)], iris$Species), .packages = "rpart") %dopar% 
+  rpart(Sepal.Length~., data)
+
+stopCluster(cl)
+````
+
+------
+
+### Retour sur la notion d'environnement
+
+```{r, eval = FALSE}
+y <- 10
+f <- function(x, .export = NULL){
+  cl<-makeCluster(2)
+  registerDoParallel(cl)
+  res <- foreach(i = x, .export = .export) %dopar% (i + y)
+  stopCluster(cl)
+  res
+}
+
+res <- f(2:10)
+#  Error in (x + y) : task 1 failed - "objet 'y' introuvable" 
+
+res <- f(2:10, .export = "y")
+res[[1]] # 12
+````

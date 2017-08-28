@@ -1,0 +1,132 @@
+
+----
+
+## Bonne pratique de codage
+
+Librement inspiré du [Style Guide, by Hadley Wickham](http://adv-r.had.co.nz/Style.html)
+
+* C'est important d'adopter des bonnes pratiques de codages :
+    + permettre une lecture et une compréhension simple et rapide du code
+    + tant pour le(s) développeur(s), que pour les utilisateurs, et favoriser le travail collaboratif
+
+* Il n'y a pas un style parfait, le principal est d'en adopter un et de s'y tenir
+
+```{r, eval = FALSE}
+# dur à lire
+aze=data.frame(cole=rnorm(1000),refdzf=LETTERS[1:2]);ff=lapply(split(aze$cole,aze$refdzf),
+                                                               function(x){mean(x)});ff
+````
+
+```{r, eval = FALSE}
+# c'est mieux quand même... ?
+data <- data.frame(value = rnorm(1000), group = LETTERS[1:2])
+mean.group <- lapply(
+  split(data$value, data$group),
+  function(x){
+    mean(x)
+  })
+mean.group
+````
+
+----
+  
+### Fichiers
+  
+Les noms doivent être __explicites__ et se terminer par `.R`. Si les scripts sont ordonnées, les pré-fixés par un numéro.
+
+    # Good            # Bad         0-download.R
+    modelisation.R    toto.r        1-parse.R
+
+### Variables et fonctions
+
+* Noms __courts__ et __explicites__, de préférence en minuscule, en évitant d'utiliser des noms de fonctions connues...
+* Utilisation d'un underscore (`_`) pour séparer les noms. Eviter le point (`.`), il peut amener de mauvaises intéractions avec d'autres langages (java, javascript, ...)
+* Variable == noms,  fonctions == verbes, autant que possible....
+* __Pas d'accents !__
+
+```{r, eval = FALSE}
+# Good                    # Bad
+day_one                   first_day_of_the_month
+day_1                     DayOne
+                          mean <- function(x) sum(x)
+```
+
+----
+
+### Espacer son code
+
+* Mettre des espaces __autour__ de tous les opérateurs (`=`, `+`, `-`, `<-`, etc.), __surtout__ à l'intérieur de l'appel d'une fonction.
+* Mettre un espace __après__ une virgule, __pas avant__
+* Essayer de mettre un espace avant l'ouverture d'une parenthèse, __sauf dans l'appel d'une fonction__
+
+```{r, eval = FALSE}
+# Good
+average <- mean(feet / 12 + inches, na.rm = TRUE)
+
+# Bad
+average<-mean(feet/12+inches,na.rm=TRUE)
+```
+
+* Exception pour `:`, `::` and `:::`
+
+```{r, eval = FALSE}
+# Good                     # Bad
+x <- 1:10                  x <- 1 : 10
+base::get                  base :: get
+
+if (debug) do(x)           if(debug)do(x)
+plot(x, y)                 plot (x, y)
+```
+
+----
+  
+### Accolades et indentation
+  
+* L'ouverture d'une accolade doit __toujours__ être suivi d'un passage à la ligne. 
+* La fermeture d'un accolade doit être suivi d'un passage à la ligne, sauf dans le cas d'un __else__
+* Le code à l'interieur des acccolades doit être indenté
+
+```{r, eval = FALSE}
+# Good                            # Bad
+if (y == 0) {                     if (y == 0) {
+  log(x)                            log(x)
+} else {                          }
+  y ^ x                           else{ y ^ x}
+}
+```
+
+
+* Indenter son code, de préférence en utilisant deux espaces. __Raccourci RStudio : Ctrl+A, Ctrl+I__
+* Cas particulier dans la définition d'une fonction
+
+```{r, eval = FALSE}
+long_function_name <- function(a = "a long argument", 
+                               b = "another argument",
+                               c = "another long argument") {
+  # As usual code is indented by two spaces.
+}
+```
+
+----
+  
+### Assignement
+  
+* Utiliser `<-`, et __banir__ `=`, lors de l'assignement
+
+```{r}
+# Good
+x <- 5
+# Bad
+x = 5
+```
+
+
+### Commentaires
+
+* Commenter son code, toujours dans un soucis de lecture et de collaboration 
+
+```{r, eval = FALSE}
+# Load data ---------------------------
+
+# Plot data ---------------------------
+```

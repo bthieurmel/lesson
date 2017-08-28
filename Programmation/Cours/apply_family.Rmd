@@ -1,0 +1,171 @@
+
+----
+
+## La "Apply family"
+
+__R__ donc pas au top pour interpréter et éxécuter efficacement des boucles __for__
+
+_"Et donc ?"_
+
+* Une solution __radicale__ : NE PAS LES UTILISER !
+
+_"Et alors, comment je fais ?"_
+
+* Penser à la vectorisation
+* Utiliser la __"Apply family"__
+    + __apply__ : appliquer une fonction sur un data.frame, une matrice, ou un tableau multi-dimentionnel
+    + __lapply__ : appliquer une fonction sur une liste, ou un vecteur, et retourne une liste
+    + __sapply__ : identique à __lapply__, mais essaye de structurer un peu mieux les résultats si cela est possible
+    + __vapply__ : identique à __sapply__, en permettant de définir (un peu) le format des résultats
+    + __mapply__ : prend en entrée plusieurs vecteurs/listes, et applique la fonction sur les premiers éléments de chaque entrées, puis sur les seconds, ....
+    + __rapply__ : éxécution récursive de __apply__, avec contrôle préalable des éléments
+    
+----
+
+### Apply
+
+```{r, eval = FALSE}
+apply(X, MARGIN, FUN, ...)
+````
+
+* __X__ : une matrice ou un tableau
+* __MARGIN__  : un vecteur d'entiers contenant la ou les dimensions sur lesquelles on souhaite appliquer la fonction (1 : lignes, 2 : colonnes)
+* __FUN__ : la fonction à appliquer
+* __...__ : ensemble d'arguments supplémentaires, à passer à la fonction
+
+```{r, eval = TRUE}
+x <- cbind(x1 = 3, x2 = c(NA, 4:1, 2:6))
+apply(x, 2, mean)                  # moyenne par colonnes
+
+apply(x, 2, mean, na.rm = TRUE)    # en passant un argument
+````
+
+    
+----
+
+### lapply, sapply, vapply
+
+```{r, eval = FALSE}
+lapply(X, FUN, ...)
+
+sapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE)
+
+vapply(X, FUN, FUN.VALUE, ..., USE.NAMES = TRUE)
+````
+
+* __X__ : un vecteur ou une liste
+* __FUN__ : la fonction à appliquer à tous les éléments de _X_
+* __...__ : ensemble d'arguments supplémentaires, à passer à la fonction
+* __simplify__ :	booléan ou caractère, pour simplifier les résultats
+* __USE.NAMES__ :	booléan. Si _X_ est nommé, les utiliser dans les résultats ?
+* __FUN.VALUE__ : un "template" pour les résultats
+
+Essayons de comprendre ces petites différences...
+
+----
+
+__1. Calcul de la moyenne, soit une valeur par élément__
+
+* les données de départ :
+```{r, eval = TRUE}
+x <- list(a = 1:3, b = rnorm(5))
+````
+
+```{r, eval = TRUE, echo = FALSE}
+x
+````
+
+* lapply retourne donc une liste 
+```{r, eval = TRUE}
+lapply(x, FUN = mean)
+````
+
+
+----
+
+* sapply simplifie les résultats dans un vecteur
+```{r, eval = TRUE}
+sapply(x, FUN = mean)
+````
+
+* vapply attend une précision sur le résulat
+    
+```{r, eval = TRUE}
+# on s'attend à récupérer une valeur numérique
+vapply(x, FUN = mean, FUN.VALUE = 0)
+````
+
+```{r, eval = FALSE}
+# et si on s'attend à récupérer une valeur logique ?
+vapply(x, FUN = mean, FUN.VALUE = TRUE)
+
+# Error in vapply(x, FUN = mean, FUN.VALUE = TRUE) : 
+#   values must be type 'logical',
+#  but FUN(X[[1]]) result is type 'double'
+````
+
+----
+
+__2. Calcul des quantiles, soit 5 valeurs par éléments__
+
+* lapply retourne donc une liste 
+```{r, eval = TRUE}
+lapply(x, FUN = quantile)
+````
+
+* sapply simplifie les résultats dans une matrix
+```{r, eval = TRUE}
+sapply(x, FUN = quantile)
+````
+
+----
+
+* Formattage avec vapply
+    
+```{r, eval = TRUE}
+vapply(x, FUN = quantile, FUN.VALUE = c(Min. = 0, "1st Qu." = 0, 
+  Median = 0, "3rd Qu." = 0, Max. = 0))
+````
+
+__3. Et si on retourne un nombre variable d'éléments ?__
+
+```{r, eval = TRUE}
+la <- lapply(x, FUN = function(elm) elm)
+sa <- sapply(x, FUN = function(elm) elm)
+# vapply pas pertinent
+
+identical(la, sa)
+````
+
+----
+
+### mapply
+
+```{r, eval = FALSE}
+mapply(FUN, ..., MoreArgs = NULL, SIMPLIFY = TRUE,
+       USE.NAMES = TRUE)
+````
+
+* __FUN__ : la fonction à appliquer
+* __...__ : ensemble d'arguments, vecteurs ou listes
+* __MoreArgs__ : liste d'arguments supplémentaires pour la fonction
+* __SIMPLIFY__ :	booléan ou charactère, pour simplifier les résultats
+* __USE.NAMES__ :	booléan. Si noms il y a dans X, les utiliser dans les résultats ?
+
+
+```{r, eval = TRUE}
+mapply(rep, 1:2, 2:1)
+````
+
+----
+
+```{r, eval = TRUE}
+# en nommant les arguments
+mapply(rep, times = 1:2, x = 2:1)
+
+# en passant des arguments supplémentaires
+mapply(rep, times = 1:2, MoreArgs = list(x = 100))
+
+# Avec simplification des résultats
+mapply(function(n, moy) mean(rnorm(n, moy)), n = c(100, 1000), moy = c(10, 0))
+````
