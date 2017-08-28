@@ -123,7 +123,7 @@ x = 5
 
 ### Commentaires
 
-* Commenter son code, toujours dans un soucis de lecture et de collaboration 
+* Commenter son code, toujours dans un soucis de lecture et de collaboration. __Raccourci RStudio : Ctrl+Shift+C__
 
 ```{r, eval = FALSE}
 # Load data ---------------------------
