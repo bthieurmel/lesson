@@ -100,15 +100,28 @@ flights[, plot(air_time, distance, col = as.numeric(as.factor(carrier)))]
 
 # 11. Aﬃcher le nuage de points air_time fonction de distance par mois (sur une fenetre graphique contenant 10 graphiques)
 par(mfrow=c(2,5))
-flights[, plot(air_time~distance), by = .(month)]
+flights[, plot(air_time~distance, main = paste0("Mois : ", month)), by = .(month)]
 
 # 12. Eﬀectuer une regression lineaire simple air_time fonction de distance.
 mod <- flights[, lm(air_time ~ distance)]
 mod
 
+# et par mois ?
+mod_month <- flights[, list(model = list(lm(air_time ~ distance))), by = month]
+mod_month
+
+mod_month[1, model[[1]]]
+
 # 13. Calculer le nombre de vols qui demarrent de JFK par mois
 flights[origin == "JFK", .N, by = .(month)]
+
+# renommage
 flights[origin == "JFK", list(nrows = .N), by = month]
+
+# on peut affecter le résultat d'agrégation à toutes les lignes
+flights[, n_v := .N, by = list(month, origin)]
+flights
+
 
 # avec une cle
 setkey(flights, origin)
@@ -136,6 +149,9 @@ flights[list("JFK", "LAX"), .N]
 
 # 17. Faire la moyenne des retards au depart (dep_delay) et a l’arrivee (arr_delay) par compagnie (carrier)
 flights[, .(dep = mean(dep_delay), arr = mean(arr_delay)), by = carrier]
+
+# pire compagnie ?
+flights[, list(dep = mean(dep_delay), arr = mean(arr_delay)), by = carrier][order(-dep)]
 
 # 18. Utiliser l’operateur de .SD pour faire les quantiles des retards au depart (dep_delay) et a l’arrivee (arr_delay) par compagnie (carrier) via .SDcols
 flights[,  lapply(.SD, quantile), 
