@@ -1,0 +1,17 @@
+---
+title: "Untitled"
+author: "Datastorm - B. Thieurmel"
+date: "24 novembre 2017"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+![](../Cours/images/rstudio.png){:height="36px" width="700px"}.
+
+
+\begin{figure}
+\centerline{\includegraphics[width=0.5\textwidth]{../Cours/images/rstudio.png}}
+\end{figure}

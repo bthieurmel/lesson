@@ -1,0 +1,395 @@
+\documentclass[a4paper,10pt,french]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc} 
+\usepackage{graphicx,psfrag}
+\usepackage[frenchb]{babel}
+\usepackage{ae,aecompl}
+\usepackage{float}
+\usepackage{fancyhdr}
+\renewcommand{\baselinestretch}{1.2}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setlength{\textwidth}{18cm}
+\setlength{\textheight}{25cm}
+\setlength{\oddsidemargin}{-1cm}
+\setlength{\evensidemargin}{0cm}
+\setlength{\topmargin}{-2cm}
+\setlength{\parindent}{0cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{fancy}
+
+\renewcommand{\footrulewidth}{0.4 pt}
+\renewcommand{\headrulewidth}{0 pt}
+
+\newcommand{\fct}[1]{\texttt{#1}}
+\newcommand{\menu}[1]{\texttt{#1}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\pkg}[1]{\textsf{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\thispagestyle{empty}
+
+%\vspace*{-3cm}~\\
+\hspace*{-0.5cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% Titre %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+\LARGE Introduction à \textsf{R}
+\end{center}
+\bigskip
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Entrer, sortir et trouver de l'aide avec \textsf{R}}
+\textsf{R} ouvre une session à chaque entrée. Par defaut (sous windows)
+la session est toujours dans le même répertoire. Pour changer de
+répertoire utiliser le menu.
+
+Pour avoir de l'aide sur la fonction \texttt{mean}, il suffit de taper
+\begin{verbatim}
+> help(mean)
+\end{verbatim}
+
+Une aide html est disponible avec 
+\begin{verbatim}
+> help.start()
+\end{verbatim}
+
+A la sortie, la session peut être sauvegardée, ce qui en général n'est
+pas très utile.
+\section{\textsf{R} est une (super) machine à calculer}
+\subsection{Calculs simples}
+Exécutez et commentez :
+\begin{verbatim}
+> 2+2
+> # blabla
+> blabla
+> 2+2 # ceci est une addition
+> pi 
+> exp(2)
+> log(10)
+> sin(5*pi)
+> (1+3/5)*5
+\end{verbatim}
+\subsection{Calculs sur plusieurs valeurs}
+Si nous voulons faire une moyenne de notes, il faut pouvoir manipuler
+plusieurs valeurs ensemble (donc un vecteur). Effectuons la moyenne
+(\texttt{mean}) de 4, 10 et 16:
+\begin{verbatim}
+> mean(c(4,10,16))
+\end{verbatim}
+En utilisant la ligne suivante
+\begin{verbatim}
+> c(4,10,16)
+\end{verbatim}
+trouvez à quoi sert la fonction \code{c()}.
+
+\medskip
+\textbf{Exercices d'application:}
+\begin{enumerate}
+\item Calculer la moyenne de 1, 3, 5, 4, et 8.
+\item Calculer la somme (\texttt{sum}) de 4, 10 et 16
+\item Calculer la médiane  (\texttt{median}) de 4, 10 et 16
+\end{enumerate}
+
+\subsection{Mettre en mémoire plusieurs valeurs}
+Nous souhaitons stocker un vecteur pour le réutiliser. Nous devons donc \emph{affecter} des valeurs à un nom. Executer et commenter ces ordres:
+\begin{verbatim}
+> x <- pi
+> print(x)
+> x
+> objects()
+> y=pi
+> objects()
+> y
+> x <- c(4,10,16) 
+> print(x)
+> x
+\end{verbatim}
+Conclusion: l'affectation crée l'objet ou écrase l'objet. L'affectation
+est réalisée par \verb+<-+ ou \verb+=+.
+
+\medskip
+\textbf{Exercices d'application:}
+\begin{enumerate}
+\item Calculer le max (\texttt{max}) de \texttt{x}.
+\item Calculer le min (\texttt{min}) de \texttt{x}.
+\item Calculer la moyenne (\texttt{mean}) de \texttt{x}.
+\item Calculer la longueur (\texttt{length}) de \texttt{x}.
+\item Calculer le résumé  numérique (\texttt{summary}) de \texttt{x}.
+\end{enumerate}
+
+\section{\textsf{R} manipule des vecteurs}
+\subsection{Calcul vectoriel}
+Additionnons 2 vecteurs:
+\begin{verbatim}
+> y=c(-1,5,0)
+> x
+> y
+> x+y
+> -y
+\end{verbatim}
+Commenter les deux derniers ordres ci-dessus et ceux ci-dessous
+\begin{verbatim}
+> x+2
+> abs(y)
+\end{verbatim}
+Intéressons nous à la multiplication. Exécuter et commenter:
+\begin{verbatim}
+> x*y
+> x/y
+> x^2
+\end{verbatim}
+Une nouvelle opération \verb+:+
+\begin{verbatim}
+> 1:3
+> 1:10
+> -1:5
+> -(1:5)
+\end{verbatim}
+
+\subsection{Vecteur de logiques}
+Les logiques sont soit \code{TRUE} soit \code{FALSE} (que l'on peut abbrévier par \code{T} et \code{F}\footnote{attention aux majuscules})
+\begin{verbatim}
+> w <- c(TRUE,FALSE,FALSE)
+> sum(w)
+> any(w)
+> all(w)
+> !w
+> (TRUE)&(FALSE)
+> (TRUE)|(FALSE)
+> (TRUE)|(TRUE)
+\end{verbatim}
+
+\subsection{Valeurs spéciales et  calculs}
+La valeur \code{NA} est la valeur manquante.
+La valeur \code{NaN} 
+est la valeur \og Not a Number\fg{} (forme indéterminée). Enfin \code{Inf} est l'infini. Ces valeurs
+\begin{verbatim}
+> log(0)
+> log(Inf)
+> 1/0
+> 0/0
+> max(c( 0/0,1,10))
+> max(c(NA,1,10))
+> max(c(-Inf,1,10))
+> is.finite(c(-Inf,1,10))
+> is.na(c(NA,1,10))
+> is.nan(c(NaN,1,10))
+\end{verbatim}
+
+\begin{verbatim}
+
+\end{verbatim}
+\subsection{Créer des vecteurs}
+\begin{enumerate}
+\item Créer le vecteur d'entier de 5 à 23.
+\item Créer le vecteur de 6 à 24 allant de 2 en 2.
+\item Créer le vecteur de 100 valeurs régulièrement espacées entre 0 et 1.
+\item Créer le vecteur suivant
+\begin{verbatim}
+ [1] 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5
+\end{verbatim}
+\item Créer le vecteur suivant
+\begin{verbatim}
+> [1] 1 1 1 2 2 2 3 3 3 4 4 4 5 5 5
+\end{verbatim}
+\item Créer le vecteur suivant
+\begin{verbatim}
+[1] 1 1 2 2 2 3 3 3 3
+\end{verbatim}
+\end{enumerate}
+
+
+\subsection{Sélection dans un vecteur}
+Sélectionnons les coordonnées dans un vecteur par leur numéro:
+\begin{verbatim}
+> x[1]
+> x[2]
+> x[c(1,2,3)]
+> x[1:3]
+> x[c(2,2,1,3)]
+> x[c(1:3,2,1)]
+> x[-1]
+> x[-c(1,2)]
+> x[-(1:2)]
+\end{verbatim}
+
+Sélectionnons les coordonnées dans un vecteur par des logiques. Pour cela, commenter les ordres suivants:
+\begin{verbatim}
+> objects()
+> vec1<-c(3,NA,4)
+> objects()
+> vec2<-c(FALSE,TRUE,FALSE)
+> objects(pattern="vec*")
+> vec2
+> vec1
+> vec1[vec2]
+> is.na(vec1)
+\end{verbatim}
+
+Tapez l'ordre suivant sans essayer de l'interpréter (dans un premier
+temps).
+\begin{verbatim}
+> vec1<-runif(20) ; vec1[vec1>0.5]<-NA
+\end{verbatim}
+En utilisant le groupe d'ordre précédent, remplacez les valeurs manquantes
+de vec1 par 0 ; retournez sur la ligne précédente et l'interpréter.
+
+
+\subsection{Chaînes de caractères (pour aller plus loin)}
+Exécutez et commenter
+\begin{verbatim}
+> z=c("aze","fds")
+> z[1]
+> paste("m",1:3)
+> paste("m",1:3,sep="")
+> c(paste("m",1:3,sep=""),paste("p",1:4,sep="."),z)
+\end{verbatim}
+
+
+\section{\textsf{R} est un (super) tableur}
+\begin{enumerate}
+\item Importer les données du tableau contenu dans le fichier \texttt{tab1.csv} dans l'objet \textsf{R} que vous appelerez \texttt{don1}. Le resultat de l'affichage à l'écran doit être
+\begin{verbatim}
+> don1
+  V1 V2
+1  1  2
+2  0  2
+3  3  1
+\end{verbatim}
+
+\item Importer les données du tableau contenu dans le fichier \texttt{tab2.csv} dans  l'objet \textsf{R} que vous appelerez  \texttt{don2}. Le resultat de l'affichage à l'écran doit être
+\begin{verbatim}
+> don2
+  variable1 variable2
+1      -1.0         0
+2       2.0        -2
+3       3.1         4
+\end{verbatim}
+\item Importer les données du tableau contenu dans le fichier \texttt{tab3.csv} dans  l'objet \textsf{R} que vous appelerez  \texttt{don3}. Le resultat de l'affichage à l'écran doit être
+\begin{verbatim}
+> don3
+        sexe  taille
+  gege  masculin   180.6
+simone   feminin   175.2
+albert  masculin   172.9
+\end{verbatim}
+
+\item Importer les données du tableau contenu dans le fichier \texttt{tournesols.csv} dans  l'objet \textsf{R} que vous appelerez  \texttt{tournesols}. Ce tableau contient les mesures, sur différents individus statistiques (plantes de tournesols sauvages), des variables décrites dans le tableau \ref{tab:variables:plantes}.  
+\begin{table}[H]
+  \centering
+  \begin{tabular}{cl}\hline\hline
+Code variable& Descriptif variable\\\hline
+    ecotype & code plante \\
+plt & numéro du plant d'un écotype donné\\
+etat & état d'origine de la plante (aux USA)\\
+longitude& longitude du lieu de collecte (aux USA)\\
+latitude& latitude du lieu de collecte (aux USA)\\
+haut& hauteur des plants\\
+semflo& jour de floraison (écart en jour par rapport au premier mai)\\
+rambas&note de ramification basale (entre 0 aucune et 4 maximum)\\
+longfeu&longueur du cumulée du limbe et du pétiole (cm ?)\\ 
+grlon&longueur maxi de la graine (mm, moyenne sur 15 graines minimum)\\
+huile&pourcentage d'huile\\\hline
+  \end{tabular}
+  \caption{Variables mesurées sur les tournesols (dans la station d'essai aux environs de Montpellier).}
+  \label{tab:variables:plantes}
+\end{table}
+Ce tableau sera affecté (après importation dans \textsf{R}) dans l'objet appelé \texttt{tournesols} et l'affichage du résumé de celui-ci à l'écran doit être:
+\begin{verbatim}
+> summary(tournesols)
+    ecotype            plt              etat       longitude      
+ Min.   : 209.0   Min.   : 1.000   TEX    : 40   Min.   :-121.77  
+ 1st Qu.: 511.0   1st Qu.: 2.000   WYO    : 38   1st Qu.:-108.54  
+ Median : 775.0   Median : 4.000   COL    : 35   Median :-104.08  
+ Mean   : 759.1   Mean   : 3.991   CLF    : 34   Mean   :-104.61  
+ 3rd Qu.: 975.0   3rd Qu.: 5.000   SDK    : 34   3rd Qu.: -99.85  
+ Max.   :1150.0   Max.   :10.000   UTA    : 25   Max.   : -88.07  
+                                   (Other):121                    
+    latitude         semflo            haut           rambas     
+ Min.   :26.19   Min.   : 18.00   Min.   : 50.0   Min.   :0.000  
+ 1st Qu.:35.00   1st Qu.: 30.00   1st Qu.:145.0   1st Qu.:2.000  
+ Median :39.17   Median : 40.00   Median :190.0   Median :3.000  
+ Mean   :38.96   Mean   : 40.43   Mean   :186.1   Mean   :2.633  
+ 3rd Qu.:43.77   3rd Qu.: 47.00   3rd Qu.:227.5   3rd Qu.:3.000  
+ Max.   :48.78   Max.   :113.00   Max.   :330.0   Max.   :4.000  
+                                                                 
+    longfeu          grlon           huile      
+ Min.   :10.00   Min.   :3.680   Min.   :15.24  
+ 1st Qu.:27.00   1st Qu.:4.480   1st Qu.:24.70  
+ Median :42.00   Median :4.840   Median :26.69  
+ Mean   :39.47   Mean   :5.004   Mean   :26.75  
+ 3rd Qu.:51.00   3rd Qu.:5.370   3rd Qu.:28.86  
+ Max.   :70.00   Max.   :8.160   Max.   :35.50  
+\end{verbatim}
+\end{enumerate}
+\subsection{Les noms des variables (colonnes) et des individus (lignes)}
+Exécuter et commenter:
+\begin{verbatim}
+> rownames(don3) ## c'est un vecteur
+> names(don3)    ## c'est un vecteur
+> colnames(don3) ## c'est un vecteur
+> colnames(don1)[2]
+> colnames(don1)[2] <- "var2"
+> colnames(don1)
+> colnames(don1) <- colnames(don2)
+> colnames(don1) <- c("variable1","variable2")
+\end{verbatim}
+
+\subsection{Sélection dans des tableaux}
+Exécuter et commenter:
+\begin{verbatim}
+> don1[1,]
+> don3[,"sexe"]
+> don3$sexe
+> don3[,2]
+> don3[,c(FALSE,TRUE)]
+> don3[,c("taille","sexe")]
+> don1[1,2]
+> don1[,1:2]
+> don1[-1,]
+> don1[c(2,3),c(2,1)]
+> don1[c(TRUE,FALSE,TRUE),]
+> don1[don1[,1]>0,]
+> don1[-(1),]
+> don1[,c(2,1)]
+\end{verbatim}
+\subsection{Opération sur les colonnes}
+Exécuter et commenter:
+\begin{verbatim}
+> don1[,1]+don1[,2]
+> exp(don1[,1])
+> don3[1,]+don3[2,]
+\end{verbatim}
+\subsection{\textsf{R} et résumé de tableaux}
+Exécuter:
+\begin{verbatim}
+> summary(tournesols) ## tableau issu de l'importation de tournesol.csv
+\end{verbatim}
+Quels sont les types de chaque variable (quantitatif ou qualitatif) ?
+\section{Elimination des valeurs manquantes}
+Importez le tableau \texttt{tournesols\string_brut.csv}.
+
+Lorsque l'on souhaite connaître les valeurs manquantes (\code{NA}) d'un vecteur:
+\begin{verbatim}
+> which(is.na(tbrut[,"huile"])
+\end{verbatim}
+Lorsque l'on souhaite connaître les valeurs manquantes (\code{NA}) de tout un tableau:
+\begin{verbatim}
+> which(is.na(tbrut),arr.ind=TRUE)
+\end{verbatim}
+\begin{enumerate}
+\item Affichez (grâce à une fonction)  les noms de la première colonne et de la
+  seconde colonne du tableau résultant de l'ordre précédent (\code{NA} dans tout un tableau).
+\item Affichez la première ligne. Que représente t-elle?
+\item En utilisant la réponse à la question précédente, enlever les
+  lignes qui comportent des valeurs manquantes. Affecter le résultat
+  dans le tableau \texttt{tbrut2}.
+\end{enumerate}
+
+\end{document}

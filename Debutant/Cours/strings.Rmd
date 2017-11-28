@@ -1,0 +1,215 @@
+
+----
+  
+## Traitement des chaînes de caractères
+
+**Règles de construction**
+
+* Entourée de simple quote ``'`` ou de double quote ``"``, pas un mélange des deux
+* Insertion possible d'un ``"`` (resp. ``'``) dans une chaîne délimitée par des ``'`` (resp. ``"``)
+* Utilisation de ``\`` dans le cas contraire
+
+```{r, eval = TRUE}
+"double quote"
+'simple quote'
+cat("l'insertion se passe \"bien\"")
+````
+
+----
+  
+### Concaténation
+
+```{r, eval = FALSE}
+paste (..., sep = " ", collapse = NULL)
+paste0(..., collapse = NULL) # pas de séparateur, un peu plus rapide
+````
+
+* __...__ : un ou plusieurs objets **R**
+* __sep__  : charactère de séparation des termes
+* __collapse__ : charactère de séparation des résultats
+
+```{r, eval = TRUE}
+paste("Formation R", 1:3, sep = "-")
+paste("Formation R", 1:3, sep = "-", collapse = ", ")
+````
+
+
+----
+  
+### Nombre de caractères
+
+Utilisation de la fonction ``nchar()`` : 
+
+```{r, eval = TRUE}
+nchar("Chaine de 23 caractères")
+````
+
+### Majuscules / minuscules 
+
+Utilisation des fonctions ``toupper()`` et ``tolower()`` : 
+
+```{r, eval = TRUE}
+toupper("Test") ; tolower("Test")
+````
+
+----
+  
+### Extraction / Remplacement
+
+Utilisation de la fonction ``substring()`` : 
+
+```{r, eval = FALSE}
+substring(text, first, last)
+````
+
+* __text__ : une chaîne de caractères
+* __first__  : indice du premier élement
+* __last__ : indice du dernier élement
+
+```{r, eval = TRUE}
+x <- "abcdef"
+substring(x, 1, 3)
+substring(x, 1, 3) <- "123" ; x
+````
+
+
+----
+  
+### Formattage des nombres et des caractères
+
+La fonction ``format`` permet de formatter des numériques et des caractères : 
+
+```{r, eval = FALSE}
+format(x, trim = FALSE, digits = NULL, nsmall = 0L,
+       justify = c("left", "right", "centre", "none"),
+       width = NULL, na.encode = TRUE, scientific = NA,
+       big.mark   = "",   big.interval = 3L,
+       small.mark = "", small.interval = 5L,
+       decimal.mark = getOption("OutDec"),
+       zero.print = NULL, drop0trailing = FALSE, ...)
+````
+
+**Principaux arguments :**
+
+* __x__ :  vecteur / valeur d'entrée
+* __digits__ :  nombre total de chiffres à afficher
+* __nsmall__ :  nombre de décimales
+* __scientific__ :  notation scientifique N
+* __width__ :  taille minimale (rajout d'espaces le cas échéants)
+* __justify__ :  alignement
+
+----
+  
+### Formattage des nombres et des caractères
+
+```{r, eval = TRUE}
+# Maximum de 5 chiffres
+format(123.47872, digits = 5)
+
+# Notation scientifique
+format(c(12.1, 0.00001), scientific = TRUE)
+
+# Nombre de décimale
+format(c(23.478989898, 45), nsmall = 5)
+
+# Taille + alignement
+format("CISAD", width = 9, justify = "c")
+````
+
+----
+  
+### Découpage d'un chaîne de caractères
+
+La fonction ``strsplit`` permet de découper une ou plusieurs chaînes de caractères par rapport à une sous-chaîne ou une expression régulière
+
+```{r, eval = TRUE}
+x <- "10 + 20"
+
+unlist(strsplit(x, split = "+"))
+
+# fixed = TRUE : désactivation des expressions régulières
+unlist(strsplit(x, split = "+", fixed = TRUE))
+
+unlist(strsplit(x, split = "[[:space:]]*[+][[:space:]]*"))
+````
+
+----
+  
+### Les expressions régulières
+
+* Documentation dans **R** : 
+
+```{r, eval = FALSE}
+?regex
+````
+
+* Cheatsheet  : https://www.rstudio.com/wp-content/uploads/2016/09/RegExCheatsheet.pdf
+
+**Quelques exemples de manipulations :**
+
+```{r, eval = TRUE}
+v_str <- c("3 enfants et 1 chien", "", "Nombre : 2")
+````
+
+----
+  
+### Détection de pattern
+
+Fonctions ``grep`` et ``grepl`` : 
+ 
+```{r, eval = TRUE}
+grep("[[:digit:]]", v_str)
+grep("[[:digit:]]", v_str, value = TRUE)
+grepl("[[:digit:]]", v_str)
+````
+
+
+----
+  
+### Remplacement de pattern
+
+Fonctions ``gsub`` et ``sub`` : 
+
+```{r, eval = TRUE}
+# gsub : remplacement de l'ensemble
+gsub("[[:alpha:]]|[[:punct:]]|[[:space:]]", "", v_str)
+
+# sub : remplacement de la première occurence
+sub("[[:alpha:]]|[[:punct:]]|[[:space:]]", "", v_str)
+````
+
+
+----
+  
+### Localisation et Extraction de pattern
+
+Fonctions ``regexpr``, ``gregexpr`` et ``regmatches`` :
+
+```{r, eval = TRUE}
+# regexpr : première occurence trouvée
+regmatches(v_str, regexpr("[[:digit:]]", v_str)) 
+
+# gregexpr : ensemble des occurences trouvées
+regmatches(v_str, gregexpr("[[:digit:]]", v_str))
+````
+
+
+----
+  
+### Alternative : utilisation du package stringr
+
+Mêmes fonctionnalités, mais avec une syntaxe différente
+
+``str_sub``
+
+``str_replace``
+
+``str_to_lower``
+
+``str_extract``
+
+``str_trim``
+
+``...``
+
+http://stringr.tidyverse.org/

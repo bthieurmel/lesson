@@ -1,0 +1,21 @@
+---
+  output: pdf_document
+---
+  
+  
+<div style="text-align:center" markdown="1">
+<br><br><br><br><br><br>
+<h2>Premiers pas avec les graphiques sous R</h2>
+<h3>B.Thieurmel - benoit.thieurmel@datastorm.fr</h3>
+<h3>MENESR/DEPP/CISAD - 11/12/2017</h3>
+  
+<img src="images/cisad.png" alt="Drawing" style="width: 200px;"/>
+<img src="images/R1.jpg" alt="Drawing" style="width: 200px;"/>
+<img src="images/datastorm.png" alt="Drawing" style="width:400px;"/>
+  
+</div>
+  
+  
+
+```{r child = 'plot.Rmd'}
+```
