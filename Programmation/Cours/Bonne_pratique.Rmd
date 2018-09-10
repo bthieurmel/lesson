@@ -32,7 +32,7 @@ mean.group
   
 ### Fichiers
   
-Les noms doivent être __explicites__ et se terminer par `.R`. Si les scripts sont ordonnées, les pré-fixés par un numéro.
+Les noms doivent être __explicites__ et se terminer par `.R`. Si les scripts sont ordonnés, les pré-fixés par un numéro.
 
     # Good            # Bad         0-download.R
     modelisation.R    toto.r        1-parse.R

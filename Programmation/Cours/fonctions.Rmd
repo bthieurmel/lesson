@@ -390,6 +390,8 @@ __Utilisation dans R__
 
 * en commençant la ligne par `#'`
 
+http://r-pkgs.had.co.nz/man.html
+
 ----
 
 __Les balises indispensables__
@@ -416,18 +418,8 @@ identifier <- function(nom, prenom){
   paste0("Nom :", nom, ", prénom : ", prenom)
 }
 ```
-----
 
-### Un petit mot sur le déboggage
 
-* Pour voir les informations : utilisation de _print()_ dans la fonction
 
-* Quand une erreur se produit, utilisation du __traceback__
-    + Disponible par défaut dans la console RStudio
-    + via la fonction _traceback()_ dans R
-
-<div style="text-align:center" markdown="1">
-<img src="images/traceback.png" alt="Drawing" style="width: 950px;"/>
-</div>
 
 

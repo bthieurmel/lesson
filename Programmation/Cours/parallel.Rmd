@@ -8,23 +8,22 @@
 * Calcul séquentiel
     + un problème est divisé en une série d'instructions
     + les instructions sont éxécutées les une après les autres
-    + sur un unique processeur
-    + Seulement une instruction s'éxécute à la fois
+    + sur une seule unité de calcul
+    + seulement une instruction s'exécute à la fois
     
-<div style="text-align:center" markdown="1">
-<img src="images/serialProblem.gif" alt="Drawing" style="width: 600px;"/>
-</div>
+![](images/serialProblem.png){width="600px"}
 
 -----
 
 * Calcul parallèle
-    + un problème est divisé en plusieurs séries d'instructions qui peuvent être éxécutées en même temps 
-    + les instructions de chaque série s'éxécute simultanément sur différents processeurs
+    + un problème put être divisé en plusieurs séries d'instructions indépendantes pouvant s'exécuter en même temps 
+    + les instructions de chaque série s'éxécute simultanément sur différentes unités de calcul
+    + les résultats obtenus sur chaque unité de calcul sont renvoyés dans le processus
+parent
     + cela nécessite un méchanisme de contrôle et de synchronisation
     
-<div style="text-align:center" markdown="1">
-<img src="images/parallelProblem.gif" alt="Drawing" style="width: 600px;"/>
-</div>
+![](images/parallelProblem.png){width="600px"}
+
 
 _'l'ensemble des techniques logicielles et matérielles permettant l'exécution simultanée de séquences d'instructions indépendantes sur des processeurs et/ou coeurs différents'_
 
@@ -41,9 +40,7 @@ Les ressources matérielles à disposition :
 * un unique ordinateur, avec plusieurs processeurs / coeurs
 * un cluster d'ordinateurs inter-connectés
 
-<div style="text-align:center" markdown="1">
-<img src="images/IBM_Blue_Gene_P_supercomputer.jpg" alt="Drawing" style="width: 350px;"/>
-</div>
+![](images/IBM_Blue_Gene_P_supercomputer.jpg){width="350px"}
 
 -----
 
@@ -54,9 +51,7 @@ Les ressources matérielles à disposition :
 * faire attention au partage des données, et regarder l'évolution de la performance en fonction du nombre de coeurs
 * le mieux : tester et comparer !
 
-<div style="text-align:center" markdown="1">
-<img src="images/reflexion.jpg" alt="Drawing" style="width: 400px;"/>
-</div>
+![](images/reflexion.jpg){width="400px"}
 
 -----
 
@@ -64,7 +59,7 @@ Les ressources matérielles à disposition :
 
 * A la base, __R__ est mono-coeur
 
-* De [nombreux packages](https://cran.r-project.org/web/views/HighPerformanceComputing.html) permettant le calcul parallèle existent
+* De [nombreux packages](https://cran.r-project.org/web/views/HighPerformanceComputing.html) permettant le calcul parallèle existent. Voir https://cran.r-project.org/web/views/HighPerformanceComputing.html
 
 Nous nous focaliserons sur deux packages :
 
@@ -113,7 +108,7 @@ require(parallel, quietly = TRUE)
 
 ```{r, eval = TRUE}
 require(parallel)
-nb.cores <- detectCores() # 8
+nb.cores <- detectCores() # 4
 nb.cores
 # mieux vaut éviter d'utiliser toutes les ressources
 cl <- makeCluster(nb.cores - 1)

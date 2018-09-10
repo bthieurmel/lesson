@@ -1,6 +1,8 @@
 
 ----
 
+**Aller plus loin...!**
+
 * [The R Manuals](https://cran.r-project.org/manuals.html) : https://cran.r-project.org/manuals.html
 
 * [R Contributed Documentation](https://cran.r-project.org/other-docs.html) : https://cran.r-project.org/other-docs.html
@@ -8,6 +10,10 @@
 * [Advanced R by Hadley Wickham](http://adv-r.had.co.nz/) : http://adv-r.had.co.nz/
     
 * [R packages by Hadley Wickham](http://r-pkgs.had.co.nz/) : http://r-pkgs.had.co.nz/
+
+* [Tests using testthat](http://r-pkgs.had.co.nz/tests.html) : http://r-pkgs.had.co.nz/tests.html
+
+* [Code coverage with covr](https://github.com/r-lib/covr) : https://github.com/r-lib/covr
 
 * [How-to go parallel in R - basics + tips](http://gforge.se/2015/02/how-to-go-parallel-in-r-basics-tips/) : http://gforge.se/2015/02/how-to-go-parallel-in-r-basics-tips/
 

@@ -1,8 +1,10 @@
 ---
-  output: pdf_document
+  output: 
+  pdf_document:
+  highlight: default
 ---
   
----
+--- 
   output: 
     slidy_presentation:
     highlight: kate

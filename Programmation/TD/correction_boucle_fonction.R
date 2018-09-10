@@ -71,7 +71,7 @@ factRepeat <- function(n){
 identical(factFor(n = 5), factWhile(n = 5))
 identical(factFor(n = 5), factRepeat(n = 5))
 
-#6. factAll
+#6. compareFact
 
 #' Factorielle, avec différentes boucles
 #'
@@ -84,10 +84,10 @@ identical(factFor(n = 5), factRepeat(n = 5))
 #' @return : n!
 #' 
 #' @examples
-#' factAll(5)
-#' factAll(5, type = "while")
+#' compareFact(5)
+#' compareFact(5, type = "while")
 #' 
-factAll <- function(n, type = "for"){
+compareFact <- function(n, type = "for"){
   
   # n est bien un entier ?
   if(!isTRUE(all.equal(n, as.integer(n)))){
@@ -123,18 +123,18 @@ factAll <- function(n, type = "for"){
 }
 
 #7. tests
-factAll(5)
-factAll(5, type = "while")
-factAll(5, type = "repeat")
-factAll(5, type = "frf")
-factAll(0)
-factAll(-1)
-factAll("a")
+compareFact(5)
+compareFact(5, type = "while")
+compareFact(5, type = "repeat")
+compareFact(5, type = "frf")
+compareFact(0)
+compareFact(-1)
+compareFact("a")
 
 #8. microbenchmark
 require(microbenchmark)
 ?microbenchmark
 
-microbenchmark(factAll(100000, type = "while"), 
-               factAll(100000, type = "repeat"), 
-               factAll(100000, type = "for"))
+microbenchmark(compareFact(100000, type = "while"), 
+               compareFact(100000, type = "repeat"), 
+               compareFact(100000, type = "for"))

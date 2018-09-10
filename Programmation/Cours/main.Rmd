@@ -1,42 +1,43 @@
 ---
   output: 
     slidy_presentation:
-    highlight: kate
-    footer: "R Avancé - Agrocampus Ouest"
+      highlight: default
+      footer: "Programmation avec R - benoit.thieurmel@datastorm.fr"
 ---
 
 
 <div style="text-align:center" markdown="1">
 <br><br><br><br><br><br>
-<h1>Programmation, apply, et calcul parallèle</h1>
-<h2>R Avancé</h2>
+<h2>Programmation avec R</h2>
 <h3>B.Thieurmel - benoit.thieurmel@datastorm.fr</h3>
-<h3>Agrocampus Ouest</h3>
 
-<img src="images/R.jpg" alt="Drawing" style="width: 200px;"/>
+
 <img src="images/R1.jpg" alt="Drawing" style="width: 200px;"/>
+<img src="images/datastorm.png" alt="Drawing" style="width: 400px;"/>
 
 
 </div>
 
+</div>
 
-```{r child = 'R_history.Rmd'}
-```
 
 ```{r child = 'Bonne_pratique.Rmd'}
 ```
 
 ```{r child = 'boucle_condition.Rmd'}
 ```
-
+    
 ```{r child = 'fonctions.Rmd'}
 ```
-
+    
 ```{r child = 'apply_family.Rmd'}
 ```
-
+    
 ```{r child = 'parallel.Rmd'}
 ```
-
+    
+```{r child = 'monitoring.Rmd'}
+```
+    
 ```{r child = 'source_lien.Rmd'}
 ```

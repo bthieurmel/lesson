@@ -5,12 +5,8 @@
 
 __R__ donc pas au top pour interpréter et éxécuter efficacement des boucles __for__
 
-_"Et donc ?"_
 
 * Une solution __radicale__ : NE PAS LES UTILISER !
-
-_"Et alors, comment je fais ?"_
-
 * Penser à la vectorisation
 * Utiliser la __"Apply family"__
     + __apply__ : appliquer une fonction sur un data.frame, une matrice, ou un tableau multi-dimentionnel
@@ -19,6 +15,7 @@ _"Et alors, comment je fais ?"_
     + __vapply__ : identique à __sapply__, en permettant de définir (un peu) le format des résultats
     + __mapply__ : prend en entrée plusieurs vecteurs/listes, et applique la fonction sur les premiers éléments de chaque entrées, puis sur les seconds, ....
     + __rapply__ : éxécution récursive de __apply__, avec contrôle préalable des éléments
+    + __tapply__ : calculs par sous-population
     
 ----
 
@@ -168,4 +165,35 @@ mapply(rep, times = 1:2, MoreArgs = list(x = 100))
 
 # Avec simplification des résultats
 mapply(function(n, moy) mean(rnorm(n, moy)), n = c(100, 1000), moy = c(10, 0))
+````
+
+-----
+
+### tapply
+
+```{r, eval = FALSE}
+tapply(X, INDEX, FUN = NULL, ..., 
+       default = NA, simplify = TRUE)
+````
+
+* __X__ : la colonne / le vecteur utilisé(e) dans le calcul
+* __INDEX__ : liste du / des facteurs définissant les populations
+* __FUN__ : la fonction à appliquer
+* __...__ : ensemble d'arguments supplémentaires, à passer à la fonction
+* __simplify__ :	booléan ou charactère, pour simplifier les résultats
+
+
+```{r, eval = TRUE}
+head(warpbreaks, n =4)
+````
+
+----
+
+```{r, eval = TRUE}
+tapply(X = warpbreaks$breaks, 
+       INDEX = warpbreaks[,-1], FUN = sum)
+
+tapply(X = warpbreaks$breaks, 
+       INDEX = list(warpbreaks$wool), FUN = sum)
+
 ````
