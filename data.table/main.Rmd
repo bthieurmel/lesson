@@ -1,17 +1,16 @@
 ---
-  output: 
-    slidy_presentation:
-    highlight: kate
-    footer: "Introduction au package data.table"
+  output: pdf_document
 ---
+
 
 <div style="text-align:center" markdown="1">
 <br><br><br><br><br><br>
-<h1>Introduction au package data.table</h1>
+<h2>Introduction au package data.table</h2>
 <h3>B.Thieurmel - benoit.thieurmel@datastorm.fr</h3>
-<h3>Agrocampus Ouest</h3>
-<img src="images/R.jpg" alt="Drawing" style="width: 200px;"/>
+
+
 <img src="images/R1.jpg" alt="Drawing" style="width: 200px;"/>
+<img src="images/datastorm.png" alt="Drawing" style="width: 400px;"/>
 </div>
 
 ## Introduction
@@ -42,7 +41,7 @@ https://s3.amazonaws.com/assets.datacamp.com/img/blog/data+table+cheat+sheet.pdf
 ## Exemples
 
 ```{r, eval = TRUE, echo = FALSE}
-require(data.table, quietly = TRUE)
+suppressWarnings({require(data.table, quietly = TRUE)})
 ```
 
 ```{r, eval = TRUE}
@@ -53,7 +52,7 @@ values = rnorm(500000 * 26)
 df <- data.frame(letters = rep(LETTERS, each = 500000), values = values)
 
 # idem, mais avec data.table
-dt <- data.table(letters = rep(LETTERS, each = 1000000), values = values)
+dt <- data.table(letters = rep(LETTERS, each = 500000), values = values)
 # (=) dt <- as.data.table(df)
 
 print(object.size(df), units ='Mb')
@@ -70,7 +69,7 @@ dim(df)
 
 ```{r, eval = TRUE}
 
-# lapply sur data.frame
+# en utilisant un aggregate
 system.time(res1 <- aggregate(values ~ letters, data = df, FUN = sum))
 
 # avec data.table
@@ -110,7 +109,7 @@ system.time(
 )
 ```
 
-## Importation
+## Lecture / écriture
 
 * Utilisation de la fonction ``fread`` pour l'importation de fichier :
 
@@ -130,6 +129,10 @@ system.time(
 )
 ```
 
+**Nettement plus performante pour la lecture des fichiers plats que read.table, read.csv, ....**
+
+**La fonction fwrite (>= 1.9.7) existe également pour l'écriture rapide dans un fichier**
+
 ## Sélection
 
 * Jeux de données pour les exemples à suivre :
@@ -140,7 +143,7 @@ set.seed(1234)
 dt <- data.table(group = c("A", "B"), 
                  cat = rep(c("C", "D"), each = 5000), 
                  value = rnorm(10000), 
-                 weight = 1:10000)
+                 weight = sample(1:10, 10000, replace = TRUE))
 head(dt)
 ```
 
@@ -155,7 +158,7 @@ head(dt)
 ```{r, eval = FALSE}
 dt[1:2, ]
 dt[c(1,5)] # pas obliger de mettre une virgule...
-dt[weight > 9998, ] # pas besoin de "" ou '' pour les noms
+dt[weight > 8, ] # pas besoin de "" ou '' pour les noms
 dt[order(value)]
 ```
 
@@ -167,14 +170,15 @@ dt[1:2, ]
 
 ### Sur les colonnes
 
-* Sélection numérique __impossible__
-* Par défaut, avec les noms de colonnes __sans quote__
-* __avec quote__ : **data.table** >= 1.10.4 ou utilisation de l'option ``with = FALSE``
+* Par défaut (historiquement), avec les noms de colonnes __sans quote__ dans une liste
+* Sélection numérique __possible__ avec **data.table** >= 1.9.7, **impossible avant**
+* __avec quote__ : **data.table** >= 1.9.7 ou avec l'utilisation explicite de l'option ``with = FALSE``
 
 ```{r, eval = FALSE}
-dt[, 1] ## ne marche pas !
+dt[, c(1, 3)] ## marche maintenant !
 dt[, value] ## vecteur
 dt[, list(value)] ## data.table
+dt[, "value"] ## data.table
 # plusieurs colonnes
 dt[, list(group, value)] ## data.table
 dt[, .(group, value)] ## raccourci (. == list)
@@ -217,6 +221,7 @@ dt <- dt[, c("tvalue", "rvalues") := list(trunc(value), round(value ,2))]
 
 ```{r, eval = FALSE, echo = TRUE}
 dt[, c("tvalue", "rvalues") := list(trunc(value), round(value ,2))]
+dt[, ':=' (tvalue = trunc(value), rvalue = round(value ,2))] # alternative
 ```
 
 ```{r, eval = TRUE}
@@ -280,7 +285,8 @@ dt[1:2]
 ```{r, eval = TRUE}
 dt[, sum(value)] # un vecteur
 dt[, list(sum(value))] # un data.table
-dt[, list(somme = sum(value), moyenne = mean(value))] # calculs multiples + renommage
+# sous-population + calculs multiples + renommage
+dt[group == "B", list(somme = sum(value), moyenne = mean(value))] 
 ```
 
 
@@ -314,8 +320,8 @@ dt[, list(somme = sum(value), moy = mean(value)), by = list(group, cat)]
 * On peut aussi utiliser des expressions dans le ``by``
 
 ```{r, eval = TRUE}
-# somme des valeurs, avec un poids inférieur ou supérieur à 5000, par groupe
-dt[, sum(value), by = list(group, weight > 5000)]
+# somme des valeurs, avec un poids inférieur ou supérieur à 5, par groupe
+dt[, sum(value), by = list(group, weight > 5)]
 ```
 
 * ``by`` garde l'ordre d'apparition des niveaux
@@ -327,12 +333,24 @@ dt[, .(somme = sum(value), moy = mean(value)), keyby = list(group, cat)]
 
 -----
 
-* ``.N`` : retourne le nombre de ligne
+* Et affecter le/les résultats par niveaux aux données de départ
+
+```{r, eval = TRUE}
+# nouvelle colonne, avec la moyenne dans la categorie
+dt[, mean_cat := mean(value), by = list(cat)]
+dt
+```
+
+
+-----
+
+
+### L'opérateur .N : retourne le nombre de ligne
 
 ```{r, eval = TRUE}
 dt[, .N] # nombre de lignes des données
-dt[, .N, keyby = list(group, cat)] # nombre de lignes pour groupes
-dt[group == "A" & cat == "C", list(rows = .N)] # sous sélection
+# subset + renommage + tri
+dt[weight > 5, list(rows = .N), by = list(group, cat)][order(-rows)]
 ```
 
 -----
@@ -353,12 +371,12 @@ dt[, hist(value), by = list(group, cat)]
 
 ### Chaînage
 
-* Les opérations sur un **data.table** retourne (en général) un **data.table**
+* Les opérations sur un **data.table** retournent (en général) un **data.table**
 * On peut donc enchaîner les opérations __[...]__
 
 ```{r, eval = TRUE}
 # somme et moyenne des valeurs pour group et cat
-# ordonner par somme
+# ordonné par somme
 dt[, list(somme = sum(value), moy = mean(value)), by = list(group, cat)][order(somme)]
 ```
 
@@ -371,6 +389,8 @@ dt[, list(somme = sum(value), moy = mean(value)), by = list(group, cat)][order(s
 # regardons cela...
 dt[1:4, print(.SD), by = .(group)]
 ```
+
+* pas utiliser nécessairement avec un ``by``
 
 -----
 
@@ -394,7 +414,7 @@ dt[, lapply(.SD, mean), by = .(group), .SDcols = "value"] # avec un/des nom(s)
 * les subsets sur les clés seront plus performants
 * argument _key_ dans la fonction __data.table__
 * ou ``setkey`` avec des noms de colonnes sans quote
-* ``setkeyv`` avec avec quote
+* ``setkeyv`` avec quote
 * ``key`` pour connaitre les clés de la table
 
 ```{r, eval = TRUE, echo = TRUE}
@@ -488,7 +508,92 @@ res_dcast <- dcast.data.table(data = res_melt, Month + Day ~ variable)
 res_dcast
 ```
 
-## Pour aller plus loin...
+## Merge
+
+**data.table** possède sa fonction ``merge``, identique à celle de base, mais beaucoup plus performante
+
+```{r, eval = TRUE, echo = FALSE}
+dt <- data.table(group = c("A", "B"), 
+                 cat = rep(c("C", "D"), each = 50000), 
+                 value = rnorm(100000), 
+                 weight = sample(1:10, 100000, replace = TRUE))
+```
+
+```{r, eval = TRUE, echo = TRUE}
+dim(dt)
+
+n_groups <- dt[, .N, by = list(group, cat)]
+# data.table
+system.time({merge(dt, n_groups, by = c("group", "cat"))})
+# data.frame
+df <- as.data.frame(dt) ; df_n_groups <- as.data.frame(n_groups)
+system.time({merge(df, df_n_groups, by = c("group", "cat"))})
+```
+
+## copy et gestion de la mémoire
+
+un objet **data.table** peut se voir comme un pointeur mémoire, et il ne possède pas les mêmes propriétés que la plupart des autres objets **R**, notamment lors de l'affectation à une nouvelle variable :
+
+**exemple sur un data.frame**
+
+```{r, eval = TRUE, echo = TRUE}
+df <- data.frame(x = 1, y = 1)
+df2 <- df # nouvelle affectation
+df2$y <- 2
+df
+df2
+```
+
+**seulement df2 a été modifié**
+
+-----
+
+**exemple sur un data.table**
+
+```{r, eval = TRUE, echo = TRUE}
+dt <- data.table(x = 1, y = 1)
+dt2 <- dt # nouvelle affectation
+dt2[, y := 2]
+dt
+dt2
+```
+
+**dt2 et dt ont été modifiés. Pour empêcher cela, il faut explicitement copier dt :**
+
+```{r, eval = TRUE, echo = TRUE}
+dt2 <- copy(dt) # nouvelle affectation et copie
+```
+
+## Quelques fonctions utiles
+
+* ``setcolorder`` : ré-ordonnancement des colonnes
+* ``setorder`` & ``setorderv``: tri de la table
+* ``subset`` : syntaxe **R** base pour un sous-ensemble de données
+* ``shift`` : lead/lag de colonnes
+* ``IDate`` & ``IDateTime``: gestion et traitement efficace des dates/heures
+* ``rbindlist`` : concaténation de data.table
+* ``tables`` : informations sur les tables existantes
+* ``copy`` : copie mémoire d'une table
+
+
+## Le package dplyr : une alternative à data.table
+
+Il y a actuellement deux packages majeurs pour le traitement efficace de données : le package **data.table** et le package **dplyr**. Ils se distinguent essentiellement par leur syntaxe : 
+
+```{r, eval = FALSE, echo = TRUE}
+# data.table
+dt[group == "A", list(s_value = sum(value)), by = list(group, cat)]
+
+# dplyr
+dt %>%
+  group_by(group, cat) %>%
+  filter(group == "A") %>%
+  summarise(s_value = sum(value))
+```
+
+Plus d'informations sur **dplyr** : http://dplyr.tidyverse.org/
+
+## Pour aller plus loin
 
 * [Vignette d'introduction ](https://rawgit.com/wiki/Rdatatable/data.table/vignettes/datatable-intro-vignette.html) : https://rawgit.com/wiki/Rdatatable/data.table/vignettes/datatable-intro-vignette.html
 
