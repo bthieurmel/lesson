@@ -1,5 +1,8 @@
 ---
-  output: pdf_document
+  output: 
+    slidy_presentation:
+      highlight: kate
+      footer: "Introduction au package data.table"
 ---
 
 
@@ -10,7 +13,7 @@
 
 
 <img src="images/R1.jpg" alt="Drawing" style="width: 200px;"/>
-<img src="images/datastorm.png" alt="Drawing" style="width: 400px;"/>
+<img src="images/logo_ds_2018.png" alt="Drawing" style="width: 350px;"/>
 </div>
 
 ## Introduction
