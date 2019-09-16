@@ -1,0 +1,289 @@
+
+----
+
+## Structures condionnelles
+
+### if / else/ else if
+
+```{r, eval = FALSE}
+if(condition1){
+  print("la condition1 est vrai")  
+}else if(condition2){
+  print("la condition1 est fausse, mais la condition2 est vrai")  
+}else{
+  print("les conditions sont fausses... :-(")
+}
+````
+
+* la condition doit retourner une (__et une seule__) valeur logique (TRUE/FALSE)
+
+### ifelse, une variante
+
+```{r, eval = FALSE}
+ifelse(vecteur.condition, vecteur.vrai, vecteur.faux)
+````
+
+* Pour chaque élément _i_, regarde _condition[i]_, et retourne _vrai[i]_ ou _faux[i]_
+
+```{r, eval = FALSE}
+x <- 1:2
+ifelse(x%%2 == 0, 0, x)     #> [1] 1 0
+````
+
+----
+
+### switch
+
+* Suivant les cas, une autre façon de faire un __if / else if__
+
+```{r, eval = FALSE}
+res <-  switch(valeur,
+         cas1 = resultat1,
+         cas2 = resultat2,
+         cas3 = resultat3, 
+         sinon (optionnel))
+````
+
+```{r, eval = TRUE}
+fonction <- "mean"
+x <- rnorm(100)
+res <-  switch(fonction,
+         mean = mean(x),
+         median = median(x),
+         sum = sum(x))
+res
+````
+
+
+----
+
+### Opérateurs logiques
+
+* __==__, __!=__, __>__, __<__, __>=__, __<=__
+
+```{r, eval = FALSE}
+x <- 1
+
+x == 1  # TRUE
+x != 1  # FALSE
+x < 1   # FALSE
+
+vx <- c(1, 2)
+vx != 1 # FALSE TRUE
+````
+
+* __any__ : retourne vrai si au-moins un élément répond à la condition
+```{r, eval = FALSE}
+x <- c(1:10)
+
+any(x == 10) # TRUE
+any(x > 10)  # FALSE
+````
+
+----
+
+* __all__ : retourne vrai si tous les éléments répondent à la condition
+```{r, eval = FALSE}
+x <- c(1:10)
+
+all(x <= 10) # TRUE
+all(x > 10)  # FALSE
+````
+
+* __%in%__ : vérifie l'appartenance de chaque élément d'un vecteur à un autre ensemble
+```{r, eval = FALSE}
+x <- "rennes"
+x %in% c("rennes", "brest") # TRUE
+
+x <- c("rennes", "paris")
+x %in% c("rennes", "brest") # TRUE FALSE
+````
+
+* __is.vector__, __is.data.frame__, __is.list__, ...
+```{r, eval = FALSE}
+x <- c(1:10)
+
+is.vector(x) # TRUE
+````
+
+
+----
+
+* __!__ : retourne la négation
+
+```{r, eval = FALSE}
+x <- 1
+y <- 10
+
+(x == 1 & y == 10)   # TRUE
+!(x == 1 & y == 10)  # FALSE
+````
+
+* __&__ : opérateur logique 'AND'. Vrai si les deux conditions sont vraies, faux sinon
+```{r, eval = FALSE}
+(x == 1 & y == 10)   # TRUE
+(x == 1 & y == 9)  # FALSE
+````
+
+* __|__ : opérateur logique 'OR'. Vrai si au-moins une des deux conditions est vrai, faux sinon
+```{r, eval = FALSE}
+(x == 1 | y == 10)   # TRUE
+(x == 1 | y == 9)    # TRUE
+(x == 2 | y == 9)    # FALSE
+`````
+
+* __xor__ : opérateur logique 'OR' exclusif. Vrai si une et une seule condition est vrai, faux sinon
+```{r, eval = FALSE}
+xor(TRUE, FALSE) # TRUE
+xor(TRUE, TRUE)  # FALSE
+`````
+
+----
+
+## Les boucles
+
+* Rarement efficaces...
+* Donc à utliser avec précautions dans __R__
+* Utiliser de préférence les propriétés offertes par la __vectorisation__, et la __"Apply Family"__
+
+### For
+
+On parcourt un ensemble d'éléments
+
+```{r, eval = FALSE}
+for(variable in elements){
+  ...
+}
+````
+
+```{r, eval = TRUE}
+for(lettre in LETTERS[1:2]){
+  print(lettre)
+}
+````
+
+
+----
+
+### While
+
+* Tant que la condition est vrai, on continue
+    + Si elle est fausse au départ, rien ne s'éxécute
+    + Si elle est toujours vrai, ou si il n'y a pas de sortie __explicite__, elle continue à tourner...!
+
+```{r, eval = FALSE}
+while(condition){
+  ...
+}
+````
+
+```{r, eval = TRUE}
+x <- 1
+while(x < 4){
+  print(x)
+  x <- x+1
+}
+````
+
+----
+
+### Repeat
+
+* Tant qu'on ne sort pas, on continue
+    + L'éxécution a donc lieu au-moins une fois
+    + Utilisation de __break__ pour sortir
+
+```{r, eval = FALSE}
+repeat{
+  ...
+  if(condition) break
+}
+````
+
+```{r, eval = TRUE}
+x <- 1
+repeat{
+  x <- x+1
+  if(x == 3){
+    print("x vaut 3, on s'arrête.")
+    break
+  }
+}
+````
+
+
+----
+
+### Break et next
+
+* __break__ : Sortie immédiate d'une boucle __for__, __while__ ou __repeat__
+
+* __next__ : Itération suivante d'une boucle __for__, __while__ ou __repeat__
+
+
+```{r, eval = TRUE}
+for(i in 1:3){
+  if(i%%2 != 0) {
+    next
+  }
+  print(i)
+}
+````
+
+
+----
+
+## Un petit mot sur la vectorisation
+
+'_La vectorisation est le processus de conversion d'un programme informatique à partir d'une implémentation scalaire, qui traite une seule paire d'opérandes à la fois, à une implémentation vectorielle qui traite une opération sur plusieurs paires d'opérandes à la fois. Le terme vient de la convention de mettre les opérandes dans des vecteurs ou des matrices._' (Wikipédia)
+
+* [R](http://cran.r-project.org/) est un langage __interprété__
+* Beaucoup de calculs pouvant être réalisés par une boucle peuvent se faire en utilisant la vectorisation, avec une performance accrue : 
+    + opérations sur des vecteurs
+    + opérations sur des matrices ( = un ensemble de vecteurs)
+    + opérations sur des data.frame
+* Une performance accrue, pourquoi ?
+    + __R__, et ses fonctions "de base" sont codés en __C__, __Fortran__, ...
+    + avec l'utilisation efficace et optimisée dans "routines" d'algèbre linéaire (_BLAS_, _LAPACK_, ...)
+
+----
+
+### Cas exemple : la somme de deux vecteurs
+
+```{r, eval = TRUE}
+x <- rnorm(1000000)
+y <- rnorm(1000000)
+res <- integer(1000000)
+# calcul de la somme via une boucle
+system.time(for(i in 1:length(x)){
+  res[i] <- x[i] + y[i]
+})
+
+# avec la vectorisation
+system.time(res2 <- x + y)
+
+identical(res, res2)
+````
+
+
+----
+
+Y penser donc pour notamment :
+
+* opérations entre vecteurs / matrices
+
+```{r, eval = TRUE}
+x <- matrix(ncol = 2, nrow = 2, 1)
+y <- matrix(ncol = 2, nrow = 2, 2)
+
+z <- x + y
+z
+````
+
+* Création / modification de colonne
+
+```{r, eval = TRUE}
+data <- data.frame(x = 1:10, y = 100:109)
+data$z <- data$x + data$y
+head(data, n = 2)
+````

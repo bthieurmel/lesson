@@ -1,0 +1,69 @@
+
+## Gestion des erreurs et des messages
+
+Quand __R__ rencontre une erreur, il s'arrête net. Dans certains cas, on voudrait pouvoir continuer notre calcul. Trois fonctions sont diponibles dans R :
+
+* _try()_ : la plus simple pour contrôler l'apparition d'erreurs
+
+* _tryCatch()_ : la plus complète, avec la définition d'action en cas d'erreurs / warnings / messages
+
+* _withCallingHandlers()_ : une variante de tryCatch()
+
+```{r, eval = FALSE}
+test <- sapply(list(1:5,"a", 6:10), log)
+#>Error in FUN(X[[2L]], ...) : 
+#  non-numeric argument to mathematical function
+```
+
+----
+
+``try(expr, silent = FALSE)``
+
+* ``silent`` : affichage ou non d'erreur
+* retourne un objet de **class** ``try-error`` incluant le message d'erreur
+
+```{r, eval = TRUE}
+test <- sapply(list(1:2,"a"), function(x) try(log(x), silent = TRUE));test
+
+# on récupére un object de class "try-error", avec le message d'erreur
+class(test[[2]])
+test[[2]][1]
+```
+
+----
+
+``tryCatch(expr, ..., finally)``
+
+* ``error = function(e)`` : fonction à exécuter en cas d'erreur, ``e`` étant le message.
+* idem avec ``warning = function(e)`` et ``message = function(e)``
+
+Si ces fonctions sont définies, elles seront donc évaluées le cas échéant **ET le calcul sera arrêté**
+
+```{r, eval = TRUE}
+test <- tryCatch(log("a"), error = function(e){
+  print(e)
+  return(0)
+})
+
+test
+```
+
+
+----
+
+
+``withCallingHandlers(expr, ..., finally)``
+
+* ``error = function(e)`` : fonction à exécuter en cas d'erreur, ``e`` étant le message
+* idem avec ``warning = function(e)`` et ``message = function(e)``
+
+Si ces fonctions sont définies, elles seront donc évaluées le cas échéant **MAIS le calcul continuera**
+
+```{r, eval = TRUE}
+f <- function(){message("message") ; 0}
+test <- withCallingHandlers(f(), message = function(e){e})
+test
+# tryCatch
+test <- tryCatch(f(), message = function(e){e})
+test
+```
