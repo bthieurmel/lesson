@@ -49,6 +49,10 @@ mean(c(4, 10, 16))
 * Calculer la somme (``sum``) de 4, 10 et 16
 * Calculer la médiane (``median``) de 4, 10 et 16
 
+```{r}
+
+```
+
 ## Mise en mémoire
 
 Nous souhaitons stocker un vecteur pour le réutiliser. Nous devons donc affecter des valeurs à une variable. 
@@ -78,6 +82,9 @@ x
 * Calculer la longueur (``length``) de x.
 * Calculer le résumé numérique (``summary``) de x.
 
+```{r}
+
+```
 
 # Manipulation des vecteurs
 
@@ -148,6 +155,7 @@ max(c(NA, 1, 10), na.rm = T)
 max(c(-Inf, 1, 10))
 is.finite(c(-Inf, 1, 10))
 is.na(c(NA, 1, 10))
+which(is.na(c(NA, 1, 10)))
 is.nan(c(NaN, 1, 10))
 ```
 
@@ -158,15 +166,15 @@ is.nan(c(NaN, 1, 10))
 3. Créer le vecteur de 100 valeurs régulièrement espacées entre 0 et 1.
 4. Créer les vecteurs suivants :
 
-```{r}
+```{r, eval = FALSE}
 [1] 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5
 ```
 
-```{r}
+```{r, eval = FALSE}
 [1] 1 1 1 2 2 2 3 3 3 4 4 4 5 5 5
 ```
 
-```{r}
+```{r, eval = FALSE}
 [1] 1 1 2 2 2 3 3 3 3
 ```
 
@@ -207,6 +215,10 @@ vec1 <- runif(20) ; vec1[vec1 > 0.5] <- NA
 ```
 
 En utilisant le groupe d'ordre précédent, remplacez les valeurs manquantes de vec1 par 0 ; retournez sur la ligne précédente et l'interpréter.
+
+```{r}
+
+```
 
 # Importation et manipulation de fichiers
 
@@ -290,6 +302,10 @@ don1[1,] + don1[2,]
 ## Fusionner des tableaux
 
 Importer les tableaux **test1.csv**, **test2.csv** et **test3.csv** dans les variables ``don1``, ``don2`` et ``don3``.
+
+```{r}
+
+```
 
 Exécutez et commentez :
 

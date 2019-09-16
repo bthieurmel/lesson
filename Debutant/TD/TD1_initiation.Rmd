@@ -154,6 +154,7 @@ max(c(NA, 1, 10), na.rm = T)
 max(c(-Inf, 1, 10))
 is.finite(c(-Inf, 1, 10))
 is.na(c(NA, 1, 10))
+which(is.na(c(NA, 1, 10)))
 is.nan(c(NaN, 1, 10))
 ```
 

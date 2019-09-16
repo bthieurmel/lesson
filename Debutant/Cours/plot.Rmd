@@ -36,7 +36,7 @@ plot(x = grillex, y = fx, type = "s", col = "red")
   
 ### Type de points
 
-On gère le type des points avec __pch__ (_?points). __cex__ fixe la taille des p oints :
+On gère le type des points avec __pch__ (_?points). __cex__ fixe la taille des points :
 
 ```{r, eval = TRUE}
 plot(x = grillex, y = fx, col = "red", pch = 1:25, cex = c(1:2))
@@ -125,6 +125,19 @@ legend("bottomleft",legend="sin", col=1, lty=1)
 ````
 
 ----
+  
+### Plusieurs graphiques
+
+Utilisation de la fonction __par()__ et de l'argument __mfrow()__. Retour à une fenêtre unique : __dev.off()__
+
+```{r, eval = TRUE}
+par(mfrow = c(1, 2))
+plot(x = grillex, y = fx, type = "l")
+boxplot(fx)
+````
+
+
+----
 
 ## Les graphiques de statistique univariés
 
@@ -134,8 +147,8 @@ Les données d'exemples :
     + la température _T12_
     + l'ozone _maxO3_
 * deux variables qualitatives / facteurs : 
-    + le vent _vent_
-    + la pluie _pluie_   
+    + le vent
+    + la pluie
 
 ```{r, eval = TRUE}
 ozone <- read.csv("ozone_plot.txt", sep="")
@@ -149,7 +162,7 @@ summary(ozone)
 Disponible avec la fonction __boxplot()__
 
 ```{r, eval = TRUE}
-boxplot(ozone$maxO3, col = "darkblue", xlab = "maxO3")
+boxplot(ozone$maxO3, col = "dodgerblue4", xlab = "maxO3")
 ````
 
 ----
@@ -159,7 +172,7 @@ boxplot(ozone$maxO3, col = "darkblue", xlab = "maxO3")
 Disponible avec la fonction __hist()__
 
 ```{r, eval = TRUE}
-hist(ozone[,"maxO3"], main="Histogramme", xlab = "Ozone", col = "gold")
+hist(ozone[,"maxO3"], main = "Histogramme", xlab = "Ozone", col = "dodgerblue4")
 ````
 
 
@@ -168,7 +181,7 @@ hist(ozone[,"maxO3"], main="Histogramme", xlab = "Ozone", col = "gold")
 Ajout de l'estimateur à noyaux, avec la fonction __density()__
 
 ```{r, eval = TRUE}
-hist(ozone[,"T12"], prob=TRUE, col = "gold")
+hist(ozone[,"T12"], prob = TRUE, col = "olivedrab3")
 lines(density(ozone[,"T12"]))
 ````
 
@@ -180,7 +193,7 @@ lines(density(ozone[,"T12"]))
 Disponible avec la fonction __barplot()__
 
 ```{r, eval = TRUE}
-barplot(table(ozone[,"vent"]))
+barplot(table(ozone[,"vent"]), col = c("olivedrab3", "dodgerblue4"))
 ````
 
 
@@ -191,7 +204,7 @@ barplot(table(ozone[,"vent"]))
 Disponible avec la fonction __pie()__
 
 ```{r, eval = TRUE}
-pie(table(ozone[,"vent"])) 
+pie(table(ozone[,"vent"]), col = c("red", "blue", "darkgreen", "purple")) 
 ````
 
 
@@ -203,7 +216,8 @@ pie(table(ozone[,"vent"]))
 
 
 ```{r, eval = TRUE}
-plot(maxO3~T12,data=ozone) 
+plot(maxO3~T12, data = ozone, col = ozone$vent, pch = 20) 
+legend("topleft", legend = levels(ozone$vent), col = 1:4, pch = rep(20, 4))
 ````
 
 ----
@@ -212,7 +226,8 @@ plot(maxO3~T12,data=ozone)
 
 
 ```{r, eval = TRUE}
-plot(maxO3~vent, data=ozone)
+plot(maxO3~vent, data = ozone, 
+     col = RColorBrewer::brewer.pal(4,"Accent"))
 #  (=) boxplot(maxO3~vent,data=ozone)
 
 ````
@@ -222,7 +237,7 @@ plot(maxO3~vent, data=ozone)
 Et dans l'autre sens ? Peut-être un peu dur à lire...!
 
 ```{r, eval = TRUE}
-plot(vent~maxO3, data=ozone)
+plot(vent~maxO3, data = ozone)
 ````
 
 ----
@@ -230,7 +245,7 @@ plot(vent~maxO3, data=ozone)
 ### Qualitatif-Qualitatif
 
 ```{r, eval = TRUE}
-plot(pluie~vent, data=ozone)
+plot(pluie~vent, data = ozone)
 ````
 
 ----
@@ -256,13 +271,25 @@ __ggplot2__ a été développé par Hadley Wickham comme une implémentation de 
 C'est un package relativement complet et puissant. (http://ggplot2.org/, http://docs.ggplot2.org/current/, https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
 
 ```{r, eval = TRUE, echo = FALSE}
-require(ggplot2, quietly = TRUE)
+suppressWarnings(require(ggplot2, quietly = TRUE))
 ````
 
 ```{r, eval = TRUE}
 ggplot(mtcars, aes(wt, mpg)) + geom_point(aes(colour = factor(cyl)))
 ````
 
+----
+  
+### ggplot2 : utilisation du addin esquisse
+
+Le package __esquisse__ propose une interface _clique bouton- permettant de réaliser des graphiques __ggplot2__ pour ensuite les exporter et/ou récupérer le code R correspondant.
+
+```{r, eval = FALSE}
+esquisse:::esquisser(viewer = "browser")
+````
+
+
+![](images/esquisse.png){width="800px"}
 
 ----
   
@@ -270,7 +297,6 @@ ggplot(mtcars, aes(wt, mpg)) + geom_point(aes(colour = factor(cyl)))
 
 En utilisant des packages faisant le pont entre __R__ et des librairies __javascript__ : 
 
-* __googleVis__ : https://cran.r-project.org/web/packages/googleVis/vignettes/googleVis_examples.html
 * __htmlwidgets__ (http://www.htmlwidgets.org/) et tous ses enfants (http://gallery.htmlwidgets.org/) : 
     + __dygraphs__ pour les séries temporelles : http://rstudio.github.io/dygraphs
     + __leaflet__ pour les cartes : http://rstudio.github.io/leaflet/
@@ -280,3 +306,33 @@ En utilisant des packages faisant le pont entre __R__ et des librairies __javasc
     + __threejs__ (https://github.com/bwlewis/rthreejs) et __rglwidget__ (http://cran.at.r-project.org/web/packages/rglwidget/index.html) pour des représentations 3D
     + __plotly__ pour passer du __ggplot2__ en intéractif : https://plot.ly/r/
     + ....
+    
+----
+  
+### Graphiques intéractifs
+
+- Visibles dans le __Viewer__ de RStudio
+- Facilement intégrables à des documents __Rmarkdown__ et des applications __shiny__
+- Exportables en .html 
+
+
+```{r, eval = FALSE}
+suppressWarnings(require(dygraphs, quietly = T))
+lungDeaths <- cbind(mdeaths, fdeaths)
+g <- dygraph(lungDeaths)
+# affichage
+g
+
+# exportation
+htmlwidgets::saveWidget(g, file = "ex_dygraph.html")
+````
+
+```{r, eval = TRUE, echo=FALSE}
+suppressWarnings(require(dygraphs, quietly = T))
+lungDeaths <- cbind(mdeaths, fdeaths)
+dygraph(lungDeaths, width = "100%", height = "250px")
+````
+
+----
+
+

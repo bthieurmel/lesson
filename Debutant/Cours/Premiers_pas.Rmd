@@ -29,11 +29,11 @@ getwd()
 setwd("C:\\Users") # notation typée windows, on double les baskslash
 setwd("C:/Users") # notation typée linux, un slash
 getwd()
-````
+```
 
 ```{r, eval = TRUE, echo = FALSE}
 setwd("C:/Users/Datastorm/Documents/git/lesson/Debutant/Cours")
-````
+```
 
 ----
   
@@ -43,14 +43,14 @@ setwd("C:/Users/Datastorm/Documents/git/lesson/Debutant/Cours")
 
 ```{r, eval = FALSE}
 install.packages("ibr")
-````
+```
 
 * Chargement avec __library()__ ou __require()__ :
 
 ```{r, eval = FALSE}
 library(ibr)
 require(ibr)
-````
+```
 
 ### Trouver de l'aide
 
@@ -60,7 +60,7 @@ require(ibr)
 ```{r, eval = FALSE}
 ?mean
 help(stats)
-````
+```
 
 ----
   
@@ -96,7 +96,7 @@ X = 4
 objects() # les objets en mémoire
 
 x;X # on peut enchaîner les instructions avec un ;
-````
+```
 
 ----
  
@@ -110,7 +110,7 @@ rm(x, z)
 objects()
 exists("y")
 exists("z")
-````
+```
 
 ----
 
@@ -120,20 +120,20 @@ exists("z")
 
 ```{r, eval = TRUE}
 x <- c(1, 2, 3, 4) ; x
-````
+```
 
 * ajout d'éléments avec la concaténation
 
 ```{r, eval = TRUE}
 c(x, 5)
-````
+```
 
 * __rep()__ : répétitions
 
 ```{r, eval = TRUE}
 rep(c("A", "B"), times = 2)
 rep(c("A", "B"), each = 2)
-````
+```
 
 ----
 
@@ -143,7 +143,7 @@ rep(c("A", "B"), each = 2)
 seq(1, 10, by = 2)
 seq(1, 10, length = 4)
 1:5 # (=) seq(1, 5, by = 1)
-````
+```
 
 
 * vecteur nommé
@@ -151,7 +151,7 @@ seq(1, 10, length = 4)
 ```{r, eval = TRUE}
 y <- c(a = 1, b = 2)
 y
-````
+```
 
 ----
 
@@ -162,7 +162,7 @@ class(y);mode(y)
 length(y)
 names(y)
 names(x)
-````
+```
 
 
 ----
@@ -176,7 +176,7 @@ matrix(1:3)
 matrix(1:6, nrow = 2, ncol = 3)
 matrix(1:6, nrow = 2, ncol = 3, byrow = TRUE)
 
-````
+```
 
 ----
 
@@ -191,7 +191,7 @@ rbind(x, y)
 
 z <- matrix(5:7)
 cbind(x, z)
-````
+```
 
 **les nombres et les noms de lignes/colonnes doivent correspondre**
 
@@ -208,7 +208,7 @@ identical(mat, mat2)
 colnames(mat2) <- c("c1", "c2")
 rownames(mat2) <- c("r1", "r2")
 identical(mat, mat2)
-````
+```
 
 ----
 
@@ -219,7 +219,7 @@ class(mat)
 mode(mat)
 dim(mat) #nrow(mat); ncol(mat)
 colnames(mat);rownames(mat) #dimnames(mat)
-````
+```
 
 
 ----
@@ -230,13 +230,13 @@ colnames(mat);rownames(mat) #dimnames(mat)
 
 ```{r, eval = TRUE}
 list(1:5, LETTERS[1:2])
-````
+```
 
 * liste nommée
 ```{r, eval = TRUE}
 l <- list(nombres = 1:5, caracteres =LETTERS[1:2])
 l
-````
+```
 
 ----
 
@@ -246,7 +246,7 @@ l$boolean <- TRUE
 l[[2]] <- "remplacement de l'element 2"
 l[[5]] <- "nouvel d'un element en 5ième position"
 l
-````
+```
 
 ----
 
@@ -257,7 +257,7 @@ class(l)
 sapply(l, class)
 length(l)
 names(l)
-````
+```
 
 
 ----
@@ -270,12 +270,12 @@ Le **data.frame** est une **liste de vecteurs**
 
 ```{r, eval = TRUE}
 data.frame(nombres = 1:3, lettres = LETTERS[1:3])
-````
+```
 
 * ajout de rownames
 ```{r, eval = TRUE}
 data.frame(nombres = 1:3, lettres = LETTERS[1:3], row.names = paste0("r", 1:3))
-````
+```
 
 ----
 
@@ -290,7 +290,7 @@ rbind(x, y)
 
 z <- c(TRUE, FALSE)
 cbind(x, z) # (=) x$z <- c(TRUE, FALSE), list !
-````
+```
 
 **les nombres et les noms de lignes/colonnes doivent correspondre**
 
@@ -303,7 +303,7 @@ is.list(x) # un data.frame est en fait une liste...!
 class(x)
 sapply(x, class)
 dim(x) #nrow(x); ncol(x)
-````
+```
 ----
 
 ```{r, eval = TRUE}
@@ -311,7 +311,7 @@ colnames(x)
 rownames(x)
 head(x)
 tail(x, n = 1)
-````
+```
 
 ----
 
@@ -326,7 +326,7 @@ f
 levels(f) # les niveaux des facteurs
 nlevels(f) # le nombre de niveaux
 relevel(f, ref = "B") # changer le niveau de référence
-````
+```
 
 ----
 
@@ -335,14 +335,14 @@ relevel(f, ref = "B") # changer le niveau de référence
 x <- 1:10
 f <- cut(x, breaks=c(1,2,4,10),include.lowest=TRUE)
 f
-````
+```
 
 * Fusion / renommage de niveaux avec __levels()__
 ```{r, eval = TRUE}
 levels(f)
 levels(f) <- c("[1,4]", "[1,4]", "(4,10]")
 f
-````
+```
 
 ----
   
@@ -371,13 +371,13 @@ f
 x <- c(1:10)
 x[5]
 x[c(1, 10, 1)]
-````
+```
 
 **Par la suppression :**
 
 ```{r, eval = TRUE}
 x[-c(1:8)]
-````
+```
 
 ----
   
@@ -385,13 +385,13 @@ x[-c(1:8)]
 ```{r, eval = TRUE}
 x < 3
 x[x < 3]
-````
+```
 
 **Avec des noms :**
 ```{r, eval = TRUE}
 x <- c(a = 1, b = 2, c = 3)
 x["a"] ; x[["a"]] ; x[c("a", "b", "a")]
-````
+```
 
 ----
   
@@ -400,26 +400,26 @@ x["a"] ; x[["a"]] ; x[c("a", "b", "a")]
 ```{r, eval = TRUE}
 mat <- matrix(1:9, nrow = 3, ncol = 3, 
               dimnames = list(c("r1", "r2", "r3"), c("c1", "c2", "c3")))
-````
+```
 
 **Par les positions :**
 ```{r, eval = TRUE}
 mat[1:2, c(1, 3)]
 mat[-c(2),]
-````
+```
 
 
 **Par des logiques :**
 ```{r, eval = TRUE}
 mat[mat[, 1] == 1,]
-````
+```
 
 ----
   
 **Avec les noms :**
 ```{r, eval = TRUE}
 mat["r1","c1"]
-````
+```
 
 Attention quand on sélectionne une seule colonne, R renvoie un vecteur plutôt qu'une matrice. On contrôle cela avec l'option __drop = FALSE__
 
@@ -428,7 +428,7 @@ __C'est une des sources d'erreurs de code la plus fréquente !__
 ```{r, eval = TRUE}
 mat[, 1]
 mat[, 1, drop = FALSE]
-````
+```
 
 ----
   
@@ -441,7 +441,7 @@ dat[1:2, 1, drop = FALSE]
 dat[-c(2),]
 dat[dat$lettres %in% c("A", "C") == 1,]
 dat["r1","lettres"]
-````
+```
 
 
 ----
@@ -454,7 +454,7 @@ l[[1]] # on récupère l'élément de la liste
 l$caracteres
 l[1] # on récupère une liste
 l[c(1, 1)]
-````
+```
 
 
 ----
@@ -473,7 +473,7 @@ str(dat)
 ## liste
 l <- list(nombres = 1:5, caracteres =LETTERS[1:2])
 str(l)
-````
+```
 
 
 ----
@@ -489,7 +489,7 @@ summary(x)
 ## data.frame (même affichage pour les matrices)
 dat <- data.frame(nombres = 1:3, lettres = LETTERS[1:3])
 summary(dat)
-````
+```
 
 ----
   
@@ -504,7 +504,7 @@ sort(x)
 order(x)
 sort(x, decreasing = TRUE)
 order(x, decreasing = TRUE)
-````
+```
 
 
 ----
@@ -519,7 +519,7 @@ dat <- data.frame(nb = sample(1:10, 100, replace = T),
 head(dat, n = 2)
 table(dat$lt)
 table(dat$lt, dat$nb)
-````
+```
 
 ----
   
@@ -535,63 +535,7 @@ unique(x)
 duplicated(x)
 duplicated(x, fromLast = T)
 which(duplicated(x, fromLast = T)) # which retourne les indices TRUE
-````
-
-----
-
-## Quelques manipulations sur les data.frame
-
-* ajouter une nouvelle variable qui résulte d'un calcul entre d'autres variables : __transform()__
-
-```{r, eval = TRUE}
-dat <- data.frame(x = 1:3, y = c(10,20,30))
-dat <- transform(dat, z = x+y) # équivalent à dat$z = dat$x + dat$y
-head(dat)
-
-````
-
-* faire un subset sur les lignes : __subset()__
-
-```{r, eval = TRUE}
-subset(dat, x > 2) # dat[dat$x > 2, ]
-subset(dat, x > 1, select = c(y))
-
-````
-
-----
-
-* découper le jeu de données en fonction de critère : __split()__
-
-```{r, eval = TRUE}
-dat <- data.frame(x = 1:9, y = LETTERS[1:3])
-split(dat, dat$y)
-````
-
-**On récupère une liste**
-
-----
-
-* faire des calculs aggrégés : __aggregate()__
-
-```{r, eval = TRUE}
-aggregate(dat$x, by = list(dat$y), FUN = max)
-aggregate(dat$x, by = list(dat$y), FUN = mean)
-````
-
-----
-
-## Fusion de données
-
-* avec la fonction __merge()__
-    + contrôle des clés de jointure avec ``by`` (clés identiques) ou ``by.x`` et ``by.y`` (clés différentes)
-    + sens de la jointure avec ``all``, ``all.x`` et ``all.y``. 
-    
-```{r, eval = TRUE}
-dat <- data.frame(x = 1:3, y = LETTERS[1:3])
-dat2 <- data.frame(x = sample(1:3, 10, replace = T))
-merge(dat2, dat, by = "x")
-````
-
+```
 
 ----
 
@@ -614,9 +558,16 @@ write.table(dat,"C/temp/tab3.csv",sep = ";", row.names = FALSE, col.names = TRUE
 
 #importation
 dat <- read.table("C/temp/tab3.csv",sep = ";", header = TRUE)
-````
+```
 
 ----
+
+* importation et exportation plus rapide avec le package __data.table__
+
+```{r, eval = FALSE}
+fwrite(dat,"C/temp/tab3.csv")
+dat <- fread("C/temp/tab3.csv")
+```
 
 ### fichiers .xlsx / .xls
 
@@ -631,9 +582,192 @@ dat <- read.table("C/temp/tab3.csv",sep = ";", header = TRUE)
 ```{r, eval = FALSE}
 require(sas7bdat)
 sasdata <- read.sas7bdat("raw_sas.sas7bdat")
-````
+```
 
 * avec le package __foreign__ (format xport)
+
+----
+
+### En utilisant l'interface de RStudio
+
+![](images/import.png){width="1200px"}
+
+----
+
+## Quelques manipulations sur les data.frame
+
+* ajouter une nouvelle variable qui résulte d'un calcul entre d'autres variables : __transform()__
+
+```{r, eval = TRUE}
+dat <- data.frame(x = 1:3, y = c(10,20,30))
+dat <- transform(dat, z = x+y) # équivalent à dat$z = dat$x + dat$y
+head(dat)
+
+```
+
+* faire un subset sur les lignes : __subset()__
+
+```{r, eval = TRUE}
+subset(dat, x > 2) # dat[dat$x > 2, ]
+subset(dat, x > 1, select = c(y))
+
+```
+
+----
+
+* découper le jeu de données en fonction de critère : __split()__
+
+```{r, eval = TRUE}
+dat <- data.frame(x = 1:9, y = LETTERS[1:3])
+split(dat, dat$y)
+```
+
+**On récupère une liste**
+
+----
+
+* faire des calculs aggrégés : __aggregate()__
+
+```{r, eval = TRUE}
+aggregate(dat$x, by = list(dat$y), FUN = max)
+aggregate(dat$x, by = list(dat$y), FUN = mean)
+```
+
+----
+
+* Sur plusieurs colonnes : 
+
+```{r, eval = TRUE}
+aggregate(state.x77, list(Region = state.region), mean)
+```
+
+__Pour aller plus loin__ : ?apply, ?lapply, ?tapply
+
+----
+
+## Fusion de données
+
+* avec la fonction __merge()__
+    + contrôle des clés de jointure avec ``by`` (clés identiques) ou ``by.x`` et ``by.y`` (clés différentes)
+    + sens de la jointure avec ``all``, ``all.x`` et ``all.y``. 
+    
+```{r, eval = TRUE}
+dat <- data.frame(x = 1:3, y = LETTERS[1:3])
+dat2 <- data.frame(x = sample(1:3, 10, replace = T))
+merge(dat2, dat, by = "x")
+```
+
+
+----
+
+## Introduction aux fonctions
+
+On définit une nouvelle fonction avec la syntaxe suivante :
+
+    fun <- function(arguments) expression
+
+* __fun__ le nom de la fonction 
+* __arguments__ la liste des arguments, séparés par des virgules. _formals(fun)_
+* __expression__ le corps de la fonction. une seul expression, ou plusieurs entre des accolades. _body(fun)_
+
+```{r, eval = TRUE}
+squared <- function(x){
+  x^2
+}
+
+squared(2)
+```
+
+
+------
+
+### Les arguments
+
+* __Valeur par défaut__ 
+    + via une affetaction, avec '=', dans la définition de la fonction 
+    + optionnel lors de l'appel
+    
+```{r, eval = FALSE}
+mysum <- function(x, y = 2){
+  x + y
+}
+mysum(x = 2)           # 4        
+mysum(x = 2, y = 10)   # 12
+```
+
+
+* __Dépendances entre arguments__
+
+On peut définir un argument en fonction d'autres arguments
+
+```{r, eval = FALSE}
+# avec une expression simple
+mysum2 <- function(x, y = x + 10)  x + y
+mysum2(5)  # 20
+
+```
+
+------
+
+### Retourner un résultat
+
+Une fonction retourne par défaut le résultat de la dernière expression
+```{r, eval = TRUE}
+mysum <- function(x, y = 2){
+  x + y
+}
+        
+somme <- mysum(x = 2, y = 10)
+somme
+```
+
+* Renvoi d'un résultat avant la fin de la fonction : fonction _return()_
+* Retour de plusieurs résultats : liste nommée.
+
+```{r, eval = TRUE}
+exemple <- function(x, y){
+  if(y == 0){
+    return(x)
+  }
+  list(x = x, y = y)
+}
+```
+
+------
+
+### Comprendre les '...'
+
+* Signifie que la fonction accepte d'autres arguments que ceux définis explicitement
+* Sert généralement à passer ces arguments à une autre fonction
+* Se récupère facilement avec : _list(...)_
+
+```{r, eval = FALSE}
+viewdot <- function(arg, ...){
+  list(...)
+}
+viewdot(arg = 1, x = 2, name = "name")
+
+#$x
+#[1] 2
+#
+#$name
+#[1] "name"
+
+rnormPlot <- function(n, mean = 0, sd = 1, ...){
+  plot(rnorm(n = n, mean = mean, sd = sd), ...)
+}
+rnormPlot(n = 100, main = "Comprendre les ...", col = "red", pch = 10)
+```
+
+
+------
+
+```{r, eval = TRUE, echo = FALSE, fig.width=13, fig.height=6}
+rnormPlot <- function(n, mean = 0, sd = 1, ...){
+  plot(rnorm(n = n, mean = mean, sd = sd), ...)
+}
+rnormPlot(n = 100, main = "Comprendre les ...", col = "red", pch = 10)
+```
 
 ----
 
@@ -650,7 +784,7 @@ x <- 1:10
 l <- list(a = 1, b = LETTERS[1:3])
 save(x, l, file = "data.RData")
 load(file = "data.RData")
-````
+```
 
 Cette utilisation peut poser problème si des variables du même nom existent déjà dans l'environnement lors du chargement.
 
@@ -668,7 +802,7 @@ Cette utilisation peut poser problème si des variables du même nom existent d�
 x <- 1:10
 saveRDS(x, file = "data.RDS")
 y <- readRDS(file = "data.RDS")
-````
+```
 
 
 ----
@@ -699,7 +833,7 @@ con <- dbConnect(dbDriver("PostgreSQL"), host = "myserver", port = 123,
                  dbname = "database", user = "benoit", password = "security")
 res <- dbGetQuery(con, "SELECT * FROM mytable")
 dbDisconnect(con)
-````
+```
 
 Et aussi : 
 
@@ -722,6 +856,8 @@ Et aussi :
 * __range()__
 * __quantile()__
 
+Faire attention aux données manquantes. Utilisation de l'argument ``na.rm = TRUE`` pour les retirer des calculs.
+
 ----
 
 ## Fonctions de distributions
@@ -738,4 +874,4 @@ avec __xxx__ nom de la loi (_norm_, _unif_, _pois_, _gamma_, ...)
 ```{r, eval = TRUE}
 val <- rnorm(100)
 mean(val);sd(val)
-````
+```
