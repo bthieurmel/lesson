@@ -22,9 +22,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 6. Construire maintenant une fonction **compareFact**, permettant le calcul factorielle avec, au choix, les 3 types de boucles et fonctions précédentes : 
     + deux arguments : un entier ``n``, et le type de boucle ``type``, avec la valeur par défaut ``for``
-    + utiliser un ``switch`` pour traiter le calcul et le choix de la boucle
+    + utiliser un ``switch`` traiter le calcul et le choix de la boucle
     + contrôler l'argument ``n`` (type, valeur positive, ...)  et renvoyer des erreurs / messages explicites le cas échéant
     + contrôler l'argument ``type`` en utilisant ``try`` et ``match.arg``
+    + ajouter un message indiquant le type de boucle choisi
     + gérer le cas ``0! = 1``
     + commenter votre fonction suivant la convention **doxygen**
 
@@ -50,7 +51,7 @@ require(microbenchmark)
 
 ## Apply family
 
-Rappelons-nous qu'en  **R**, un ``data.frame`` est en fait une ``list``...
+Rappelons nous qu'en  **R**, un ``data.frame`` est en fait une ``list``...
 
 ```{r, echo = T, eval = F}
 # données disponibles ici :
@@ -70,15 +71,17 @@ data$arr_time[1:10] <- NA
 3. Re-calculer les moyennes en gérant les données manquantes
 
 
-4. Avec un ``apply`` et **un seul**, calculer et retourner le minimun et le maximum des colonnes numériques (*indice : utiliser une fonction*)
+4. Avec un ``apply`` et **un seul**, calculer le minimun, la médiane, la moyenne, et le maximum des colonnes numériques (sans utiliser ``summary``...!)
 
 5. Faire la même chose, mais avec un ``sapply``
 
-6. Créer une nouvelle colonne *itinerary*, concaténation des colonnes *origin* et *dest* (``paste``)
+6. Ajouter un "template" (argument ``FUN.VALUE``) avec un ``vapply``
 
-7. Calculer le coefficient de variation (ecart-type / moyenne) du temps de vol *air_time* par itinéraire. (Utiliser un ``tapply`` et un ``aggregate`` et comparer le temps d'éxécution). Quel itinéraire a le plus grand coefficient de variation ? 
+7. Créer une nouvelle colonne *itinerary*, concaténation des colonnes *origin* et *dest*
 
-8. Calculer la vitesse moyenne de l'ensemble des vols (``vitesse`` = ``distance`` / ``air_time``) des trois façons suivantes, et comparer les temps de calculs (``system.time``)
+8. Calculer le coefficient de variation (ecart-type / moyenne) du temps de vol *air_time* par itinéraire. Quel itinéraire a le plus grand coefficient de variation ?
+
+9. Calculer la vitesse (``distance`` / ``air_time``) des trois façons suivantes, et comparer les temps de calculs (``system.time``)
     + en utilisant une boucle ``for``
     + en utilisant les propiétés de la vectorisation
     + en utilisant la fonction ``mapply``

@@ -125,14 +125,14 @@ y <- 10
 (x == 1 & y == 9)  # FALSE
 ````
 
-* __|__ : opérateur logique 'OR'. Vrai si au-moins une des deux conditions est vrai, faux sinon
+* __|__ : opérateur logique 'OR'. Vrai si au-moins une des deux conditions est vraie, faux sinon
 ```{r, eval = FALSE}
 (x == 1 | y == 10)   # TRUE
 (x == 1 | y == 9)    # TRUE
 (x == 2 | y == 9)    # FALSE
 `````
 
-* __xor__ : opérateur logique 'OR' exclusif. Vrai si une et une seule condition est vrai, faux sinon
+* __xor__ : opérateur logique 'OR' exclusif. Vrai si une et une seule condition est vraie, faux sinon
 ```{r, eval = FALSE}
 xor(TRUE, FALSE) # TRUE
 xor(TRUE, TRUE)  # FALSE
@@ -143,7 +143,7 @@ xor(TRUE, TRUE)  # FALSE
 ## Les boucles
 
 * Rarement efficaces...
-* Donc à utliser avec précautions dans __R__
+* Donc à utiliser avec précautions dans __R__
 * Utiliser de préférence les propriétés offertes par la __vectorisation__, et la __"Apply Family"__
 
 ### For
@@ -169,7 +169,7 @@ for(lettre in LETTERS[1:2]){
 
 * Tant que la condition est vrai, on continue
     + Si elle est fausse au départ, rien ne s'éxécute
-    + Si elle est toujours vrai, ou si il n'y a pas de sortie __explicite__, elle continue à tourner...!
+    + Si elle est toujours vraie, ou s'il n'y a pas de sortie __explicite__, elle continue à tourner...!
 
 ```{r, eval = FALSE}
 while(condition){

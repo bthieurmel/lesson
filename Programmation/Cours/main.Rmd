@@ -1,8 +1,8 @@
----
+--- 
   output: 
     slidy_presentation:
-      highlight: default
-      footer: "Programmation avec R - benoit.thieurmel@datastorm.fr"
+      highlight: kate
+      footer: "Programmation avec R"
 ---
 
 
@@ -13,7 +13,7 @@
 
 
 <img src="images/R1.jpg" alt="Drawing" style="width: 200px;"/>
-<img src="images/datastorm.png" alt="Drawing" style="width: 400px;"/>
+<img src="images/logo_ds_2018.png" alt="Drawing" style="width: 350px;"/>
 
 
 </div>

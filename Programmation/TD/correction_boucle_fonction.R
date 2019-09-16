@@ -103,8 +103,6 @@ compareFact <- function(n, type = "for"){
   type <- try(match.arg(type, c("for", "while", "repeat")), silent = TRUE)
   if(class(type) == "try-error"){
     stop("type doit être 'for', 'while', ou 'repeat'")
-  }else{
-    # message("La boucle utilisée est : ", type)
   }
   
   # cas n == 0

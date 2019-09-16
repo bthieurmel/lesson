@@ -5,7 +5,7 @@
 
 Librement inspiré du [Style Guide, by Hadley Wickham](http://adv-r.had.co.nz/Style.html)
 
-* C'est important d'adopter des bonnes pratiques de codages :
+* C'est important d'adopter des bonnes pratiques de codage :
     + permettre une lecture et une compréhension simple et rapide du code
     + tant pour le(s) développeur(s), que pour les utilisateurs, et favoriser le travail collaboratif
 
@@ -20,26 +20,26 @@ aze=data.frame(cole=rnorm(1000),refdzf=LETTERS[1:2]);ff=lapply(split(aze$cole,az
 ```{r, eval = FALSE}
 # c'est mieux quand même... ?
 data <- data.frame(value = rnorm(1000), group = LETTERS[1:2])
-mean.group <- lapply(
+mean_group <- lapply(
   split(data$value, data$group),
   function(x){
     mean(x)
   })
-mean.group
+mean_group
 ````
 
 ----
   
 ### Fichiers
   
-Les noms doivent être __explicites__ et se terminer par `.R`. Si les scripts sont ordonnés, les pré-fixés par un numéro.
+Les noms doivent être __explicites__ et se terminer par `.R`. Si les scripts sont ordonnés, les pré-fixer par un numéro.
 
     # Good            # Bad         0-download.R
     modelisation.R    toto.r        1-parse.R
 
 ### Variables et fonctions
 
-* Noms __courts__ et __explicites__, de préférence en minuscule, en évitant d'utiliser des noms de fonctions connues...
+* Noms __courts__ et __explicites__, de préférence __en minuscule__, en évitant d'utiliser des noms de fonctions connues...
 * Utilisation d'un underscore (`_`) pour séparer les noms. Eviter le point (`.`), il peut amener de mauvaises intéractions avec d'autres langages (java, javascript, ...)
 * Variable == noms,  fonctions == verbes, autant que possible....
 * __Pas d'accents !__
@@ -79,11 +79,33 @@ plot(x, y)                 plot (x, y)
 ```
 
 ----
+
+### Namespace et appel d'une fonction
+
+* `::`  accès aux fonctions exportées d'un package
+* `:::` accès aux fonctions *cachées* d'un package
+
+**Bonne pratique** 
+
+* essayer de toujours préfixer l'appel à une fonction par `::`
+    + meilleure lisibilité des appels / dépendances
+    + évite des conflits potentiels : deux fonctions du même nom dans deux packages différents...
+* éviter l'utilisation des fonctions *cachées* `:::`
+
+```{r, eval = FALSE}
+require(FactoMineR)
+
+# Good
+FactoMineR::PCA(X, scale.unit = TRUE)
+```
+
+
+----
   
 ### Accolades et indentation
   
-* L'ouverture d'une accolade doit __toujours__ être suivi d'un passage à la ligne. 
-* La fermeture d'un accolade doit être suivi d'un passage à la ligne, sauf dans le cas d'un __else__
+* L'ouverture d'une accolade doit __toujours__ être suivie d'un passage à la ligne. 
+* La fermeture d'un accolade doit être suivie d'un passage à la ligne, sauf dans le cas d'un __else__
 * Le code à l'interieur des acccolades doit être indenté
 
 ```{r, eval = FALSE}
@@ -124,6 +146,7 @@ x = 5
 ### Commentaires
 
 * Commenter son code, toujours dans un soucis de lecture et de collaboration. __Raccourci RStudio : Ctrl+Shift+C__
+* un commentaire comportant au-moins ``----`` crée une section pouvant être réduite
 
 ```{r, eval = FALSE}
 # Load data ---------------------------

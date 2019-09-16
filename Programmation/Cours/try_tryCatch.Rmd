@@ -24,7 +24,7 @@ environment(test) # <environment: R_GlobalEnv>
 ### Les arguments
 
 * __Valeur par défaut__ 
-    + via une affectation, avec '=', dans la définition de la fonction 
+    + via une affetaction, avec '=', dans la définition de la fonction 
     + optionnel lors de l'appel
     
 ```{r, eval = FALSE}
@@ -37,7 +37,7 @@ test(x = 2, y = 10)   # 12
 
 * __Quelques fonctions utiles de contrôle :__
     + _missing(arg)_ : retourne TRUE si l'argument est manquant lors de l'appel
-    + _match.arg()_ : permet de renseigner le paramètre partiellement (ex : "p" pour point)
+    + _match.arg()_ : en cas d'input tronqué...
     + _typeof(arg)_, _class(arg)_, _is.vector()_, _is.data.frame()_, ....
 ```{r, eval = FALSE}
 match.arg("mea", c("mean", "sum", "median"))  # "mean"
@@ -231,7 +231,7 @@ x
 
 
 * Via l'opérateur d'affectation `<<-`, on peut affecter au modifier une variable __globale__
-* Autant que possible __non-recommandé__...!
+* Autant que possible non-recommandé...!
 
 ```{r, eval = TRUE}
 x <- 100
@@ -271,9 +271,8 @@ test(5)
 #> 10
 ```
 
-* __R__ va chercher une variable d'une même nom dans les environnements _parents_. Pratique également à éviter. 
-
-__Il faut passer tous les arguments en paramètres, et retourner l'ensemble des résultats souhaités en sortie__
+* __R__ va chercher une variable d'une même nom dans les environnements _parents_. 
+* Pratique également à éviter. Il faut mieux passer __tous__ les arguments en paramètres
 
 ----
 
@@ -342,6 +341,36 @@ try(test())
 test("5")
 ```
 
+
+----
+
+### Gestion des erreurs et des messages
+
+Quand __R__ rencontre une erreur, il s'arrête net. Dans certains cas, on voudrait pouvoir continuer notre calcul. Trois fonctions sont diponibles dans R :
+
+* _try()_ : la plus simple, pour continuer l'éxécution malgré une erreur
+
+* _tryCatch()_ : permet de décider de ce qui se passe quand le code rencontre une erreur, un warning, ou un message
+
+* _withCallingHandlers()_ : une variante de tryCatch()
+
+```{r, eval = FALSE}
+test <- sapply(list(1:5,"a", 6:10), log)
+#>Error in FUN(X[[2L]], ...) : 
+#  non-numeric argument to mathematical function
+```
+
+----
+
+```{r, eval = TRUE}
+test <- sapply(list(1:5,"a", 6:10), function(x) try(log(x), silent = TRUE))
+test
+
+# on récupére un object de class "try-error", avec le message d'erreur
+class(test[[2]])
+test[[2]][1]
+```
+
 ----
 
 ### Et la documentation dans tout ça ?
@@ -355,7 +384,7 @@ __Adopter la convention _doxygen_ __
 
 * simple d'utilisation
 * utiliser dans de nombreux langages de programmation
-* via le package [roxygen2](https://cran.r-project.org/web/packages/roxygen2/vignettes/roxygen2.html), vous simplifiera ensuite la vie si vous créez des packages ! 
+* via le package [roxygen2](https://cran.r-project.org/web/packages/roxygen2/vignettes/roxygen2.html), vous simplifiera ensuite la vie si vous créer des packages ! 
 
 __Utilisation dans R__
 
@@ -370,18 +399,6 @@ __Les balises indispensables__
 * @param : pour les arguments
 * @return : pour le résultat
 * @examples : pour les exemples
-* @import : packages dépendants utilisés
-* @importFrom : packages dépendants utilisés (mais importation uniquement de quelques fonctions)
-
-**Penser à préfixer le nom des fonctions utilisées par le ``package::fonction``, et cela même pour les packages de base** :
-
-```{r, eval = FALSE}
-# Bad                         # Good
-res_pca <- PCA(decathlon)     res_pca <- FactoMineR::PCA(decathlon)
-```
-
-
-----
 
 ```{r, eval = TRUE}
 #' le titre de ma fonction
@@ -394,85 +411,15 @@ res_pca <- PCA(decathlon)     res_pca <- FactoMineR::PCA(decathlon)
 #' 
 #' @return : Character. Identification de la personne
 #' 
-#' @importFrom base paste0
-#'
 #' @examples
 #' # les examples sont éxécutables dans RStudio avec Ctrl+Entrée
-#' identify("Thieurmel", "Benoit")
-identify <- function(nom, prenom){
-  base::paste0("Nom :", nom, ", prénom : ", prenom)
+#' identifier("Thieurmel", "Benoit")
+identifier <- function(nom, prenom){
+  paste0("Nom :", nom, ", prénom : ", prenom)
 }
 ```
 
-----
-
-## Gestion des erreurs et des messages
-
-Quand __R__ rencontre une erreur, il s'arrête net. Dans certains cas, on voudrait pouvoir continuer notre calcul. Trois fonctions sont diponibles dans R :
-
-* _try()_ : la plus simple pour contrôler l'apparition d'erreurs
-
-* _tryCatch()_ : la plus complète, avec la définition d'action en cas d'erreurs / warnings / messages
-
-* _withCallingHandlers()_ : une variante de tryCatch()
-
-```{r, eval = FALSE}
-test <- sapply(list(1:5,"a", 6:10), log)
-#>Error in FUN(X[[2L]], ...) : 
-#  non-numeric argument to mathematical function
-```
-
-----
-
-``try(expr, silent = FALSE)``
-
-* ``silent`` : affichage ou non d'erreur
-* retourne un objet de **class** ``try-error`` incluant le message d'erreur
-
-```{r, eval = TRUE}
-test <- sapply(list(1:2,"a"), function(x) try(log(x), silent = TRUE));test
-
-# on récupére un object de class "try-error", avec le message d'erreur
-class(test[[2]])
-test[[2]][1]
-```
-
-----
-
-``tryCatch(expr, ..., finally)``
-
-* ``error = function(e)`` : fonction à exécuter en cas d'erreur, ``e`` étant le message.
-* idem avec ``warning = function(e)`` et ``message = function(e)``
-
-Si ces fonctions sont définies, elles seront donc évaluées le cas échéant **ET le calcul sera arrêté**
-
-```{r, eval = TRUE}
-test <- tryCatch(log("a"), error = function(e){
-  print(e)
-  return(0)
-})
-
-test
-```
 
 
-----
-
-
-``withCallingHandlers(expr, ..., finally)``
-
-* ``error = function(e)`` : fonction à exécuter en cas d'erreur, ``e`` étant le message
-* idem avec ``warning = function(e)`` et ``message = function(e)``
-
-Si ces fonctions sont définies, elles seront donc évaluées le cas échéant **MAIS le calcul continuera**
-
-```{r, eval = TRUE}
-f <- function(){message("message") ; 0}
-test <- withCallingHandlers(f(), message = function(e){e})
-test
-# tryCatch
-test <- tryCatch(f(), message = function(e){e})
-test
-```
 
 

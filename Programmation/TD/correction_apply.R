@@ -23,15 +23,15 @@ sapply(X = data[, columns_type == "integer"], FUN = function(col){
   c(min(col, na.rm = TRUE), max(col, na.rm = TRUE))
 })
 
-#6. min,max... vapply
+#5. min,max... vapply
 vapply(X = data[, columns_type == "integer"], FUN = function(col){
   c(min(col, na.rm = TRUE), max(col, na.rm = TRUE))
 }, FUN.VALUE = c(Min. = 0, Max. = 0))
 
-#7. nouvelle colonne itinerary
+#6. nouvelle colonne itinerary
 data$itinerary <- paste(data$origin, data$dest, sep = "-")
 
-#8. CV du temps de vol par itinéraire
+#7. CV du temps de vol par itinéraire
 
 # aggregate
 system.time({
@@ -55,9 +55,7 @@ system.time({
 })
 cv_3[which.max(cv_3)]
 
-
-
-#9. Performance
+#8. Performance
 
 system.time(v1 <- mean(data$distance / data$air_time))
 
