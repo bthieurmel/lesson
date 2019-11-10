@@ -1,6 +1,37 @@
-# Customisation avec du CSS
+# Pour aller plus loin : HTML / CSS
 
-## Customisation avec du CSS | Introduction
+## HTML / CSS | __Inclure du HTML__
+
+De nombreuses balises __html__ sont disponibles avec les fonctions ``tags`` :
+
+```{r, echo = FALSE}
+names(tags)
+```
+
+-----
+
+<div style="text-align:center" markdown="1">
+<img src="img/tags.png" alt="Drawing" style="width: 100%;">
+</div>
+
+C'est également possible de passer du code __HTML__ directement en utilisant la fonction du même nom :
+
+```{r, eval = FALSE}
+fluidPage(
+  HTML("<h1>My Shiny App</h1>") 
+)
+```
+
+## HTML / CSS | __Quelques balises utiles__
+
+- ``div(..., align = "center")`` : centrer les éléments
+- ``br()`` : saut de ligne
+- ``hr()`` : trait horizontal
+- ``img(src="img/logo.jpg", title="Popup", width = "80%")`` : insertion d'une image présente dans **www/img**
+- ``a(href="https://r2018-rennes.sciencesconf.org/", target="_blank", "Rencontres R")`` : lien vers un site
+- ``a(href = './doc/guide.pdf', target="_blank", class = "btn", icon("download"), 'Télécharger  le guide utilisateur')`` : lien de téléchargement d'un document présent dans **www/doc**
+
+## HTML / CSS | CSS : introduction
 
 __Shiny__ utilise [Bootstrap](http://getbootstrap.com/) pour la partie __CSS__.
 
@@ -14,13 +45,13 @@ Il y a une notion d'ordre et de priorité sur ces trois informations : le __CSS_
 
 On peut aussi utiliser le package [shinythemes](http://rstudio.github.io/shinythemes)
 
-## Customisation avec du CSS  | Avec un .css externe
+## HTML / CSS  | Avec un .css externe
 
 On peut par exemple aller prendre un thème sur [bootswatch](http://bootswatch.com/).
 
 - Deux façons pour le renseigner : 
-    + argument ``theme`` dans ``fluidPage``
-    + ou avec un tags html : ``tags$head`` et ``tags$link``
+      + argument ``theme`` présent dans certaines fonctions (``fluidPage``, ``navbarPage``, ...)
+      + ou avec un tags html : ``tags$head`` et ``tags$link``
 
 ```{r, eval = FALSE}
 library(shiny)
@@ -40,7 +71,7 @@ shinyAppDir(appDir = "shinyApps/customCSS/cssfile")
 ```
 
 
-## Customisation avec du CSS  | Ajout de css dans le header
+## HTML / CSS  | Ajout de css dans le header
 
 - Le __CSS__ inclut dans le header sera prioritaire au __CSS__ externe
 - inclusion avec les tags html : ``tags$head`` et ``tags$style``
@@ -62,7 +93,7 @@ shinyAppDir(appDir = "shinyApps/customCSS/cssheader")
 ```
 
 
-## Customisation avec du CSS  | CSS sur un élément
+## HTML / CSS  | CSS sur un élément
 
 Pour finir, on peut également passer directement du __CSS__ aux éléments __HTML__ :
 

@@ -165,8 +165,6 @@ rmarkdown::render_delayed({
 
 __Dans certains cas, nous souhaitons définir des inputs ou des structures côté server__
 
-__L'exemple typique étant de créer un input dépendant d'un fichier utilisateur, comme lister les colonnes présentes__
-
 Cela est possible avec les fonctions ``uiOutput`` et ``renderUI``
 
 ## Outputs | Définir des élements de l'UI côté SERVER | Exemple simple

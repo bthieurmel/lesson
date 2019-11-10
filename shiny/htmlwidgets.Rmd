@@ -8,7 +8,6 @@ Avec notamment l'arrivée du package [htmlwidgets](http://www.htmlwidgets.org/),
 * [DT (interactive tables)](http://rstudio.github.io/DT/)
 * [Leafet (maps)](http://rstudio.github.io/leaflet/)
 * [d3heatmap](https://github.com/rstudio/d3heatmap)
-* [threejs (3d scatter & globe)](http://bwlewis.github.io/rthreejs)
 * [rAmCharts](http://datastorm-open.github.io/introduction_ramcharts/)
 * [visNetwork](http://datastorm-open.github.io/visNetwork)
 * ...
@@ -32,6 +31,29 @@ output$dygraph <- renderDygraph({
 # Ui
 dygraphOutput("dygraph")
 ```
+
+## Graphiques intéractifs | Utilisation dans shiny
+
+Ces packages arrivent souvent avec des méthodes permettant d'intéragir avec le graphique, en créant des inputs dans **shiny** afin de déclencher des actions . Par exemple : 
+
+- __DT__ : création de *input$tableId_rows_selected*, nous informant sur la/les lignes sélectionnée(s)
+- __Leaflet__ : valeurs du zoom, des clicks, de la latitude/longitude, ...
+- __visNetwork__ : noeuds / groupes sélectionnés, ...
+
+Ces points sont (en général) expliqués sur les pages web des différents packages...
+
+## Graphiques intéractifs | Utilisation dans shiny
+
+De plus, il est également possible d'utiliser de nombreux événements javascripts, et de crééer des nouvelles intéractions avec **shiny** en utilisant *Shiny.onInputChange* : 
+
+```{r, eval = FALSE}
+visNetwork(nodes, edges) %>%
+      visEvents(hoverNode = "function(nodes) {
+        Shiny.onInputChange('current_node_id', nodes);
+      ;}")
+```
+
+<https://shiny.rstudio.com/articles/js-send-message.html>
 
 ## Graphiques intéractifs
 
@@ -73,7 +95,7 @@ rmarkdown::render_delayed({
       output$map <- renderLeaflet({
         leaflet() %>%
           addProviderTiles("CartoDB.Positron") %>%
-          addMarkers(lng = -1.62, lat = 47.2428, popup = "<b>Biofortis</b> <br/> 3 Route de la Chatterie <br/>  44800 Saint-Herblain")
+          addMarkers(lng = -1.70, lat = 48.11, popup = "<b>7e Rencontres R</b> <br/> Agrocampus-Ouest <br/>  35 000 Rennes")
       })
     }
   )

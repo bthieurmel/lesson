@@ -1,12 +1,10 @@
 ---
-title: "Présentation R - Shiny"
+title: "Premiers pas avec shiny... et les packages de visualisation interactive"
 author: "B.Thieurmel, benoit.thieurmel@datastorm.fr"
-date: "21/04/2017"
 output:
   ioslides_presentation:
     css: css/shiny_niv1.css
     highlight: tango
-    smaller: no
     transition: slower
     widescreen: yes
 runtime: shiny
@@ -15,16 +13,13 @@ runtime: shiny
 ## Summary
 
 1. Introduction
-2. Intéractivité et communication
-3. Structure d'une application
+2. Structure d'une application
+3. Intéractivité et communication
 4. Inputs & outputs
-5. Structurer sa page / CSS
+5. Structurer sa page
 6. Graphiques intéractifs
-7. Expressions réactives
-8. Isolation
-9. Observe & fonctions d'update
-10. Conditionnal Panels
-11. Techniques de débogage
+7. HTML / CSS
+8. Pour aller plus loin
 
 ## Shiny : créer des applications web avec le logiciel R
 
@@ -33,11 +28,15 @@ __Shiny__ est un package __R__ qui permet la création simple d'applications web
 - pas de connaissances _web_ nécessaires
 - le pouvoir de calcul de R et l'intéractivité du web actuel
 - pour créer des applications locales
-- ou partagées avec l'utilisation __shiny-server__
+- ou partagées avec l'utilisation de __shiny-server__, __shinyapps.io__, __shinyproxy__
 
-Plus de détails sur __Shiny__ <http://shiny.rstudio.com>.
+<http://shiny.rstudio.com>
 
-Plus de détails sur l'utilisation de __shiny-server__ : <https://www.rstudio.com/products/shiny/shiny-server/>.
+<http://www.shinyapps.io/>
+
+<https://www.shinyproxy.io/>
+
+<https://www.rstudio.com/products/shiny/shiny-server/>.
 
 ----
 
@@ -52,6 +51,7 @@ Une application __shiny__ nécessite un ordinateur/un serveur éxécutant __R__
 - Initialiser une application est simple avec __RStudio__, en créant un nouveau projet
 
     * File > New Project > New Directory > Shiny Web Application
+    * OU File > New File > Shiny Web App > Multiple File
     * Basée sur deux scripts : ui.R et server.R
     * Et utilisant par défaut le sidebar layout
 
@@ -77,6 +77,8 @@ Une application __shiny__ nécessite un ordinateur/un serveur éxécutant __R__
 <img src="img/stop.png" alt="Drawing" style="height: 70%">
 </div>
 
+```{r child = 'application.Rmd'}
+```
 
 ```{r child = 'interactivity.Rmd'}
 ```
@@ -87,13 +89,7 @@ Une application __shiny__ nécessite un ordinateur/un serveur éxécutant __R__
 ```{r child = 'output.Rmd'}
 ```
 
-```{r child = 'application.Rmd'}
-```
-
 ```{r child = 'ui_structure.Rmd'}
-```
-
-```{r child = 'css.Rmd'}
 ```
 
 ```{r child = 'htmlwidgets.Rmd'}
@@ -105,16 +101,16 @@ Une application __shiny__ nécessite un ordinateur/un serveur éxécutant __R__
 ```{r child = 'reactive.Rmd'}
 ```
 
-```{r child = 'observe_update.Rmd'}
-```
-
 ```{r child = 'conditionnal.Rmd'}
 ```
 
-```{r child = 'debug.Rmd'}
+```{r child = 'observe_update.Rmd'}
 ```
 
-# Quelques bonnes pratiques
+```{r child = 'css.Rmd'}
+```
+
+# Pour aller plus loin : quelques bonnes pratiques
 
 ## Quelques bonnes pratiques
 
@@ -142,44 +138,10 @@ shinyServer(function(input, output, session) {
 })
 ```
 
-# shiny-server
+```{r child = 'debug.Rmd'}
+```
 
-## Quelques mots sur shiny-server
 
-On peut déployer en interne nos applications shiny en installant un [shiny-server](https://www.rstudio.com/products/shiny/shiny-server2/). 
-
-- Uniquement sur linux : ubuntu 12.04+, RedHat/CentOS 5+, SUSE Enterprise Linux 11+
-- Version gratuite : déployer plusieurs applications __shiny__
-- Version payante : 
-    + authentification
-    + ressources par applications (nombre de coeurs, mémoire, ...)
-    + monitoring
-
-------
-
-Une fois le serveur installé, il suffit de déposer les applications dans le répertoire dédié, et elles deviennent directement accessibles via l'adresse _server:port_ou_redirection/nom_du_dossier_.
-
-<div style="text-align:center" markdown="1">
-<img src="img/SS1.png" alt="Drawing" style="width: 50%;">
-</div>
-
-<div style="text-align:center" markdown="1">
-<img src="img/SS2.png" alt="Drawing" style="width: 50%;">
-</div>
-
------
-
-<div style="text-align:center" markdown="1">
-<img src="img/SS3.png" alt="Drawing" style="width: 95%;">
-</div>
-
------
-
-Des logs sont alors disponibles sous la forme de ``print console`` :
-
-<div style="text-align:center" markdown="1">
-<img src="img/SS4.png" alt="Drawing" style="width: 90%;">
-</div>
 
 # Références
 
