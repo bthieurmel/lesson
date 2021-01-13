@@ -96,11 +96,12 @@ system.time(
 # puis du carrier (convertir ce dernier en factor puis en as.numeric)
 
 flights[, plot(air_time, distance, col = month)]
-flights[, plot(air_time, distance, col = as.numeric(as.factor(carrier)))]
+flights[1:1000, plot(air_time, distance, col = as.numeric(as.factor(carrier)))]
 
 # 11. Aﬃcher le nuage de points air_time fonction de distance par mois (sur une fenetre graphique contenant 10 graphiques)
-par(mfrow=c(2,5))
-flights[, plot(air_time~distance, main = paste0("Mois : ", month)), by = .(month)]
+par(ask = TRUE)
+flights[, plot(air_time ~ distance, main = paste0("Mois : ", month[1])), 
+        by = .(month)]
 
 # 12. Eﬀectuer une regression lineaire simple air_time fonction de distance.
 mod <- flights[, lm(air_time ~ distance)]
@@ -157,6 +158,16 @@ flights[, list(dep = mean(dep_delay), arr = mean(arr_delay)), by = carrier][orde
 flights[,  lapply(.SD, quantile), 
         by = carrier, .SDcols = c("dep_delay","arr_delay")]
 
+col_sd <- c("arr_delay", "dep_delay")
+
+data_quantile <- flights[, lapply(.SD, quantile), by = carrier, .SDcols = col_sd]
+
+data_quantile[, quantile := rep(c("Min", "Q25", "Q50", "Q75", "Max"), 14)]
+dcast(data = data_quantile, 
+      carrier ~ quantile,
+      value.var = c("arr_delay", "dep_delay")
+)
+
 # ou
 inter = flights[, .(dep_delay,arr_delay,carrier)]
 inter[,lapply(.SD, quantile), by = carrier]
@@ -177,6 +188,11 @@ flights[, speed := distance / (air_time/60)]
 
 # 23. Créer deux nouvelles colonnes : trip, concaténation de origin et dest, et delay, somme de arr_delay et dep_delay
 flights[, c("trip", "delay") := list(paste(origin, dest, sep = "-"), arr_delay + dep_delay)]
+
+flights[, ':=' (
+  "trip" = paste(origin, dest, sep = "-"), 
+  "delay" = arr_delay + dep_delay
+)]
 
 
 # 24. Que fait cette ligne de code ?

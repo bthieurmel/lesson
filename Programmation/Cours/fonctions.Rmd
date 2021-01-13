@@ -37,7 +37,7 @@ test(x = 2, y = 10)   # 12
 
 * __Quelques fonctions utiles de contrôle :__
     + _missing(arg)_ : retourne TRUE si l'argument est manquant lors de l'appel
-    + _match.arg()_ : permet de renseigner le paramètre partiellement (ex : "p" pour point)
+    + _match.arg()_ : permet de renseigner le paramètre partiellement (ex : "p" pour point), ou de renvoyer une erreur si pas de correspondance trouvée
     + _typeof(arg)_, _class(arg)_, _is.vector()_, _is.data.frame()_, ....
 ```{r, eval = FALSE}
 match.arg("mea", c("mean", "sum", "median"))  # "mean"

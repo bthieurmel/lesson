@@ -21,10 +21,10 @@ knitr::opts_chunk$set(echo = TRUE)
 5. Vérifier que vos trois fonctions fonctionnent et renvoient le même résultat...!
 
 6. Construire maintenant une fonction **compareFact**, permettant le calcul factorielle avec, au choix, les 3 types de boucles et fonctions précédentes : 
-    + deux arguments : un entier ``n``, et le type de boucle ``type``, avec la valeur par défaut ``for``
-    + utiliser un ``switch`` pour traiter le calcul et le choix de la boucle
+    + deux arguments : un entier ``n``, et le type de la boucle ``type``, avec la valeur par défaut ``"for"``
+    + utiliser la fonction ``switch`` pour traiter le choix de la boucle (et donc fonction  **factFor**,  **factWhile**,  **factRepeat**) à prendre en compte pour le calcul
     + contrôler l'argument ``n`` (type, valeur positive, ...)  et renvoyer des erreurs / messages explicites le cas échéant
-    + contrôler l'argument ``type`` en utilisant ``try`` et ``match.arg``
+    + contrôler l'argument ``type`` avec ``try`` et ``match.arg``
     + gérer le cas ``0! = 1``
     + commenter votre fonction suivant la convention **doxygen**
 
@@ -70,7 +70,7 @@ data$arr_time[1:10] <- NA
 3. Re-calculer les moyennes en gérant les données manquantes
 
 
-4. Avec un ``apply`` et **un seul**, calculer et retourner le minimun et le maximum des colonnes numériques (*indice : utiliser une fonction*)
+4. Avec un ``apply`` et **un seul**, calculer et retourner le minimun et le maximum des colonnes numériques (*indice : créér d'abord une petite fonction*)
 
 5. Faire la même chose, mais avec un ``sapply``
 
@@ -92,6 +92,14 @@ data <- read.table("flights14.csv", sep = ",", header = TRUE)
 ```
 
 1. En utlisant la fonction ``split``, créer une liste contenant un sous-jeu de données par mois
+
+```{r, echo = T, eval = F}
+?split
+data_split_month <- split(x = data, f = data$month)
+str(data_split_month)
+data_split_month[[1]]
+data_split_month[[2]]
+```
 
 2. Avec le package **randomForest** et le modèle ci-dessous, essayer d'expliquer le retard au départ par rapport au jour et aux informations relatives au départ, en faisant un modèle par mois :
     + en utilisant la fonction ``lapply``

@@ -61,10 +61,10 @@ system.time(v1 <- mean(data$distance / data$air_time))
 
 system.time(v2 <- mean(mapply(FUN = "/", data$distance, data$air_time)))
 
-ratio3 <- rep(0, nrow(data))
+ratio3 <- c()
 system.time({
   for(i in 1:nrow(data)){
-    ratio3[i] <-  data[i, "distance"] / data[i, "air_time"]
+    ratio3 <- c(ratio3, data[i, "distance"] / data[i, "air_time"])
   }
   v3 <- mean(ratio3)
 })

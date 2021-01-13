@@ -1,7 +1,8 @@
-data <- read.table("C:/Users/Benoit/Desktop/Cours_Agro/Programmation/TD/flights14.csv", sep = ",", header = TRUE)
+data <- read.table("flights14.csv", sep = ",", header = TRUE)
 
 #1. jeu de données par mois
 data_month <- split(data, data$month)
+
 
 #2 et 3 - modèle
 require(randomForest)
@@ -12,6 +13,8 @@ system.time({
     randomForest(dep_delay ~ day + dep_time + hour + min, don, ntree = 30)
   })
 })
+# utilisateur     système      écoulé 
+# 38.77        0.13       39.42 
 
 # parallel
 

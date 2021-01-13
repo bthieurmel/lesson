@@ -1,63 +1,7 @@
 
 ----
 
-## Structures condionnelles
-
-### if / else/ else if
-
-```{r, eval = FALSE}
-if(condition1){
-  print("la condition1 est vrai")  
-}else if(condition2){
-  print("la condition1 est fausse, mais la condition2 est vrai")  
-}else{
-  print("les conditions sont fausses... :-(")
-}
-````
-
-* la condition doit retourner une (__et une seule__) valeur logique (TRUE/FALSE)
-
-### ifelse, une variante
-
-```{r, eval = FALSE}
-ifelse(vecteur.condition, vecteur.vrai, vecteur.faux)
-````
-
-* Pour chaque élément _i_, regarde _condition[i]_, et retourne _vrai[i]_ ou _faux[i]_
-
-```{r, eval = FALSE}
-x <- 1:2
-ifelse(x%%2 == 0, 0, x)     #> [1] 1 0
-````
-
-----
-
-### switch
-
-* Suivant les cas, une autre façon de faire un __if / else if__
-
-```{r, eval = FALSE}
-res <-  switch(valeur,
-         cas1 = resultat1,
-         cas2 = resultat2,
-         cas3 = resultat3, 
-         sinon (optionnel))
-````
-
-```{r, eval = TRUE}
-fonction <- "mean"
-x <- rnorm(100)
-res <-  switch(fonction,
-         mean = mean(x),
-         median = median(x),
-         sum = sum(x))
-res
-````
-
-
-----
-
-### Opérateurs logiques
+## Opérateurs logiques
 
 * __==__, __!=__, __>__, __<__, __>=__, __<=__
 
@@ -137,6 +81,62 @@ y <- 10
 xor(TRUE, FALSE) # TRUE
 xor(TRUE, TRUE)  # FALSE
 `````
+
+----
+
+## Structures condionnelles
+
+### if / else/ else if
+
+```{r, eval = FALSE}
+if(condition1){
+  print("la condition1 est vrai")  
+}else if(condition2){
+  print("la condition1 est fausse, mais la condition2 est vrai")  
+}else{
+  print("les conditions sont fausses... :-(")
+}
+````
+
+* la condition doit retourner une (__et une seule__) valeur logique (TRUE/FALSE)
+
+### ifelse, une variante
+
+```{r, eval = FALSE}
+ifelse(vecteur.condition, vecteur.vrai, vecteur.faux)
+````
+
+* Pour chaque élément _i_, regarde _condition[i]_, et retourne _vrai[i]_ ou _faux[i]_
+
+```{r, eval = FALSE}
+x <- 1:2
+ifelse(x%%2 == 0, 0, x)     #> [1] 1 0
+````
+
+----
+
+### switch
+
+* Suivant les cas, une autre façon de faire un __if / else if__
+
+```{r, eval = FALSE}
+res <-  switch(valeur,
+         cas1 = resultat1,
+         cas2 = resultat2,
+         cas3 = resultat3, 
+         sinon (optionnel))
+````
+
+```{r, eval = TRUE}
+fonction <- "mean"
+x <- rnorm(100)
+res <-  switch(fonction,
+         "mean" = mean(x),
+         "median" = median(x),
+         "sum" = sum(x))
+res
+````
+
 
 ----
 
