@@ -1,0 +1,12 @@
+default:
+  host: my_server_name
+  port: 8081
+  dbname: database_name
+  user: username
+  password: pwd
+production:
+  host: my_server_name_prd
+  port: 8081
+  dbname: database_name
+  user: username
+  password: pwd
