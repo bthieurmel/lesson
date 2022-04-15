@@ -9,29 +9,26 @@ require(DBI)
 require(RPostgres)
 
 con <- dbConnect(RPostgres::Postgres(), # RMySQL::MySQL()
-                 host = "ns6623384.ip-151-80-105.eu",
+                 host = "XXX.XXX.XXXX",
                  port = 8081,
-                 dbname = "enedisprev",
+                 dbname = "db_name",
                  user = "ds_test",
-                 password = "ds_test_2020!")
+                 password = "pwd!")
 
 con
 
 # 2. Lister les tables présentes dans la base de données
 dbListTables(con)
 
-# 3. Lister les champs disponibles dans la table **preveol_ref**
-dbListFields(con, "preveol_ref")
+# 3. Lister les champs disponibles dans une table
+dbListFields(con, "table")
 
-# 4. Récupérer l'ensemble de la table  preveol_ref avec ``dbReadTable``
-preveol_ref <- dbReadTable(con, "preveol_ref")
-preveol_ref
+# 4. Récupérer l'ensemble de la table  avec ``dbReadTable``
+table_df <- dbReadTable(con, "table")
+head(table_df)
 
 # 5.
-preveol_ref <- dbGetQuery(con, "SELECT * FROM preveol_ref")
-
-# 6.
-dbGetQuery(con, 'SELECT COUNT(*)  FROM preveol_point GROUP BY "ID"')
+table_df <- dbGetQuery(con, "SELECT * FROM table")
 
 ##############################################
 ##### Sécuriser les informations de connexion -----

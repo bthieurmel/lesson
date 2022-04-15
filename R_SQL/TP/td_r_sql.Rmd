@@ -36,14 +36,11 @@ con
 
 2. Lister les tables présentes dans la base de données (``dbListTables``)
 
-3. Lister les champs disponibles dans la table **preveol_ref** (``dbListFields``)
+3. Lister les champs disponibles dans une des tables listées  (``dbListFields``)
 
-4. Récupérer l'ensemble de la table  **preveol_ref** avec ``dbReadTable``
+4. Récupérer l'ensemble d'une (petite...) table  avec ``dbReadTable``
 
-5. Récupérer l'ensemble de la table  **preveol_ref** avec une requête SQL (``SELECT * FROM preveol_ref``) et ``dbGetQuery`` 
-
-6. Combien de lignes de prédictions pour chaque identifiant dans la table **preveol_point** ? (``SELECT COUNT(*)  FROM preveol_point GROUP BY "ID"``)
-
+5. Récupérer l'ensemble l'ensemble d'une (petite...) table avec une requête SQL (``SELECT * FROM preveol_ref``) et ``dbGetQuery`` 
 
 ## Sécuriser les informations de connexion
 
