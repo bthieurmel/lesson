@@ -1,12 +1,12 @@
 default:
-  host: ns6623384.ip-151-80-105.eu
+  host: XXX.XXXX
   port: 8081
-  dbname: enedisprev
+  dbname: dbname
   user: ds_test
-  password: ds_test_2020!
+  password: pwd
 production:
-  host: ns6623384.ip-151-80-105.eu
+  host: XXX.XXXX
   port: 8081
-  dbname: enedisprev
+  dbname: dbname
   user: ds_test
-  password: ds_test_2020!
+  password: pwd
