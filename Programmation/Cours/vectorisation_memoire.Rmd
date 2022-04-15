@@ -1,0 +1,99 @@
+
+-----
+
+## Accélérer son code ?
+
+**R non efficace pour interpréter et exécuter des boucles for et donc A EVITER!**
+
+* Vectorisation
+* Fonctions de type ``Apply``
+* Utilisation du package ``compiler`` : 
+
+http://homepage.divms.uiowa.edu/~luke/R/compiler/compiler.pdf
+
+* Implémenter les points chauds de calcul avec des langages compilés et utiliser le package **Rcpp**
+
+http://www.rcpp.org/
+
+----
+
+## Gestion de la mémoire
+
+**Initialiser l'espace pour un résultat**. Sinon **R** prend du temps pour agrandir itérativement la mémoire allouée à un objet :
+
+**Dans tous les cas éviter la concaténation de résultats quand cela est possible**
+
+```{r, eval = TRUE, cache = TRUE}
+x <- rnorm(100000) ; y <- rnorm(100000)
+res <- integer(100000)  # initialisation
+
+# calcul de la somme via une boucle avec initialisation
+system.time(for(i in 1:length(x)){
+  res[i] <- x[i] + y[i]
+})
+
+res <- c()
+# avec concaténation
+system.time(for(i in 1:length(x)){
+  res <- c(res, x[i] + y[i])
+})
+````
+
+----
+
+## Retour sur la vectorisation
+
+'_La vectorisation est le processus de conversion d'un programme informatique à partir d'une implémentation scalaire, qui traite une seule paire d'opérandes à la fois, à une implémentation vectorielle qui traite une opération sur plusieurs paires d'opérandes à la fois. Le terme vient de la convention de mettre les opérandes dans des vecteurs ou des matrices._' (Wikipédia)
+
+* [R](http://cran.r-project.org/) est un langage __interprété__
+* Beaucoup de calculs pouvant être réalisés par une boucle peuvent se faire en utilisant la vectorisation, avec une performance accrue : 
+    + opérations sur des vecteurs
+    + opérations sur des matrices ( = un ensemble de vecteurs)
+    + opérations sur des data.frame
+* Une performance accrue, pourquoi ?
+    + __R__, et ses fonctions "de base" sont codés en __C__, __Fortran__, ...
+    + avec l'utilisation efficace et optimisée dans "routines" d'algèbre linéaire (_BLAS_, _LAPACK_, ...)
+
+----
+
+## Exemple : la somme de deux vecteurs
+
+```{r, eval = TRUE, cache = TRUE}
+x <- rnorm(1000000)
+y <- rnorm(1000000)
+
+res <- integer(1000000)
+# calcul de la somme via une boucle
+system.time(for(i in 1:length(x)){
+  res[i] <-  x[i] + y[i]
+})
+
+# avec la vectorisation
+system.time(res2 <- x + y)
+
+identical(res, res2)
+````
+
+
+----
+
+## Remember : 
+
+* opérations entre vecteurs / matrices
+
+```{r, eval = TRUE}
+x <- matrix(ncol = 2, nrow = 2, 1)
+y <- matrix(ncol = 2, nrow = 2, 2)
+
+z <- x + y
+z
+````
+
+* Création / modification de colonne
+
+```{r, eval = TRUE}
+data <- data.frame(x = 1:10, y = 100:109)
+data$z <- data$x + data$y
+head(data, n = 2)
+````
+

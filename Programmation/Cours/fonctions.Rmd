@@ -21,10 +21,10 @@ environment(test) # <environment: R_GlobalEnv>
 
 ------
 
-### Les arguments
+## Les arguments
 
 * __Valeur par défaut__ 
-    + via une affectation, avec '=', dans la définition de la fonction 
+    + via une affetaction, avec '=', dans la définition de la fonction 
     + optionnel lors de l'appel
     
 ```{r, eval = FALSE}
@@ -37,7 +37,7 @@ test(x = 2, y = 10)   # 12
 
 * __Quelques fonctions utiles de contrôle :__
     + _missing(arg)_ : retourne TRUE si l'argument est manquant lors de l'appel
-    + _match.arg()_ : permet de renseigner le paramètre partiellement (ex : "p" pour point), ou de renvoyer une erreur si pas de correspondance trouvée
+    + _match.arg()_ : en cas d'input tronqué...
     + _typeof(arg)_, _class(arg)_, _is.vector()_, _is.data.frame()_, ....
 ```{r, eval = FALSE}
 match.arg("mea", c("mean", "sum", "median"))  # "mean"
@@ -46,7 +46,7 @@ class(10)                                     # "numeric"
 
 ------
 
-* __Dépendances entre arguments__
+## Dépendances entre arguments
 
 On peut définir un argument en fonction d'autres arguments
 
@@ -76,7 +76,7 @@ test(LETTERS[1:10])   #10
 
 ------
 
-* __Evaluation des arguments__
+## Evaluation des arguments
 
 __Point Important__ : les arguments ne sont évalués que lorsqu'ils sont appelés, sinon ils n'existent pas dans la fonction.... Pour forcer l'évaluation, on peut utiliser la fonction _force()_. Démonstration :
 
@@ -102,7 +102,7 @@ f(stop("This is an error!"))
 
 ------
 
-### Comprendre les '...'
+## Comprendre les '...' (1/2)
 
 * Signifie que la fonction accepte d'autres arguments que ceux définis explicitement
 * Sert généralement à passer ces arguments à une autre fonction
@@ -129,6 +129,8 @@ rnormPlot(n = 100, main = "Comprendre les ...", col = "red", pch = 10)
 
 ------
 
+## Comprendre les '...' (2/2)
+
 ```{r, eval = TRUE, echo = FALSE, fig.width=13, fig.height=6}
 rnormPlot <- function(n, mean = 0, sd = 1, ...){
   plot(rnorm(n = n, mean = mean, sd = sd), ...)
@@ -138,7 +140,7 @@ rnormPlot(n = 100, main = "Comprendre les ...", col = "red", pch = 10)
 
 ------
 
-### Retourner un résultat
+## Retourner un résultat
 
 Une fonction retourne par défaut le résultat de la dernière expression
 ```{r, eval = TRUE}
@@ -158,7 +160,7 @@ somme
 
 ------
 
-* Utilisation de la fonction _return()_
+## Fonction return()
 
 ```{r, eval = TRUE}
 test <- function(x, y = 2){
@@ -182,7 +184,7 @@ test(2)
 
 ------
 
-* La fonction _invisible_()
+## Fonction invisible()
 
 _"This function can be useful when it is desired to have functions return values which can be assigned, but which do not print when they are not assigned"_
 
@@ -207,7 +209,7 @@ res      # but a result !
 
 ------
 
-### Variables locales et globales
+## Variables locales et globales
 
 * Une variable définie dans une fonction est __locale__ :
     + elle ne sera pas présente ensuite dans l'espace de travail
@@ -229,6 +231,7 @@ x
 
 ------
 
+## Affectation globale
 
 * Via l'opérateur d'affectation `<<-`, on peut affecter au modifier une variable __globale__
 * Autant que possible __non-recommandé__...!
@@ -251,7 +254,7 @@ x ; y
 
 ------
   
-  * __Et si la fonction utilise une variable non-définie ?__
+## Appel d'une variable non-définie ?
 
 ```{r, eval = FALSE}
 test <- function(x){
@@ -277,7 +280,7 @@ __Il faut passer tous les arguments en paramètres, et retourner l'ensemble des 
 
 ----
 
-### Fonctions anonymes 
+## Fonctions anonymes 
 
 Comme son nom l'indique, une fonction qui n'a pas de nom...
 
@@ -301,7 +304,7 @@ res2
 
 ----
 
-### Communication 
+## Communication 
 
 Quand on développe, il est important d'anticiper les problèmes potentiels du code :
 
@@ -320,6 +323,8 @@ Et communiquer avec l'utilisateur. Trois niveaux sont disponibles :
 * fonction _message()_ : message "informatif", l'éxécution continue. 
 
 ----
+
+## Communication :  exemple
 
 ```{r, eval = TRUE}
 test <- function(x){
@@ -344,7 +349,7 @@ test("5")
 
 ----
 
-### Et la documentation dans tout ça ?
+## Et la documentation dans tout ça ?
 
 La documentation est très importante :
 
@@ -359,13 +364,15 @@ __Adopter la convention _doxygen_ __
 
 __Utilisation dans R__
 
+Le plus simple : placer le curseur au-niveau de la fonction et faire *Code -> Insert roxygen Skeleton* ou bien utiliser le raccourci clavier associé
+
 * en commençant la ligne par `#'`
 
 http://r-pkgs.had.co.nz/man.html
 
 ----
 
-__Les balises indispensables__
+## Les balises indispensables
 
 * @param : pour les arguments
 * @return : pour le résultat
@@ -382,6 +389,8 @@ res_pca <- PCA(decathlon)     res_pca <- FactoMineR::PCA(decathlon)
 
 
 ----
+
+## exemple de documentation
 
 ```{r, eval = TRUE}
 #' le titre de ma fonction
@@ -403,76 +412,3 @@ identify <- function(nom, prenom){
   base::paste0("Nom :", nom, ", prénom : ", prenom)
 }
 ```
-
-----
-
-## Gestion des erreurs et des messages
-
-Quand __R__ rencontre une erreur, il s'arrête net. Dans certains cas, on voudrait pouvoir continuer notre calcul. Trois fonctions sont diponibles dans R :
-
-* _try()_ : la plus simple pour contrôler l'apparition d'erreurs
-
-* _tryCatch()_ : la plus complète, avec la définition d'action en cas d'erreurs / warnings / messages
-
-* _withCallingHandlers()_ : une variante de tryCatch()
-
-```{r, eval = FALSE}
-test <- sapply(list(1:5,"a", 6:10), log)
-#>Error in FUN(X[[2L]], ...) : 
-#  non-numeric argument to mathematical function
-```
-
-----
-
-``try(expr, silent = FALSE)``
-
-* ``silent`` : affichage ou non d'erreur
-* retourne un objet de **class** ``try-error`` incluant le message d'erreur
-
-```{r, eval = TRUE}
-test <- sapply(list(1:2,"a"), function(x) try(log(x), silent = TRUE));test
-
-# on récupére un object de class "try-error", avec le message d'erreur
-class(test[[2]])
-test[[2]][1]
-```
-
-----
-
-``tryCatch(expr, ..., finally)``
-
-* ``error = function(e)`` : fonction à exécuter en cas d'erreur, ``e`` étant le message.
-* idem avec ``warning = function(e)`` et ``message = function(e)``
-
-Si ces fonctions sont définies, elles seront donc évaluées le cas échéant **ET le calcul sera arrêté**
-
-```{r, eval = TRUE}
-test <- tryCatch(log("a"), error = function(e){
-  print(e)
-  return(0)
-})
-
-test
-```
-
-
-----
-
-
-``withCallingHandlers(expr, ..., finally)``
-
-* ``error = function(e)`` : fonction à exécuter en cas d'erreur, ``e`` étant le message
-* idem avec ``warning = function(e)`` et ``message = function(e)``
-
-Si ces fonctions sont définies, elles seront donc évaluées le cas échéant **MAIS le calcul continuera**
-
-```{r, eval = TRUE}
-f <- function(){message("message") ; 0}
-test <- withCallingHandlers(f(), message = function(e){e})
-test
-# tryCatch
-test <- tryCatch(f(), message = function(e){e})
-test
-```
-
-

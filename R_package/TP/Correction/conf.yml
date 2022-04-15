@@ -1,0 +1,3 @@
+path_report : report.txt
+path_file : /home/benoit/Cours/data.table/TD/flights14.csv
+n_rows : 5

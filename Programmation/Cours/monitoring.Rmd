@@ -1,21 +1,19 @@
 
 ----
 
-## Monitoring / Profiling / Performance / Debug
+## microbenchmark : temps de calculs
 
-**Temps de calculs**
-
-Pour monitorer le temps de calculs, la fonction ``system.time()`` peut-être utilisée, mais le package ``microbenchmark`` permet de monitorer avec précision et en répétant les opérations.
+Pour monitorer le temps de calculs, la fonction ``system.time()`` peut-être utilisée, mais le package ``microbenchmark`` permet de monitorer avec plus de précision en répétant les appels.
 
 ```{r, eval = TRUE}
-library(microbenchmark) 
+suppressWarnings(require(microbenchmark, quietly = TRUE))
 x <- runif(1000) 
 microbenchmark(sqrt(x),x^{1/2},times=1000)
 ````
 
 -----
 
-**Profilage du code**
+## Profilage du code via Rprof (1/2)
 
 Utiliser la fonction ``Rprof`` qui procède par échantillonnage : elle stoppe l’éxécution du code par intervalles (``interval``) et différencie le temps de calcul réalisé par chaque fonction (``self.time``) et le temps global (``total.time``).
 
@@ -43,7 +41,7 @@ Rprof(NULL)
 
 -----
 
-**Profilage du code**
+## Profilage du code via Rprof (2/2)
 
 ```{r, eval = FALSE, echo = TRUE}
 summaryRprof("Rprof.out")
@@ -57,7 +55,7 @@ s$by.total[s$by.total$self.pct > 0, ]
 
 -----
 
-**Profilage du code**
+## Profilage avec profvis ou proftools
 
 D'autres outils existent, avec notamment les packages **proftools** ou **profvis**
 
@@ -69,16 +67,16 @@ https://cran.r-project.org/web/packages/proftools/vignettes/proftools.pdf
 
 -----
 
-**Impact mémoire**
+## Impact mémoire
 
-* Dans **R** de base, avec la fonction ``object.size()``. **Problème** : ne prend pas en compte toute la complexité potentielle des objects (environnements rattrachés)
+* Dans **R** de base, avec la fonction ``object.size()``. **Problème** : ne prend pas en compte toute la complexité potentielle des objects (environnements rattachés)
 
 * Avec le package **pryr** 
     + ``object_size()``
     + ``mem_used()`` : mémoire utilisée, ``mem_change(code)`` : impact du code sur la mémoire
     
 ```{r, eval = TRUE, echo = FALSE}
-suppressPackageStartupMessages(require(pryr))
+suppressPackageStartupMessages(suppressWarnings(require(pryr, quietly = TRUE, warn.conflicts = FALSE)))
 ````
 
 ```{r, eval = TRUE}
@@ -90,52 +88,15 @@ mem_change(x <- 1:1e6) ; mem_change(rm(x))
 
 -----
 
-**Accélérer son code**
-
-**R non efficace pour interpréter et exécuter des boucles for et donc A EVITER!**
-
-* Vectorisation
-* Fonctions de type ``Apply``
-* Utilisation du package ``compiler`` : 
-
-http://homepage.divms.uiowa.edu/~luke/R/compiler/compiler.pdf
-
-* Implémenter les points chauds de calcul avec des langages compilés et utiliser le package **Rcpp**
-
-http://www.rcpp.org/
-
------
-
-**Accélérer son code**
-
-**Initialiser l'espace pour un résultat**. Sinon **R** prend du temps pour agrandir itérativement la mémoire allouée à un objet :
-
-```{r, eval = TRUE}
-x <- rnorm(1000000) ; y <- rnorm(1000000)
-res <- integer(1000000)
-
-# calcul de la somme via une boucle avec initialisation
-system.time(for(i in 1:length(x)){
-  res[i] <- x[i] + y[i]
-})
-
-res <- c()
-# sans initialisation
-system.time(for(i in 1:length(x)){
-  res[i] <- x[i] + y[i]
-})
-````
-
------
-
-**Un petit mot sur le déboggage**
+## Un petit mot sur le déboggage
 
 * Pour voir simplement les informations : utilisation de _print()_ dans la fonction
 * Quand une erreur se produit, information du __traceback__
     + Disponible par défaut dans la console RStudio
     + via la fonction _traceback()_ dans R
 * Utilisation de la fonction _browser()_ n'importe où dans le code : elle stoppe l'éxécution et lance un environnement dans lequel on peut accèder aux variables actuelles et continuer l'éxécution
-* Dans **RStudio**, insertion de points d'arrêt (menu *Debug*)
+* Insertion de points d'arrêt dans le code
+* **RStudio** : menu *Debug*
 
 ![](images/traceback.png){width="400px"}
 

@@ -35,7 +35,45 @@
     
 ```{r child = 'parallel.Rmd'}
 ```
+
+<div style="text-align:center" markdown="1">
+<br><br><br><br><br><br><br><br>
+<h1 style="color:#2768AA;font-size:300%;">OPTIMISATION DU CODE</h1>
+</div>
+
+```{r child = 'vectorisation_memoire.Rmd'}
+```
+
+---- 
+
+<div style="text-align:center" markdown="1">
+<br><br><br><br><br><br><br><br>
+<h1 style="color:#2768AA;font-size:300%;">GESTION DES ERREURS ET DES MESSAGES</h1>
+</div>
+
+```{r child = 'try_tryCatch.Rmd'}
+```
+
+---- 
+
+<div style="text-align:center" markdown="1">
+<br><br><br><br><br><br><br><br>
+<h1 style="color:#2768AA;font-size:300%;">MONITORING, PROFILING & DEBUG</h1>
+</div>
+
+```{r child = 'monitoring.Rmd'}
+```
     
+---- 
+
+<div style="text-align:center" markdown="1">
+<br><br><br><br><br><br><br><br>
+<h1 style="color:#2768AA;font-size:300%;">GESTION DES ERREURS ET DES MESSAGES</h1>
+</div>
+
+```{r child = 'try_tryCatch.Rmd'}
+```
+
 ```{r child = 'monitoring.Rmd'}
 ```
     

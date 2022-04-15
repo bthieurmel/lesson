@@ -9,11 +9,11 @@ require(DBI)
 require(RPostgres)
 
 con <- dbConnect(RPostgres::Postgres(), # RMySQL::MySQL()
-                 host = "******",
-                 port = 1234,
-                 dbname = "*****",
-                 user = "******",
-                 password = "******")
+                 host = "ns6623384.ip-151-80-105.eu",
+                 port = 8081,
+                 dbname = "enedisprev",
+                 user = "ds_test",
+                 password = "ds_test_2020!")
 
 con
 

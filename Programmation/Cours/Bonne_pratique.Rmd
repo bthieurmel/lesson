@@ -5,7 +5,7 @@
 
 Librement inspiré du [Style Guide, by Hadley Wickham](http://adv-r.had.co.nz/Style.html)
 
-* C'est important d'adopter des bonnes pratiques de codage :
+* C'est important d'adopter des bonnes pratiques de codages :
     + permettre une lecture et une compréhension simple et rapide du code
     + tant pour le(s) développeur(s), que pour les utilisateurs, et favoriser le travail collaboratif
 
@@ -20,26 +20,26 @@ aze=data.frame(cole=rnorm(1000),refdzf=LETTERS[1:2]);ff=lapply(split(aze$cole,az
 ```{r, eval = FALSE}
 # c'est mieux quand même... ?
 data <- data.frame(value = rnorm(1000), group = LETTERS[1:2])
-mean_group <- lapply(
+mean.group <- lapply(
   split(data$value, data$group),
   function(x){
     mean(x)
   })
-mean_group
+mean.group
 ````
 
 ----
   
-### Fichiers
+## Fichiers
   
 Les noms doivent être __explicites__ et se terminer par `.R`. Si les scripts sont ordonnés, les pré-fixer par un numéro.
 
     # Good            # Bad         0-download.R
     modelisation.R    toto.r        1-parse.R
 
-### Variables et fonctions
+## Variables et fonctions
 
-* Noms __courts__ et __explicites__, de préférence __en minuscule__, en évitant d'utiliser des noms de fonctions connues...
+* Noms __courts__ et __explicites__, de préférence en minuscule, en évitant d'utiliser des noms de fonctions connues...
 * Utilisation d'un underscore (`_`) pour séparer les noms. Eviter le point (`.`), il peut amener de mauvaises intéractions avec d'autres langages (java, javascript, ...)
 * Variable == noms,  fonctions == verbes, autant que possible....
 * __Pas d'accents !__
@@ -53,7 +53,7 @@ day_1                     DayOne
 
 ----
 
-### Espacer son code
+## Espacer son code
 
 * Mettre des espaces __autour__ de tous les opérateurs (`=`, `+`, `-`, `<-`, etc.), __surtout__ à l'intérieur de l'appel d'une fonction.
 * Mettre un espace __après__ une virgule, __pas avant__
@@ -67,7 +67,7 @@ average <- mean(feet / 12 + inches, na.rm = TRUE)
 average<-mean(feet/12+inches,na.rm=TRUE)
 ```
 
-* Exception pour `:`, `::` (accès aux fonctions exportées d'un package) and `:::` (fonctions non exportées)
+* Exception pour `:`, `::` and `:::`
 
 ```{r, eval = FALSE}
 # Good                     # Bad
@@ -80,7 +80,7 @@ plot(x, y)                 plot (x, y)
 
 ----
 
-### Namespace et appel d'une fonction
+## Namespace et appel d'une fonction
 
 * `::`  accès aux fonctions exportées d'un package
 * `:::` accès aux fonctions *cachées* d'un package
@@ -88,9 +88,11 @@ plot(x, y)                 plot (x, y)
 **Bonne pratique** 
 
 * essayer de toujours préfixer l'appel à une fonction par `::`
+    + obligatoire pour une soumission d'un package sur le CRAN
     + meilleure lisibilité des appels / dépendances
     + évite des conflits potentiels : deux fonctions du même nom dans deux packages différents...
 * éviter l'utilisation des fonctions *cachées* `:::`
+    + interdit pour une soumission d'un package sur le CRAN
 
 ```{r, eval = FALSE}
 require(FactoMineR)
@@ -99,13 +101,12 @@ require(FactoMineR)
 FactoMineR::PCA(X, scale.unit = TRUE)
 ```
 
-
 ----
   
-### Accolades et indentation
+## Accolades et indentation
   
-* L'ouverture d'une accolade doit __toujours__ être suivie d'un passage à la ligne. 
-* La fermeture d'un accolade doit être suivie d'un passage à la ligne, sauf dans le cas d'un __else__
+* L'ouverture d'une accolade doit __toujours__ être suivi d'un passage à la ligne. 
+* La fermeture d'un accolade doit être suivi d'un passage à la ligne, sauf dans le cas d'un __else__
 * Le code à l'interieur des acccolades doit être indenté
 
 ```{r, eval = FALSE}
@@ -119,19 +120,11 @@ if (y == 0) {                     if (y == 0) {
 
 
 * Indenter son code, de préférence en utilisant deux espaces. __Raccourci RStudio : Ctrl+A, Ctrl+I__
-* Cas particulier dans la définition d'une fonction
 
-```{r, eval = FALSE}
-long_function_name <- function(a = "a long argument", 
-                               b = "another argument",
-                               c = "another long argument") {
-  # As usual code is indented by two spaces.
-}
-```
 
 ----
   
-### Assignement
+## Assignement
   
 * Utiliser `<-`, et __banir__ `=`, lors de l'assignement
 
@@ -143,10 +136,10 @@ x = 5
 ```
 
 
-### Commentaires
+## Commentaires
 
 * Commenter son code, toujours dans un soucis de lecture et de collaboration. __Raccourci RStudio : Ctrl+Shift+C__
-* un commentaire comportant au-moins ``----`` crée une section pouvant être réduite
+* un commentaire comportant au-moins ``----`` créé une section pouvant être réduite
 
 ```{r, eval = FALSE}
 # Load data ---------------------------
