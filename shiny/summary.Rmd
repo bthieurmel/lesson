@@ -1,6 +1,6 @@
 ---
 title: "Premiers pas avec shiny... et les packages de visualisation interactive"
-author: "B.Thieurmel, benoit.thieurmel@datastorm.fr"
+author: "B.Thieurmel, benoit.thieurmel@quadratic-labs.com"
 output:
   pdf_document:
     fig_caption: no
