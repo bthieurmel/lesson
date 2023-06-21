@@ -151,7 +151,7 @@ Les données d'exemples :
     + la pluie
 
 ```{r, eval = TRUE}
-ozone <- read.csv("ozone_plot.txt", sep="")
+ozone <- read.csv("ozone_plot.txt", sep="", stringsAsFactors = TRUE)
 summary(ozone)
 ````
 

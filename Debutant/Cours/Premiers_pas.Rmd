@@ -32,7 +32,7 @@ getwd()
 ```
 
 ```{r, eval = TRUE, echo = FALSE}
-setwd("C:/Users/Datastorm/Documents/git/lesson/Debutant/Cours")
+setwd("C:/Users/BenoîtThieurmel/Documents/git/lesson/Debutant/Cours")
 ```
 
 ----

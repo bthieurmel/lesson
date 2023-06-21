@@ -1,6 +1,6 @@
 ---
 title: "Statistiques descriptives avec avec R"
-author: "Datastorm - B. Thieurmel"
+author: "Quadratic - B. Thieurmel"
 output: 
   pdf_document:
     number_sections: true
