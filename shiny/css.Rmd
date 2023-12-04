@@ -1,4 +1,4 @@
-# Pour aller plus loin : HTML / CSS
+# HTML / CSS
 
 ## HTML / CSS | __Inclure du HTML__
 
@@ -28,7 +28,7 @@ fluidPage(
 - ``br()`` : saut de ligne
 - ``hr()`` : trait horizontal
 - ``img(src="img/logo.jpg", title="Popup", width = "80%")`` : insertion d'une image présente dans **www/img**
-- ``a(href="https://r2018-rennes.sciencesconf.org/", target="_blank", "Rencontres R")`` : lien vers un site
+- ``a(href="https://shiny.posit.co/", target="_blank", "Shiny")`` : lien vers un site
 - ``a(href = './doc/guide.pdf', target="_blank", class = "btn", icon("download"), 'Télécharger  le guide utilisateur')`` : lien de téléchargement d'un document présent dans **www/doc**
 
 ## HTML / CSS | CSS : introduction
@@ -43,7 +43,8 @@ Comme dans du développement web "classique", nous pouvons modifier le __CSS__ d
 
 Il y a une notion d'ordre et de priorité sur ces trois informations : le __CSS__ "individuel" l'emporte sur le __CSS__ du header, qui l'emporte sur le __CSS__ externe
 
-On peut aussi utiliser le package [shinythemes](http://rstudio.github.io/shinythemes)
+On peut aussi utiliser des packages [shinythemes](http://rstudio.github.io/shinythemes)
+[fresh](https://dreamrs.github.io/fresh/)
 
 ## HTML / CSS  | Avec un .css externe
 

@@ -120,7 +120,7 @@ tabsetPanel(
 )
 ``` 
 
-* __Aller plus loin__ : utiliser [shinydashboard](https://rstudio.github.io/shinydashboard/) (https://rstudio.github.io/shinydashboard/) pour restructurer votre application.
+* __Aller plus loin__ : utiliser [shinydashboard](https://rstudio.github.io/shinydashboard/) (https://rstudio.github.io/shinydashboard/) ou [bs4Dash](https://rinterface.github.io/bs4Dash/index.html) https://rinterface.github.io/bs4Dash/index.html) pour restructurer votre application.
 
 
 ## Premiers graphiques intéractifs
@@ -147,7 +147,8 @@ amChartsOutput("distPlot")
 ```
 
 
-* __Aller plus loin__ : Et pourquoi ne pas tester d'autres packages ? (http://gallery.htmlwidgets.org/)
+* __Aller plus loin__ : Et pourquoi ne pas tester d'autres packages ? (http://gallery.htmlwidgets.org/) ou bien plotly avec ou sans ggplot2 ? (``plotly::ggplotly()``)
+
 
 ## Réactivité, isolation, observe, html, ...
 
@@ -189,7 +190,11 @@ output$plot <- renderPlot({
 
 * Dans un troisième onglet, rédiger un petit résumé sur vous/votre société. Essayer d'ajouter un image (``div`` & ``img``) et un lien vers un site internet (``a``).
 
+* __Aller plus loin__ : Ajouter une popup au lancement de l'application avec une message de bienvenue (``?modalDialog``)
+
 * __Aller plus loin__ : Changer le thème de l’application en insérant un .css externe. Par exemple en utilisant bootswatch http://bootswatch.com/3). Attention, **shiny** utilise la version ``3.3.7`` de bootstrap .
+
+* __Aller plus loin__ : Ajouter le choix entre les données ``faithfull`` et ``mtcars`` et gérer cela avec un ``reactiveVal`` ou un ``reactiveValues``
 
 ## Prêt pour créer votre application ?
 

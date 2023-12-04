@@ -5,16 +5,19 @@
 \documentclass[
 ]{article}
 \usepackage{amsmath,amssymb}
-\usepackage{lmodern}
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
 \else % if luatex or xetex
-  \usepackage{unicode-math}
+  \usepackage{unicode-math} % this also loads fontspec
   \defaultfontfeatures{Scale=MatchLowercase}
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -45,13 +48,13 @@
 \newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
 \newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
 \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
 \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
 \newcommand{\BuiltInTok}[1]{#1}
 \newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
 \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
 \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
 \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
 \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
@@ -59,7 +62,7 @@
 \newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
 \newcommand{\ExtensionTok}[1]{#1}
 \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
 \newcommand{\ImportTok}[1]{#1}
 \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
@@ -68,7 +71,7 @@
 \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
 \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
 \newcommand{\RegionMarkerTok}[1]{#1}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
 \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
@@ -98,7 +101,7 @@
 \fi
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\urlstyle{same} % disable monospaced font for URLs
+\urlstyle{same}
 \hypersetup{
   pdftitle={Premiers pas avec shiny\ldots{} et les packages de visualisation interactive},
   pdfauthor={B.Thieurmel, benoit.thieurmel@quadratic-labs.com},
@@ -122,9 +125,9 @@ interactive}
 \section{Shiny : créer des applications web avec le logiciel
 R}\label{shiny-cruxe9er-des-applications-web-avec-le-logiciel-r}}
 
-\textbf{Shiny} est un package \textbf{R} qui permet la création simple
-d'applications web intéractives depuis le logiciel open-source
-\textbf{R}.
+\textbf{Shiny} est un package \textbf{R} (et \textbf{Python} depuis peu)
+qui permet la création simple d'applications web intéractives depuis le
+logiciel open-source \textbf{R}.
 
 \begin{itemize}
 \tightlist
@@ -133,13 +136,13 @@ d'applications web intéractives depuis le logiciel open-source
 \item
   le pouvoir de calcul de R et l'intéractivité du web actuel
 \item
-  pour créer des applications locales
+  pour créer des applications web locales
 \item
   ou partagées avec l'utilisation de \textbf{shiny-server},
   \textbf{shinyapps.io}, \textbf{shinyproxy}
 \end{itemize}
 
-\url{http://shiny.rstudio.com}
+\url{https://shiny.posit.co/}
 
 \url{http://www.shinyapps.io/}
 
@@ -156,19 +159,27 @@ Une application \textbf{shiny} nécessite un ordinateur/un serveur
 \section{Ma première application avec
 shiny}\label{ma-premiuxe8re-application-avec-shiny}}
 
+Initialiser une application est simple avec \textbf{RStudio} :
+
 \begin{itemize}
+\tightlist
 \item
-  Initialiser une application est simple avec \textbf{RStudio}, en
-  créant un nouveau projet
-\item
-  File \textgreater{} New Project \textgreater{} New Directory
-  \textgreater{} Shiny Web Application
+  File \textgreater{} New File \textgreater{} Shiny Web App
+  \textgreater{} Multiple File (méthode préférentielle)
 \item
   Basée sur deux scripts : ui.R et server.R
 \item
   Et utilisant par défaut le sidebar layout
 \item
-  Commandes utiles :
+  Alternative : File \textgreater{} New Project \textgreater{} New
+  Directory \textgreater{} Shiny Web Application, mais un seul fichier
+  app.R
+\end{itemize}
+
+Commandes utiles :
+
+\begin{itemize}
+\tightlist
 \item
   lancement de l'application : bouton \textbf{Run app}
 \item
@@ -189,6 +200,10 @@ shiny}\label{ma-premiuxe8re-application-avec-shiny}}
   \textbf{RStudio}
 \item
   \textbf{Run External} : Dans le navigateur web par défaut
+\item
+  \textbf{In R Console} : Directement dans la console R/RStudio
+\item
+  \textbf{In Background Job} : Ou en tâche de fond
 \end{itemize}
 
 \includegraphics{img/stop.png}
@@ -280,8 +295,8 @@ complémentaires}\label{donnuxe9esfichiers-compluxe9mentaires}}
 \begin{itemize}
 \tightlist
 \item
-  le code \textbf{R} tourne au niveau des scripts \textbf{R}, et peut
-  donc accéder de façon relative à tous les objets présents dans le
+  le code \textbf{R} tourne au niveau du dossier de l'application, et
+  peut donc accéder de façon relative à tous les objets présents dans le
   dossier de l'application
 \item
   l'application web, comme de convention, accède à tous les éléments
@@ -445,29 +460,6 @@ lien change}
 \includegraphics{img/shiny_process.png}
 
 \textbf{C'est plus clair ?}
-
-\hypertarget{partage-ui---server}{%
-\subsection{Partage ui \textless-\textgreater{}
-server}\label{partage-ui---server}}
-
-\textbf{Le server et l'ui communiquent uniquement par le biais des
-inputs et des outputs}
-
-\begin{itemize}
-\item
-  Nous pouvons ajouter un script nommé \textbf{global.R} pour partager
-  des éléments (variables, packages, \ldots) entre la partie \textbf{UI}
-  et la partie \textbf{SERVER}
-\item
-  Tout ce qui est présent dans le \textbf{global.R} est visible à la
-  fois dans le \textbf{ui.R} et dans le \textbf{server.R}
-\item
-  Le script \textbf{global.R} est chargé uniquement une seul fois au
-  lancement de l'application
-\item
-  Dans le cas d'une utilisation avec un \texttt{shiny-server}, les
-  objets globaux sont également partagés entre les utilisateurs
-\end{itemize}
 
 \hypertarget{les-inputs}{%
 \section{Les inputs}\label{les-inputs}}
@@ -1086,62 +1078,20 @@ construction}\label{les-bonnes-ruxe8gles-de-construction}}
 \subsection{Définir des élements de l'UI côté SERVER \textbar{}
 Définition}\label{duxe9finir-des-uxe9lements-de-lui-cuxf4tuxe9-server-duxe9finition}}
 
-\textbf{Dans certains cas, nous souhaitons définir des inputs ou des
-structures côté server}
+\textbf{Dans certains cas, nous souhaitons définir des éléments de type
+UI côté server}
 
 Cela est possible avec les fonctions \texttt{uiOutput} et
 \texttt{renderUI}
 
-\hypertarget{duxe9finir-des-uxe9lements-de-lui-cuxf4tuxe9-server-exemple-simple}{%
-\subsection{Définir des élements de l'UI côté SERVER \textbar{} Exemple
-simple}\label{duxe9finir-des-uxe9lements-de-lui-cuxf4tuxe9-server-exemple-simple}}
+\hypertarget{duxe9finir-des-uxe9lements-de-lui-cuxf4tuxe9-server-exemple}{%
+\subsection{Définir des élements de l'UI côté SERVER \textbar{}
+Exemple}\label{duxe9finir-des-uxe9lements-de-lui-cuxf4tuxe9-server-exemple}}
 
 \begin{itemize}
-\tightlist
 \item
-  \textbf{ui.r}:
-\end{itemize}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{uiOutput}\NormalTok{(}\AttributeTok{outputId =} \StringTok{"columns"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{itemize}
-\tightlist
-\item
-  \textbf{server.r}:
-\end{itemize}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{output}\SpecialCharTok{$}\NormalTok{columns }\OtherTok{\textless{}{-}} \FunctionTok{renderUI}\NormalTok{(\{}
-  \FunctionTok{selectInput}\NormalTok{(}\AttributeTok{inputId =} \StringTok{"sel\_col"}\NormalTok{, }\AttributeTok{label =} \StringTok{"Column"}\NormalTok{, }\AttributeTok{choices =} \FunctionTok{colnames}\NormalTok{(data))}
-\NormalTok{\})}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{img/ui_output.png}
-
-\hypertarget{duxe9finir-des-uxe9lements-de-lui-cuxf4tuxe9-server-exemple-plus-complexe}{%
-\subsection{Définir des élements de l'UI côté SERVER \textbar{} Exemple
-plus
-complexe}\label{duxe9finir-des-uxe9lements-de-lui-cuxf4tuxe9-server-exemple-plus-complexe}}
-
-\begin{itemize}
-\tightlist
-\item
-  \textbf{On peut également renvoyer un élément plus complexe de l'UI,
-  par exemple :}
-
-  \begin{itemize}
-  \tightlist
-  \item
-    tout en \texttt{layout}
-  \item
-    ou une \texttt{fluidRow}
-  \end{itemize}
+  \textbf{Ici avec la définition d'une structure page avec une}
+  \texttt{fluidRow}
 \item
   \textbf{ui.r}:
 \end{itemize}
@@ -1182,6 +1132,29 @@ Un tutoriel est disponible :
 On peut donc par exemple ajouter comme output un graphique construit
 avec la librairie \href{https://d3js.org/}{d3.js}. Un exemple est
 disponible dans le dossier \texttt{shinyApps/build\_output}.
+
+\hypertarget{partage-ui---server}{%
+\subsection{Partage ui \textless-\textgreater{}
+server}\label{partage-ui---server}}
+
+\textbf{Le server et l'ui communiquent uniquement par le biais des
+inputs et des outputs}
+
+\begin{itemize}
+\item
+  Nous pouvons ajouter un script nommé \textbf{global.R} pour partager
+  des éléments (variables, packages, \ldots) entre la partie \textbf{UI}
+  et la partie \textbf{SERVER}
+\item
+  Tout ce qui est présent dans le \textbf{global.R} est visible à la
+  fois dans le \textbf{ui.R} et dans le \textbf{server.R}
+\item
+  Le script \textbf{global.R} est chargé uniquement une seul fois au
+  lancement de l'application
+\item
+  Dans le cas d'une utilisation avec un \texttt{shiny-server}, les
+  objets globaux sont également partagés entre les utilisateurs
+\end{itemize}
 
 \hypertarget{structurer-sa-page}{%
 \section{Structurer sa page}\label{structurer-sa-page}}
@@ -1403,7 +1376,7 @@ fonctionnalités de librairies javascript sont accessibles sous
   \ldots{}
 \end{itemize}
 
-Plus généralement, jeter un oeil sur la
+Plus généralement, jetez un oeil sur la
 \href{http://gallery.htmlwidgets.org/}{gallerie suivante!}
 
 \hypertarget{utilisation-dans-shiny}{%
@@ -1425,6 +1398,8 @@ Par exemple avec le package
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{\# Global}
+\FunctionTok{require}\NormalTok{(dygraphs)}
 \CommentTok{\# Server}
 \NormalTok{output}\SpecialCharTok{$}\NormalTok{dygraph }\OtherTok{\textless{}{-}} \FunctionTok{renderDygraph}\NormalTok{(\{}
   \FunctionTok{dygraph}\NormalTok{(}\FunctionTok{predicted}\NormalTok{(), }\AttributeTok{main =} \StringTok{"Predicted Deaths/Month"}\NormalTok{)}
@@ -1477,6 +1452,61 @@ en utilisant \emph{Shiny.onInputChange} :
 \includegraphics{img/visnetwork.png}
 
 \includegraphics{img/ggvis.png}
+
+\hypertarget{conditional-panels}{%
+\section{Conditional panels}\label{conditional-panels}}
+
+\begin{itemize}
+\tightlist
+\item
+  Il est possible d'afficher conditionnellement ou non certains éléments
+  :
+\end{itemize}
+
+\begin{verbatim}
+conditionalPanel(condition = [...], )
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  La condition peut se faire sur des inputs ou des outputs
+\item
+  Elle doit être rédigée en \textbf{javascript}\ldots{}
+\end{itemize}
+
+\begin{verbatim}
+conditionalPanel(condition = "input.checkbox == true", [...])
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(shiny)}
+\FunctionTok{shinyApp}\NormalTok{(}
+  \AttributeTok{ui =} \FunctionTok{fluidPage}\NormalTok{(}
+    \FunctionTok{fluidRow}\NormalTok{(}
+      \FunctionTok{column}\NormalTok{(}
+        \AttributeTok{width =} \DecValTok{4}\NormalTok{,}
+        \AttributeTok{align =} \StringTok{"center"}\NormalTok{,}
+        \FunctionTok{checkboxInput}\NormalTok{(}\StringTok{"checkbox"}\NormalTok{, }\StringTok{"View other inputs"}\NormalTok{, }\AttributeTok{value =} \ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{      ),}
+      \FunctionTok{column}\NormalTok{(}
+        \AttributeTok{width =} \DecValTok{8}\NormalTok{,}
+        \AttributeTok{align =} \StringTok{"center"}\NormalTok{,}
+        \FunctionTok{conditionalPanel}\NormalTok{(}
+          \AttributeTok{condition =} \StringTok{"input.checkbox == true"}\NormalTok{, }
+          \FunctionTok{sliderInput}\NormalTok{(}\StringTok{"slider"}\NormalTok{, }\StringTok{"Select value"}\NormalTok{, }\AttributeTok{min =} \DecValTok{1}\NormalTok{, }\AttributeTok{max =} \DecValTok{10}\NormalTok{, }\AttributeTok{value =} \DecValTok{5}\NormalTok{),}
+          \FunctionTok{textInput}\NormalTok{(}\StringTok{"txt"}\NormalTok{, }\StringTok{"Enter text"}\NormalTok{, }\AttributeTok{value =} \StringTok{""}\NormalTok{)}
+\NormalTok{        )}
+\NormalTok{      )}
+\NormalTok{    )}
+\NormalTok{  ),}
+  \AttributeTok{server =} \ControlFlowTok{function}\NormalTok{(input, output) \{\}}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{img/cond1.png}
 
 \hypertarget{isolation}{%
 \section{Isolation}\label{isolation}}
@@ -1593,191 +1623,6 @@ Même résultat en isolant seulement le troisième et dernier input
 
 L'histogramme sera donc mis-à-jour quand l'utilisateur cliquera sur le
 bouton ou quand la couleur changera.
-
-\hypertarget{expressions-ruxe9actives}{%
-\section{Expressions réactives}\label{expressions-ruxe9actives}}
-
-Les expressions réactives sont très utiles quand on souhaite utiliser le
-même résultat/objet dans plusieurs outputs, en ne faisant le calcul
-qu'une fois.
-
-Il suffit pour cela d'utiliser la fonction \texttt{reactive} dans le
-\textbf{server.R}
-
-Par exemple, nous voulons afficher deux graphiques à la suite d'une ACP:
-
-\begin{itemize}
-\tightlist
-\item
-  La projection des individus
-\item
-  La projection des variables
-\end{itemize}
-
-\hypertarget{exemple-sans-une-expression-ruxe9active}{%
-\subsection{Exemple sans une expression
-réactive}\label{exemple-sans-une-expression-ruxe9active}}
-
-\begin{itemize}
-\tightlist
-\item
-  \textbf{server.R}: le calcul est réalisé deux fois\ldots{}
-\end{itemize}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{require}\NormalTok{(FactoMineR) ; }\FunctionTok{data}\NormalTok{(}\StringTok{"decathlon"}\NormalTok{)}
-
-\NormalTok{output}\SpecialCharTok{$}\NormalTok{graph\_pca\_ind }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
-\NormalTok{  res\_pca }\OtherTok{\textless{}{-}} \FunctionTok{PCA}\NormalTok{(decathlon[ ,input}\SpecialCharTok{$}\NormalTok{variables], }\AttributeTok{graph =} \ConstantTok{FALSE}\NormalTok{)}
-  \FunctionTok{plot.PCA}\NormalTok{(res\_pca, }\AttributeTok{choix =} \StringTok{"ind"}\NormalTok{, }\AttributeTok{axes =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
-\NormalTok{\})}
-
-\NormalTok{output}\SpecialCharTok{$}\NormalTok{graph\_pca\_var }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
-\NormalTok{  res\_pca }\OtherTok{\textless{}{-}} \FunctionTok{PCA}\NormalTok{(decathlon[,input}\SpecialCharTok{$}\NormalTok{variables], }\AttributeTok{graph =} \ConstantTok{FALSE}\NormalTok{)}
-  \FunctionTok{plot.PCA}\NormalTok{(res\_pca, }\AttributeTok{choix =} \StringTok{"var"}\NormalTok{, }\AttributeTok{axes =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
-\NormalTok{\})}
-\end{Highlighting}
-\end{Shaded}
-
-\hypertarget{exemple-avec-une-expression-ruxe9active}{%
-\subsection{Exemple avec une expression
-réactive}\label{exemple-avec-une-expression-ruxe9active}}
-
-\begin{itemize}
-\tightlist
-\item
-  \textbf{server.R} : Le calcul est maintenant effectué qu'une seule
-  fois !
-\end{itemize}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{require}\NormalTok{(FactoMineR) ; }\FunctionTok{data}\NormalTok{(}\StringTok{"decathlon"}\NormalTok{)}
-
-\NormalTok{res\_pca }\OtherTok{\textless{}{-}} \FunctionTok{reactive}\NormalTok{(\{}
-  \FunctionTok{PCA}\NormalTok{(decathlon[,input}\SpecialCharTok{$}\NormalTok{variables], }\AttributeTok{graph =} \ConstantTok{FALSE}\NormalTok{)}
-\NormalTok{\})}
-
-\NormalTok{output}\SpecialCharTok{$}\NormalTok{graph\_pca\_ind }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
-  \FunctionTok{plot.PCA}\NormalTok{(}\FunctionTok{res\_pca}\NormalTok{(), }\AttributeTok{choix =} \StringTok{"ind"}\NormalTok{, }\AttributeTok{axes =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
-\NormalTok{\})}
-
-\NormalTok{output}\SpecialCharTok{$}\NormalTok{graph\_pca\_var }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
-  \FunctionTok{plot.PCA}\NormalTok{(}\FunctionTok{res\_pca}\NormalTok{(), }\AttributeTok{choix =} \StringTok{"var"}\NormalTok{, }\AttributeTok{axes =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
-\NormalTok{\})}
-\end{Highlighting}
-\end{Shaded}
-
-\hypertarget{note}{%
-\subsection{Note}\label{note}}
-
-\begin{itemize}
-\item
-  Une expression réactive va nous faire gagner du temps et de la mémoire
-\item
-  \textbf{Utiliser des expressions réactives seulement quand cela dépend
-  d'inputs} (pour d'autres variables :
-  \url{http://shiny.rstudio.com/articles/scoping.html})
-\item
-  \textbf{Comme un output} : mis-à-jour chaque fois qu'un input présent
-  dans le code change
-\item
-  \textbf{Comme un input} dans un \emph{renderXX} : l'output est
-  mis-à-jour quand l'expression réactive change
-\item
-  On récupère sa valeur comme un appel à une fonction, avec des ``()''.
-\end{itemize}
-
-\hypertarget{autres-fonctions}{%
-\subsection{Autres fonctions}\label{autres-fonctions}}
-
-Il existe des alternatives à l'utilisation de \texttt{reactive} avec
-\texttt{reactiveValues} ou \texttt{reactiveVal}.
-
-\begin{itemize}
-\tightlist
-\item
-  \texttt{reactiveValues} : initialiser une liste d'objets réactifs
-\item
-  \texttt{reactiveVal} : initialiser un seul objet réactif
-\item
-  Modification de la valeur des objets avec des \texttt{observe} ou des
-  \texttt{observeEvent}
-\end{itemize}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{shinyApp}\NormalTok{(}\AttributeTok{ui =} \FunctionTok{fluidPage}\NormalTok{(}
-  \FunctionTok{actionButton}\NormalTok{(}\AttributeTok{inputId =} \StringTok{"norm"}\NormalTok{, }\AttributeTok{label =} \StringTok{"Normal"}\NormalTok{),}
-  \FunctionTok{actionButton}\NormalTok{(}\AttributeTok{inputId =} \StringTok{"unif"}\NormalTok{, }\AttributeTok{label =} \StringTok{"Uniform"}\NormalTok{),}
-  \FunctionTok{plotOutput}\NormalTok{(}\StringTok{"hist"}\NormalTok{)}
-\NormalTok{), }
-\AttributeTok{server =} \ControlFlowTok{function}\NormalTok{(input, output) \{ }
-\NormalTok{  rv }\OtherTok{\textless{}{-}} \FunctionTok{reactiveValues}\NormalTok{(}\AttributeTok{data =} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{)) }
-  \FunctionTok{observeEvent}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{norm, \{ rv}\SpecialCharTok{$}\NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{) \})   }
-  \FunctionTok{observeEvent}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{unif, \{ rv}\SpecialCharTok{$}\NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{runif}\NormalTok{(}\DecValTok{100}\NormalTok{) \}) }
-\NormalTok{  output}\SpecialCharTok{$}\NormalTok{hist }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{ }\FunctionTok{hist}\NormalTok{(rv}\SpecialCharTok{$}\NormalTok{data) \}) }
-\NormalTok{\})}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{img/RV.png}
-
-\hypertarget{conditional-panels}{%
-\section{Conditional panels}\label{conditional-panels}}
-
-\begin{itemize}
-\tightlist
-\item
-  Il est possible d'afficher conditionnellement ou non certains éléments
-  :
-\end{itemize}
-
-\begin{verbatim}
-conditionalPanel(condition = [...], )
-\end{verbatim}
-
-\begin{itemize}
-\tightlist
-\item
-  La condition peut se faire sur des inputs ou des outputs
-\item
-  Elle doit être rédigée en \textbf{javascript}\ldots{}
-\end{itemize}
-
-\begin{verbatim}
-conditionalPanel(condition = "input.checkbox == true", [...])
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(shiny)}
-\FunctionTok{shinyApp}\NormalTok{(}
-  \AttributeTok{ui =} \FunctionTok{fluidPage}\NormalTok{(}
-    \FunctionTok{fluidRow}\NormalTok{(}
-      \FunctionTok{column}\NormalTok{(}
-        \AttributeTok{width =} \DecValTok{4}\NormalTok{,}
-        \AttributeTok{align =} \StringTok{"center"}\NormalTok{,}
-        \FunctionTok{checkboxInput}\NormalTok{(}\StringTok{"checkbox"}\NormalTok{, }\StringTok{"View other inputs"}\NormalTok{, }\AttributeTok{value =} \ConstantTok{FALSE}\NormalTok{)}
-\NormalTok{      ),}
-      \FunctionTok{column}\NormalTok{(}
-        \AttributeTok{width =} \DecValTok{8}\NormalTok{,}
-        \AttributeTok{align =} \StringTok{"center"}\NormalTok{,}
-        \FunctionTok{conditionalPanel}\NormalTok{(}
-          \AttributeTok{condition =} \StringTok{"input.checkbox == true"}\NormalTok{, }
-          \FunctionTok{sliderInput}\NormalTok{(}\StringTok{"slider"}\NormalTok{, }\StringTok{"Select value"}\NormalTok{, }\AttributeTok{min =} \DecValTok{1}\NormalTok{, }\AttributeTok{max =} \DecValTok{10}\NormalTok{, }\AttributeTok{value =} \DecValTok{5}\NormalTok{),}
-          \FunctionTok{textInput}\NormalTok{(}\StringTok{"txt"}\NormalTok{, }\StringTok{"Enter text"}\NormalTok{, }\AttributeTok{value =} \StringTok{""}\NormalTok{)}
-\NormalTok{        )}
-\NormalTok{      )}
-\NormalTok{    )}
-\NormalTok{  ),}
-  \AttributeTok{server =} \ControlFlowTok{function}\NormalTok{(input, output) \{\}}
-\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{img/cond1.png}
 
 \hypertarget{observe-fonctions-dupdate}{%
 \section{Observe \& fonctions
@@ -1936,7 +1781,7 @@ Pour changer dynamiquement l'onglet sélectionné :
 \item
   On définit alors de façon explicite l'espression qui représente
   l'événement \emph{et} l'expression qui sera éxécutée quand l'événement
-  se produit
+  se produit, cette dernière étant automatiquement isolée.
 \end{itemize}
 
 \begin{Shaded}
@@ -1953,6 +1798,136 @@ Pour changer dynamiquement l'onglet sélectionné :
 \NormalTok{\})}
 \end{Highlighting}
 \end{Shaded}
+
+\hypertarget{expressions-ruxe9actives}{%
+\section{Expressions réactives}\label{expressions-ruxe9actives}}
+
+Les expressions réactives sont très utiles quand on souhaite utiliser le
+même résultat/objet dans plusieurs outputs, en ne faisant le calcul
+qu'une fois.
+
+Il suffit pour cela d'utiliser la fonction \texttt{reactive} dans le
+\textbf{server.R}
+
+Par exemple, nous voulons afficher deux graphiques à la suite d'une ACP:
+
+\begin{itemize}
+\tightlist
+\item
+  La projection des individus
+\item
+  La projection des variables
+\end{itemize}
+
+\hypertarget{exemple-sans-une-expression-ruxe9active}{%
+\subsection{Exemple sans une expression
+réactive}\label{exemple-sans-une-expression-ruxe9active}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{server.R}: le calcul est réalisé deux fois\ldots{}
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{require}\NormalTok{(FactoMineR) ; }\FunctionTok{data}\NormalTok{(}\StringTok{"decathlon"}\NormalTok{)}
+
+\NormalTok{output}\SpecialCharTok{$}\NormalTok{graph\_pca\_ind }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
+\NormalTok{  res\_pca }\OtherTok{\textless{}{-}} \FunctionTok{PCA}\NormalTok{(decathlon[ ,input}\SpecialCharTok{$}\NormalTok{variables], }\AttributeTok{graph =} \ConstantTok{FALSE}\NormalTok{)}
+  \FunctionTok{plot.PCA}\NormalTok{(res\_pca, }\AttributeTok{choix =} \StringTok{"ind"}\NormalTok{, }\AttributeTok{axes =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\NormalTok{\})}
+
+\NormalTok{output}\SpecialCharTok{$}\NormalTok{graph\_pca\_var }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
+\NormalTok{  res\_pca }\OtherTok{\textless{}{-}} \FunctionTok{PCA}\NormalTok{(decathlon[,input}\SpecialCharTok{$}\NormalTok{variables], }\AttributeTok{graph =} \ConstantTok{FALSE}\NormalTok{)}
+  \FunctionTok{plot.PCA}\NormalTok{(res\_pca, }\AttributeTok{choix =} \StringTok{"var"}\NormalTok{, }\AttributeTok{axes =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{exemple-avec-une-expression-ruxe9active}{%
+\subsection{Exemple avec une expression
+réactive}\label{exemple-avec-une-expression-ruxe9active}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{server.R} : Le calcul est maintenant effectué qu'une seule
+  fois !
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{require}\NormalTok{(FactoMineR) ; }\FunctionTok{data}\NormalTok{(}\StringTok{"decathlon"}\NormalTok{)}
+
+\NormalTok{res\_pca }\OtherTok{\textless{}{-}} \FunctionTok{reactive}\NormalTok{(\{}
+  \FunctionTok{PCA}\NormalTok{(decathlon[,input}\SpecialCharTok{$}\NormalTok{variables], }\AttributeTok{graph =} \ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{\})}
+
+\NormalTok{output}\SpecialCharTok{$}\NormalTok{graph\_pca\_ind }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
+  \FunctionTok{plot.PCA}\NormalTok{(}\FunctionTok{res\_pca}\NormalTok{(), }\AttributeTok{choix =} \StringTok{"ind"}\NormalTok{, }\AttributeTok{axes =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\NormalTok{\})}
+
+\NormalTok{output}\SpecialCharTok{$}\NormalTok{graph\_pca\_var }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
+  \FunctionTok{plot.PCA}\NormalTok{(}\FunctionTok{res\_pca}\NormalTok{(), }\AttributeTok{choix =} \StringTok{"var"}\NormalTok{, }\AttributeTok{axes =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{note}{%
+\subsection{Note}\label{note}}
+
+\begin{itemize}
+\item
+  Une expression réactive va nous faire gagner du temps et de la mémoire
+\item
+  \textbf{Utiliser des expressions réactives seulement quand cela dépend
+  d'inputs} (pour d'autres variables :
+  \url{http://shiny.rstudio.com/articles/scoping.html})
+\item
+  \textbf{Comme un output} : mis-à-jour chaque fois qu'un input présent
+  dans le code change
+\item
+  \textbf{Comme un input} dans un \emph{renderXX} : l'output est
+  mis-à-jour quand l'expression réactive change
+\item
+  On récupère sa valeur comme un appel à une fonction, avec des ``()''.
+\end{itemize}
+
+\hypertarget{autres-fonctions}{%
+\subsection{Autres fonctions}\label{autres-fonctions}}
+
+Il existe des alternatives à l'utilisation de \texttt{reactive} avec
+\texttt{reactiveValues} ou \texttt{reactiveVal}.
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{reactiveValues} : initialiser une liste d'objets réactifs
+\item
+  \texttt{reactiveVal} : initialiser un seul objet réactif
+\item
+  Modification de la valeur des objets avec des \texttt{observe} ou des
+  \texttt{observeEvent}
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{shinyApp}\NormalTok{(}\AttributeTok{ui =} \FunctionTok{fluidPage}\NormalTok{(}
+  \FunctionTok{actionButton}\NormalTok{(}\AttributeTok{inputId =} \StringTok{"norm"}\NormalTok{, }\AttributeTok{label =} \StringTok{"Normal"}\NormalTok{),}
+  \FunctionTok{actionButton}\NormalTok{(}\AttributeTok{inputId =} \StringTok{"unif"}\NormalTok{, }\AttributeTok{label =} \StringTok{"Uniform"}\NormalTok{),}
+  \FunctionTok{plotOutput}\NormalTok{(}\StringTok{"hist"}\NormalTok{)}
+\NormalTok{), }
+\AttributeTok{server =} \ControlFlowTok{function}\NormalTok{(input, output) \{ }
+\NormalTok{  rv }\OtherTok{\textless{}{-}} \FunctionTok{reactiveValues}\NormalTok{(}\AttributeTok{data =} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{)) }
+  \FunctionTok{observeEvent}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{norm, \{ rv}\SpecialCharTok{$}\NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{) \})   }
+  \FunctionTok{observeEvent}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{unif, \{ rv}\SpecialCharTok{$}\NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{runif}\NormalTok{(}\DecValTok{100}\NormalTok{) \}) }
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{hist }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{ }\FunctionTok{hist}\NormalTok{(rv}\SpecialCharTok{$}\NormalTok{data) \}) }
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{img/RV.png}
 
 \hypertarget{html-css}{%
 \section{HTML / CSS}\label{html-css}}
@@ -2061,7 +2036,7 @@ utilisant la fonction du même nom :
   \texttt{img(src="img/logo.jpg",\ title="Popup",\ width\ =\ "80\%")} :
   insertion d'une image présente dans \textbf{www/img}
 \item
-  \texttt{a(href="https://r2018-rennes.sciencesconf.org/",\ target="\_blank",\ "Rencontres\ R")}
+  \texttt{a(href="https://shiny.posit.co/",\ target="\_blank",\ "Shiny")}
   : lien vers un site
 \item
   \texttt{a(href\ =\ \textquotesingle{}./doc/guide.pdf\textquotesingle{},\ target="\_blank",\ class\ =\ "btn",\ icon("download"),\ \textquotesingle{}Télécharger\ \ le\ guide\ utilisateur\textquotesingle{})}
@@ -2092,8 +2067,10 @@ Il y a une notion d'ordre et de priorité sur ces trois informations : le
 \textbf{CSS} ``individuel'' l'emporte sur le \textbf{CSS} du header, qui
 l'emporte sur le \textbf{CSS} externe
 
-On peut aussi utiliser le package
+On peut aussi utiliser les packages :
+
 \href{http://rstudio.github.io/shinythemes}{shinythemes}
+\href{https://dreamrs.github.io/fresh/}{fresh}
 
 \hypertarget{avec-un-.css-externe}{%
 \subsection{Avec un .css externe}\label{avec-un-.css-externe}}
@@ -2170,6 +2147,31 @@ Pour finir, on peut également passer directement du \textbf{CSS} aux
 
 \includegraphics{img/css3.png}
 
+\hypertarget{packages-utiles}{%
+\section{Packages utiles ?}\label{packages-utiles}}
+
+\href{https://rstudio.github.io/promises/articles/promises_06_shiny.html}{promises}
+: calculs calculs asynchrones
+
+\href{https://rstudio.github.io/shinytest2/}{shinytest2} : tests
+automatiques d'une application
+
+\href{https://shinyapps.dreamrs.fr/shinyWidgets/}{shinyWidgets} :
+composants web additionnels
+
+\href{https://datastorm-open.github.io/shinymanager/}{shinymanager} :
+couche d'authentification
+
+\href{https://daattali.com/shiny/shinycssloaders-demo/}{shinycssloaders}
+: animation en attente des résultats / chargement
+
+\href{https://waiter.john-coene.com/\#/}{waiter} : animation en attente
+des résultats / chargement
+
+Et encore pleins d'autres packages !
+
+\href{https://github.com/nanxstats/awesome-shiny-extensions}{awesome-shiny-extensions}
+
 \hypertarget{quelques-bonnes-pratiques}{%
 \section{Quelques bonnes pratiques}\label{quelques-bonnes-pratiques}}
 
@@ -2187,7 +2189,7 @@ Pour finir, on peut également passer directement du \textbf{CSS} aux
   différentes de packages}, et notamment dans le cas de
   \textbf{plusieurs applications shiny} et/ou différents environnements
   de travail, essayer d'utiliser
-  \href{https://rstudio.github.io/packrat/}{packrat}
+  \href{https://rstudio.github.io/renv/articles/renv.html}{renv}
 \item
   Mettre toute la \textbf{partie ``calcul''} dans des
   \textbf{fonctions/un package} et effectuer des tests
@@ -2383,25 +2385,5 @@ client/server}\label{communication-clientserver}}
 \end{Shaded}
 
 \includegraphics{img/debug_stack.png}
-
-\hypertarget{ruxe9fuxe9rences-tutoriaux-exemples}{%
-\subsection{Références / Tutoriaux /
-Exemples}\label{ruxe9fuxe9rences-tutoriaux-exemples}}
-
-\begin{itemize}
-\tightlist
-\item
-  \url{http://shiny.rstudio.com/}
-\item
-  \url{http://shiny.rstudio.com/articles/}
-\item
-  \url{http://shiny.rstudio.com/tutorial/}
-\item
-  \url{http://shiny.rstudio.com/gallery/}
-\item
-  \url{https://www.rstudio.com/products/shiny/shiny-user-showcase/}
-\item
-  \url{http://www.showmeshiny.com/}
-\end{itemize}
 
 \end{document}

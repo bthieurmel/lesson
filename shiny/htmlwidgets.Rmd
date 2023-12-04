@@ -12,7 +12,7 @@ Avec notamment l'arrivée du package [htmlwidgets](http://www.htmlwidgets.org/),
 * [visNetwork](http://datastorm-open.github.io/visNetwork)
 * ...
 
-Plus généralement, jeter un oeil sur la [gallerie suivante!](http://gallery.htmlwidgets.org/)
+Plus généralement, jetez un oeil sur la [gallerie suivante!](http://gallery.htmlwidgets.org/)
 
 ## Graphiques intéractifs | Utilisation dans shiny
 
@@ -24,6 +24,8 @@ Tous ces packages sont utilisables simplement dans __shiny__. En effet, ils cont
 Par exemple avec le package  [dygraphs](http://rstudio.github.io/dygraphs/) : 
 
 ```{r, eval = FALSE}
+# Global
+require(dygraphs)
 # Server
 output$dygraph <- renderDygraph({
     dygraph(predicted(), main = "Predicted Deaths/Month")

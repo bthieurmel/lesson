@@ -1,4 +1,4 @@
-# Pour aller plus loin : expressions réactives 
+# Expressions réactives 
 
 ## Expressions réactives 
 
@@ -74,7 +74,7 @@ Il existe des alternatives à l'utilisation de ``reactive`` avec ``reactiveValue
 rv <- reactiveValues(data = rnorm(100)) # init
 # update
 observeEvent(input$norm, { rv$data <- rnorm(100) })   
-observeEvent(input$unif, { rv$data <- runif(100) 
+observeEvent(input$unif, { rv$data <- runif(100) })
 # plot
 output$hist <- renderPlot({hist(rv$data)}) 
 ```

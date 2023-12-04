@@ -64,7 +64,7 @@ function(input, output) {
 
 ## Structure d'une application | données/fichiers complémentaires
 
-- le code __R__ tourne au niveau des scripts __R__, et peut donc accéder de façon relative à tous les objets présents dans le dossier de l'application
+- le code __R__ tourne au niveau du dossier de l'application, et peut donc accéder de façon relative à tous les objets présents dans le dossier de l'application
 - l'application web, comme de convention, accède à tous les éléments présents dans le dossier ``www`` (css, images, javascript, documentation, ...)
 
 <div style="text-align:center" markdown="1">

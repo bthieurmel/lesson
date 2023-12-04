@@ -1,4 +1,4 @@
-# Pour aller plus loin : isolation 
+# Isolation 
 
 ## Isolation  | Définition
 

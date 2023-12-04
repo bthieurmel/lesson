@@ -1,4 +1,4 @@
-# Pour aller plus loin : Conditional panels
+# Conditional panels
 
 ## Conditional panels | Définition
 

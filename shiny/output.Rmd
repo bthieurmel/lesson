@@ -163,45 +163,13 @@ rmarkdown::render_delayed({
 
 ## Outputs | Définir des élements de l'UI côté SERVER | Définition
 
-__Dans certains cas, nous souhaitons définir des inputs ou des structures côté server__
+__Dans certains cas, nous souhaitons définir des éléments de type UI côté server__
 
 Cela est possible avec les fonctions ``uiOutput`` et ``renderUI``
 
-## Outputs | Définir des élements de l'UI côté SERVER | Exemple simple
+## Outputs | Définir des élements de l'UI côté SERVER | Exemple
 
-- __ui.r__: 
-```{r, echo = TRUE, eval = FALSE}
-uiOutput(outputId = "columns")
-```
-- __server.r__:
-```{r, echo = TRUE, eval = FALSE}
-output$columns <- renderUI({
-  selectInput(inputId = "sel_col", label = "Column", choices = colnames(data))
-})
-```
-
-----
-
-```{r, echo = TRUE, eval = TRUE}
-shinyApp(
-  ui = fluidPage(
-    selectInput(inputId = "my_data", label = "dataset : ", 
-                choices = c("iris", "faithful")),
-    uiOutput(outputId = "columns")
-  ), 
-  server = function(input, output) {
-    data <- reactive(get(input$my_data, "package:datasets"))
-    output$columns <- renderUI({
-      selectInput(inputId = "sel_col", label = "Column", choices = colnames(data()))
-    })
-  })
-```
-
-## Outputs | Définir des élements de l'UI côté SERVER | Exemple plus complexe
-
-- __On peut également renvoyer un élément plus complexe de l'UI, par exemple :__
-    * tout en ``layout``
-    * ou une ``fluidRow``
+__Ici avec la définition d'une structure page avec une__ ``fluidRow``
 
 - __ui.r__: 
 ```{r, echo = TRUE, eval = FALSE}
@@ -222,3 +190,15 @@ __Avec un peu de compétences en HTML/CSS/JavaScript, il est également possible
 Un tutoriel est disponible : [http://shiny.rstudio.com/articles/building-outputs.html](http://shiny.rstudio.com/articles/building-outputs.html)
 
 On peut donc par exemple ajouter comme output un graphique construit avec la librairie [d3.js](https://d3js.org/). Un exemple est disponible dans le dossier ``shinyApps/build_output``.
+
+## IO, Intéractivité et communication | Partage ui <-> server
+
+__Le server et l'ui communiquent uniquement par le biais des inputs et des outputs__
+
+- Nous pouvons ajouter un script nommé **global.R** pour partager des éléments (variables,  packages, ...) entre la partie __UI__ et la partie __SERVER__ 
+
+- Tout ce qui est présent dans le **global.R** (packages, données/variables, ...) est visible à la fois dans le __ui.R__ et dans le __server.R__
+
+- Le script **global.R** est chargé uniquement une seul fois au lancement de l'application
+
+- Dans le cas d'une utilisation avec un ``shiny-server``, les objets globaux sont également partagés entre les utilisateurs

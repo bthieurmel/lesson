@@ -18,19 +18,20 @@ runtime: shiny
 4. Inputs & outputs
 5. Structurer sa page
 6. Graphiques intéractifs
-7. HTML / CSS
-8. Pour aller plus loin
+7. Isolation, Réactivité & Observe
+8. HTML / CSS
+9. Pour aller plus loin
 
 ## Shiny : créer des applications web avec le logiciel R
 
-__Shiny__ est un package __R__ qui permet la création simple d'applications web intéractives depuis le logiciel open-source __R__.
+__Shiny__ est un package __R__ (et __Python__ depuis peu) qui permet la création simple d'applications web intéractives depuis le logiciel open-source __R__.
 
 - pas de connaissances _web_ nécessaires
 - le pouvoir de calcul de R et l'intéractivité du web actuel
-- pour créer des applications locales
+- pour créer des applications web locales
 - ou partagées avec l'utilisation de __shiny-server__, __shinyapps.io__, __shinyproxy__
 
-<http://shiny.rstudio.com>
+<https://shiny.posit.co/>
 
 <http://www.shinyapps.io/>
 
@@ -48,13 +49,14 @@ Une application __shiny__ nécessite un ordinateur/un serveur éxécutant __R__
 
 ## Ma première application avec shiny
 
-- Initialiser une application est simple avec __RStudio__, en créant un nouveau projet
+- Initialiser une application est simple avec __RStudio__ :
 
-    * File > New Project > New Directory > Shiny Web Application
-    * OU File > New File > Shiny Web App > Multiple File
+
+    * File > New File > Shiny Web App > Multiple File (méthode préférentielle)
     * Basée sur deux scripts : ui.R et server.R
     * Et utilisant par défaut le sidebar layout
-
+    * Alternative : File > New Project > New Directory > Shiny Web Application, mais un seul fichier app.R
+    
 - Commandes utiles :
     + lancement de l'application : bouton __Run app__
     + actualisatisation : bouton __Reload app__
@@ -64,12 +66,14 @@ Une application __shiny__ nécessite un ordinateur/un serveur éxécutant __R__
 ----
 
 <div style="text-align:center" markdown="1">
-<img src="img/run_app.png" alt="Drawing" style="width: 90%;">
+<img src="img/run_app.png" alt="Drawing" style="width: 70%;">
 </div>
 
 - __Run in Window__ : Nouvelle fenêtre, utilisant l'environnement __RStudio__
 - __Run in Viewer Pane__ : Dans l'onglet _Viewer_ de __RStudio__
 - __Run External__ : Dans le navigateur web par défaut
+- __In R Console__ : Directement dans la console R/RStudio
+- __In Background Job__ : Ou en tâche de fond
 
 ----
 
@@ -95,20 +99,40 @@ Une application __shiny__ nécessite un ordinateur/un serveur éxécutant __R__
 ```{r child = 'htmlwidgets.Rmd'}
 ```
 
-```{r child = 'isolation.Rmd'}
-```
-
-```{r child = 'reactive.Rmd'}
-```
-
 ```{r child = 'conditionnal.Rmd'}
+```
+
+```{r child = 'isolation.Rmd'}
 ```
 
 ```{r child = 'observe_update.Rmd'}
 ```
 
+```{r child = 'reactive.Rmd'}
+```
+
 ```{r child = 'css.Rmd'}
 ```
+
+# Pour aller plus loin : packages utiles
+
+## Packages utiles ?
+
+[promises](https://rstudio.github.io/promises/articles/promises_06_shiny.html) : calculs calculs asynchrones
+
+[shinytest2](https://rstudio.github.io/shinytest2/) : tests automatiques d'une application
+
+[shinyWidgets](https://shinyapps.dreamrs.fr/shinyWidgets/) :  composants web additionnels
+
+[shinymanager](https://datastorm-open.github.io/shinymanager/) :  couche d'authentification
+
+[shinycssloaders](https://daattali.com/shiny/shinycssloaders-demo/) :  animation en attente des résultats / chargement
+
+[waiter](https://waiter.john-coene.com/#/) :  animation en attente des résultats  / chargement
+
+Et encore pleins d'autres packages !
+
+[awesome-shiny-extensions](https://github.com/nanxstats/awesome-shiny-extensions)
 
 # Pour aller plus loin : quelques bonnes pratiques
 
@@ -116,7 +140,7 @@ Une application __shiny__ nécessite un ordinateur/un serveur éxécutant __R__
 
 - Préférer l'underscore (_) au point (.) comme séparateur dans le nom des variables. En effet, le **.** peut amener de mauvaises intérations avec d'autres langages, comme le __JavaScript__
 - Faire bien attention à __l'unicité des différents identifiants__ des inputs/outputs
-- Pour éviter des problèmes éventuels avec __des versions différentes de packages__, et notamment dans le cas de __plusieurs applications shiny__ et/ou différents environnements de travail, essayer d'utiliser [packrat](https://rstudio.github.io/packrat/)
+- Pour éviter des problèmes éventuels avec __des versions différentes de packages__, et notamment dans le cas de __plusieurs applications shiny__ et/ou différents environnements de travail, essayer d'utiliser [renv](https://rstudio.github.io/renv/articles/renv.html)
 - Mettre toute la __partie "calcul"__ dans des __fonctions/un package__ et effectuer des tests ([testthat](http://r-pkgs.had.co.nz/tests.html))
 
 ## Quelques bonnes pratiques
@@ -140,19 +164,3 @@ shinyServer(function(input, output, session) {
 
 ```{r child = 'debug.Rmd'}
 ```
-
-
-
-# Références
-
-## Références / Tutoriaux / Exemples
-
-* http://shiny.rstudio.com/
-* http://shiny.rstudio.com/articles/
-* http://shiny.rstudio.com/tutorial/
-* http://shiny.rstudio.com/gallery/
-* https://www.rstudio.com/products/shiny/shiny-user-showcase/
-* http://www.showmeshiny.com/
-
-
-
