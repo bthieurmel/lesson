@@ -1,1 +1,0 @@
-tabPanel("Data", tableOutput("table"))
