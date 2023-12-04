@@ -1,6 +1,6 @@
 ---
 title: "Programmation avec R"
-author: "Datastorm - B. Thieurmel"
+author: "Quadratic - B. Thieurmel"
 output: pdf_document
 ---
 

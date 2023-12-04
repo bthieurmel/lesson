@@ -9,11 +9,11 @@
 <div style="text-align:center" markdown="1">
 <br><br><br><br><br><br>
 <h2>Programmation avec R</h2>
-<h3>B.Thieurmel - benoit.thieurmel@datastorm.fr</h3>
+<h3>B.Thieurmel - benoit.thieurmel@quadratic-labs.com</h3>
 
 
 <img src="images/R1.jpg" alt="Drawing" style="width: 200px;"/>
-<img src="images/logo_ds_2018.png" alt="Drawing" style="width: 350px;"/>
+<img src="images/quadratic.png" alt="Drawing" style="width: 150px;"/>
 
 
 </div>

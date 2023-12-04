@@ -1,4 +1,4 @@
-data <- read.table("C:/Users/Datastorm/Documents/git/lesson/Programmation/TD/flights14.csv", sep = ",", header = TRUE)
+data <- read.table("C:/Users/BenoîtThieurmel/Documents/git/lesson/Programmation/TD/flights14.csv", sep = ",", header = TRUE)
 
 # 1. type des colonnes
 columns_type <- sapply(X = data, FUN = class)
