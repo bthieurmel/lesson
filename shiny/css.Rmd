@@ -43,8 +43,11 @@ Comme dans du développement web "classique", nous pouvons modifier le __CSS__ d
 
 Il y a une notion d'ordre et de priorité sur ces trois informations : le __CSS__ "individuel" l'emporte sur le __CSS__ du header, qui l'emporte sur le __CSS__ externe
 
-On peut aussi utiliser des packages [shinythemes](http://rstudio.github.io/shinythemes)
-[fresh](https://dreamrs.github.io/fresh/)
+On peut aussi utiliser des packages 
+
+- [shinythemes](http://rstudio.github.io/shinythemes) (http://rstudio.github.io/shinythemes)
+- [fresh](https://dreamrs.github.io/fresh/) (https://dreamrs.github.io/fresh/)
+- [bslib](https://rstudio.github.io/bslib/) (https://rstudio.github.io/bslib/)
 
 ## HTML / CSS  | Avec un .css externe
 

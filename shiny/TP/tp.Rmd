@@ -72,6 +72,8 @@ https://cran.r-project.org/web/packages/colourpicker/vignettes/colourpicker.html
 
 * __Aller plus loin__ : permettre à l’utilisateur d’exporter les graphiques. (``downloadButton`` & ``jpeg``)
 
+* __Aller plus loin__ : Customiser un peu vos différents inputs avec  [shinyWidgets](https://dreamrs.github.io/shinyWidgets/) (https://dreamrs.github.io/shinyWidgets/)
+
 * __Aller plus loin__ : Essayer de rajouter des options à la visualisation des données. Vous pouvez aller voir également le package complèmentaire [DT](https://github.com/rstudio/DT) (https://github.com/rstudio/DT). 
 
 ## Structure
@@ -192,9 +194,23 @@ output$plot <- renderPlot({
 
 * __Aller plus loin__ : Ajouter une popup au lancement de l'application avec une message de bienvenue (``?modalDialog``)
 
-* __Aller plus loin__ : Changer le thème de l’application en insérant un .css externe. Par exemple en utilisant bootswatch http://bootswatch.com/3). Attention, **shiny** utilise la version ``3.3.7`` de bootstrap .
+* __Aller plus loin__ : Changer le thème de l’application avec [bslib](https://rstudio.github.io/bslib/) (https://rstudio.github.io/bslib/) 
 
 * __Aller plus loin__ : Ajouter le choix entre les données ``faithfull`` et ``mtcars`` et gérer cela avec un ``reactiveVal`` ou un ``reactiveValues``
+
+## Authentification et déploiement
+
+* Ajouter une authentification simple basée sur une *data.frame* à votre application en utilisant [shinymanager](https://datastorm-open.github.io/shinymanager/) (https://datastorm-open.github.io/shinymanager/) 
+
+```{r, echo = TRUE, eval = FALSE}
+require(shinymanager)
+?secure_app
+```
+
+* Déployer votre application sur *shinyapps.io*
+    + https://www.shinyapps.io/
+    + se créer un compte gratuit
+    + suivre la documentation pour le déploiement (https://shiny.posit.co/r/articles/share/shinyapps/)
 
 ## Prêt pour créer votre application ?
 

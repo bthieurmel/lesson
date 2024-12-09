@@ -806,6 +806,14 @@ Le package [shinydashboard](https://rstudio.github.io/shinydashboard/) propose d
 
 <https://rstudio.github.io/shinydashboard/>
 
+## bs4dash
+
+Plus récent avec [bs4dash](https://bs4dash.rinterface.com/) et d'autres fonctions pour créer des tableaux de bords :
+
+![grid](img/bs4dash.png)
+
+<https://bs4dash.rinterface.com/>
+
 ## Combiner les structures
 
 Toutes les structures peuvent s'utiliser en même temps !
@@ -825,7 +833,7 @@ Avec notamment l'arrivée du package [htmlwidgets](http://www.htmlwidgets.org/),
 * [visNetwork](http://datastorm-open.github.io/visNetwork)
 * ...
 
-Plus généralement, jetez un oeil sur la [gallerie suivante!](http://gallery.htmlwidgets.org/)
+Plus généralement, jetez un oeil sur la [gallerie suivante!](http://gallery.htmlwidgets.org/) (http://gallery.htmlwidgets.org/)
 
 ## Utilisation dans shiny
 
@@ -1197,7 +1205,7 @@ Il existe des alternatives à l'utilisation de ``reactive`` avec ``reactiveValue
 
 - ``reactiveValues`` : initialiser une liste d'objets réactifs
 - ``reactiveVal`` : initialiser un seul objet réactif
-- Modification de la valeur des objets avec des ``observe`` ou des ``observeEvent``
+- Modification de la valeur des objets avec des ``observe`` ou des ``observeEvent``, c'est-à-dire qu'on peut les modifier à plusieurs endroits / sous plusieurs conditions contrairement aux ``reactive` classiques !
 
 ```{r, echo = TRUE, eval = FALSE}
 shinyApp(ui = fluidPage(
@@ -1260,8 +1268,9 @@ Il y a une notion d'ordre et de priorité sur ces trois informations : le __CSS_
 
 On peut aussi utiliser les packages :
 
-[shinythemes](http://rstudio.github.io/shinythemes)
-[fresh](https://dreamrs.github.io/fresh/)
+- [shinythemes](http://rstudio.github.io/shinythemes) (http://rstudio.github.io/shinythemes)
+- [fresh](https://dreamrs.github.io/fresh/) (https://dreamrs.github.io/fresh/)
+- [bslib](https://rstudio.github.io/bslib/) (https://rstudio.github.io/bslib/)
 
 ## Avec un .css externe
 
@@ -1317,21 +1326,16 @@ h1("Mon titre", style = "color: #48ca3b;")
 
 # Packages utiles ?
 
-[promises](https://rstudio.github.io/promises/articles/promises_06_shiny.html) : calculs calculs asynchrones
-
-[shinytest2](https://rstudio.github.io/shinytest2/) : tests automatiques d'une application
-
-[shinyWidgets](https://shinyapps.dreamrs.fr/shinyWidgets/) :  composants web additionnels
-
-[shinymanager](https://datastorm-open.github.io/shinymanager/) :  couche d'authentification
-
-[shinycssloaders](https://daattali.com/shiny/shinycssloaders-demo/) :  animation en attente des résultats / chargement
-
-[waiter](https://waiter.john-coene.com/#/) :  animation en attente des résultats  / chargement
+- [promises](https://rstudio.github.io/promises/articles/promises_06_shiny.html) : calculs calculs asynchrones
+- [shinytest2](https://rstudio.github.io/shinytest2/) : tests automatiques d'une application
+- [shinyWidgets](https://shinyapps.dreamrs.fr/shinyWidgets/) :  composants web additionnels
+- [shinymanager](https://datastorm-open.github.io/shinymanager/) :  couche d'authentification
+- [shinycssloaders](https://daattali.com/shiny/shinycssloaders-demo/) :  animation en attente des résultats / chargement
+- [waiter](https://waiter.john-coene.com/#/) :  animation en attente des résultats  / chargement
 
 Et encore pleins d'autres packages !
 
-[awesome-shiny-extensions](https://github.com/nanxstats/awesome-shiny-extensions)
+- [awesome-shiny-extensions](https://github.com/nanxstats/awesome-shiny-extensions)
 
 # Quelques bonnes pratiques
 
@@ -1355,6 +1359,39 @@ shinyServer(function(input, output, session) {
   source("src/server/02_server_data.R", local = TRUE)
 })
 ```
+
+# Les modules
+
+Un module Shiny est un composant réutilisable au sein d'autres applications.
+
+Si une fonctionnalité est amenée à être utilisée plusieurs fois dans la même application ou dans plusieurs applications, il faut alors la développer en module **shiny**. Cela se concrétise par l'écriture de 2 fonctions : 
+
+- une pour la partie interface / UI
+- une pour la partie calculs / SERVER
+
+Plus d'infos ici :
+
+- https://shiny.posit.co/r/articles/improve/modules/
+
+# Déploiement
+
+Plusieurs manières de partager son application **shiny** : 
+
+- en la partageant *via* un package dédié, et en laissant l'utilisateur lancait l'application localement
+- en la faisant tourner directement en mode *vanilla shiny* depuis un serveur, une VM ou avec *docker* ou équivalent
+- avec [Shinyapps.io](http://www.shinyapps.io/), plate-forme gratuite ou payante en fonction des besoins pour déployer des applications dans le cloud
+    + Pour : des offres gratuites / déploiement simple
+    + Limites : certains packages non disponibles / hébergement sur le cloud
+- avec [shiny-server open source](http://www.shinyapps.io/) sur ses propres serveurs
+    + Pour : gratuit, configurable
+    + Limites : environnement linux uniquement, Montée à l'échelle technique si beaucoup d'utilisateurs
+- avec [shinyproxy](https://www.shinyproxy.io/) plate-forme java gratuite pour le déploiement d'applications *dockerisées*
+- avec [Posit Connect](https://posit.co/products/enterprise/connect/) Produit commercial de RStudio / Posit
+    + Pour : Produit tout inclus (RStudio, R, python, déploiement simple, ..)
+    + Limites : prix
+    
+Plus d'infos ici : https://www.appsilon.com/post/r-shiny-deployment
+
 
 # Débogage
 
@@ -1453,10 +1490,10 @@ options(shiny.fullstacktrace = TRUE)
 
 ![ggv](img/debug_stack.png)
 
+# Un peu de lecture
 
-
-
-
-
+- [Mastering Shiny by Hadley Wickham](https://mastering-shiny.org/) (https://mastering-shiny.org/)
+- [Outstanding User Interfaces With Shiny by David Granjon](https://unleash-shiny.rinterface.com/) (https://unleash-shiny.rinterface.com/)
+- [Engineering Production-Grade Shiny Apps by Colin Fay](https://engineering-shiny.org/) (Engineering Production-Grade Shiny Apps by Colin Fay)
 
 

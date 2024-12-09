@@ -67,7 +67,7 @@ Il existe des alternatives à l'utilisation de ``reactive`` avec ``reactiveValue
 
 - ``reactiveValues`` : initialiser une liste d'objets réactifs
 - ``reactiveVal`` : initialiser un seul objet réactif
-- Modification de la valeur des objets avec des ``observe`` ou des ``observeEvent``
+- Modification de la valeur des objets avec des ``observe`` ou des ``observeEvent``, c'est-à-dire qu'on peut les modifier à plusieurs endroits / sous plusieurs conditions contrairement aux ``reactive` classiques !
 
 ```{r, echo = TRUE, eval = FALSE}
 # server.R

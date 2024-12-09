@@ -12,7 +12,7 @@ Avec notamment l'arrivée du package [htmlwidgets](http://www.htmlwidgets.org/),
 * [visNetwork](http://datastorm-open.github.io/visNetwork)
 * ...
 
-Plus généralement, jetez un oeil sur la [gallerie suivante!](http://gallery.htmlwidgets.org/)
+Plus généralement, jetez un oeil sur la [gallerie suivante!](http://gallery.htmlwidgets.org/) (http://gallery.htmlwidgets.org/)
 
 ## Graphiques intéractifs | Utilisation dans shiny
 

@@ -270,6 +270,17 @@ Le package [shinydashboard](https://rstudio.github.io/shinydashboard/) propose d
 
 <https://rstudio.github.io/shinydashboard/>
 
+## Structurer sa page | __bs4dash__
+
+Plus récent avec [bs4dash](https://bs4dash.rinterface.com/) et d'autres fonctions pour créer des tableaux de bords :
+
+<div style="text-align:center" markdown="1">
+<img src="img/bs4dash.png" alt="Drawing" style="width: 60%;">
+</div>
+
+
+<https://bs4dash.rinterface.com/>
+
 ## Structurer sa page | __Combiner les structures__ | Shiny app
 
 Toutes les structures peuvent s'utiliser en même temps !
